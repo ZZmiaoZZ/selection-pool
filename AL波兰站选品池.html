@@ -1,0 +1,861 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AL波兰站选品池</title>
+<style>
+:root{font-family:"Microsoft YaHei",Arial,sans-serif;color:#172033;background:#f4f7fb}
+*{box-sizing:border-box}
+body{margin:0;padding:24px}
+h1{font-size:26px;margin:0 0 8px}
+.note{color:#536176;line-height:1.65;margin:0 0 16px}
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
+.legend span{padding:5px 9px;border-radius:4px;font-size:12px;font-weight:700}
+.ok{background:#dcfce7;color:#166534}
+.wait{background:#fef3c7;color:#92400e}
+.export{background:#fff1f2;color:#b91c1c;border-left:3px solid #dc2626}
+.toolbar{display:flex;gap:9px;flex-wrap:wrap;align-items:center;background:#fff;border:1px solid #d7e0ec;padding:12px;margin-bottom:14px}
+input,select,button{font:inherit;border:1px solid #b8c6d8;padding:8px 10px;border-radius:5px;background:#fff;color:#172033}
+button{cursor:pointer}
+table{border-collapse:collapse;width:100%;background:#fff;font-size:12.5px}
+th{background:#132238;color:#fff;padding:9px 8px;text-align:left;white-space:nowrap}
+td{border:1px solid #d7e0ec;padding:8px;vertical-align:top;line-height:1.45}
+.footer{margin-top:18px;color:#6b778a;font-size:12px}
+</style>
+<!--FINAL-UI-BEGIN-->
+<link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIAAABAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8AAAAAAAAAAAAAAAAAAAAAAAAAABQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/wAAAAAAAAAAAAAAABQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/AAAAAAAAAAAUJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/wAAAAAAAAAAFCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8AAAAAAAAAABQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/AAAAAAAAAAAUJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/wAAAAAAAAAAFCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8AAAAAAAAAABQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/AAAAAAAAAAAUJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/wAAAAAAAAAAAAAAABQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/wAAAAAAAAAAAAAAAAAAAAAAAAAAFCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
+<style id="final-ui">
+/* ============================================================
+   跨站选品池 · 共享 UI 样式层
+   由 enhance_final_pools.ps1 内联注入到各子页面 head 末尾。
+   注入锚点：FINAL-UI-ASSETS 注释，必须位于原始样式块的结束标签之后。
+
+   注意：本文件内容会被原样内联进 style 元素，
+   因此正文和注释中都不得出现 style 的结束标签字面量，
+   否则样式表会在该处提前截断，后面所有规则全部失效。
+   ============================================================ */
+
+:root{
+  --ink:#141c2b;
+  --ink-soft:#3c4a60;
+  --muted:#66748c;
+  --faint:#8c9ab0;
+  --line:#dbe3ee;
+  --line-soft:#eaeff6;
+  --navy:#14243c;
+  --navy-2:#1e3a5f;
+  --accent:#2563eb;
+  --accent-soft:#eef4ff;
+  --surface:#ffffff;
+  --canvas:#f2f6fb;
+  --ok:#0f7b52;
+  --ok-bg:#e7f8f0;
+  --warn:#9a6206;
+  --warn-bg:#fff6e5;
+  --drop:#b8213c;
+  --drop-bg:#fdeef1;
+  --cn:#c0243c;
+  --cn-bg:#fff0f2;
+  --radius:12px;
+  --radius-sm:8px;
+  --shadow-sm:0 1px 2px rgba(16,32,56,.06),0 2px 8px rgba(16,32,56,.05);
+  --shadow-md:0 2px 6px rgba(16,32,56,.07),0 10px 26px rgba(16,32,56,.08);
+  /* 由 pool-ui.js 实时测量写入，驱动表头 sticky 定位，避免与工具栏重叠 */
+  --stack-h:120px;
+  --rank-w:58px;
+}
+
+*{box-sizing:border-box}
+
+html{scroll-padding-top:calc(var(--stack-h) + 16px)}
+
+body{
+  margin:0 auto;
+  max-width:2200px;
+  padding:0 clamp(12px,2vw,32px) 56px;
+  background:var(--canvas);
+  color:var(--ink);
+  font-family:"Microsoft YaHei","PingFang SC",-apple-system,"Segoe UI",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---------- 顶部固定区：返回主页 + 标题 + 工具栏 ---------- */
+/* .page-stack 整块 sticky，内部不再各自 sticky，从根上消除层叠打架 */
+.page-stack{
+  position:sticky;
+  top:0;
+  z-index:60;
+  margin:0 calc(-1 * clamp(12px,2vw,32px));
+  padding:0 clamp(12px,2vw,32px);
+  background:linear-gradient(180deg,var(--canvas) 0,var(--canvas) 82%,rgba(242,246,251,.94) 100%);
+  backdrop-filter:blur(10px);
+  box-shadow:0 1px 0 var(--line),0 8px 20px -14px rgba(16,32,56,.28);
+}
+
+.page-bar{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  flex-wrap:wrap;
+  padding:14px 0 10px;
+}
+
+.home-link{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  flex:0 0 auto;
+  background:var(--navy);
+  color:#fff;
+  text-decoration:none;
+  border:1px solid var(--navy);
+  border-radius:var(--radius-sm);
+  padding:9px 14px 9px 11px;
+  font-size:13px;
+  font-weight:700;
+  line-height:1;
+  white-space:nowrap;
+  box-shadow:var(--shadow-sm);
+  transition:background .15s ease,transform .15s ease,box-shadow .15s ease;
+}
+.home-link:hover{background:var(--navy-2);border-color:var(--navy-2);transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.home-link:focus-visible{outline:3px solid rgba(37,99,235,.35);outline-offset:2px}
+.home-link .arrow{font-size:15px;line-height:1}
+
+.page-bar h1{
+  margin:0;
+  font-size:clamp(17px,1.9vw,25px);
+  line-height:1.25;
+  letter-spacing:-.01em;
+  font-weight:800;
+  color:var(--ink);
+}
+
+.page-bar .spacer{flex:1 1 auto}
+
+.count-pill{
+  flex:0 0 auto;
+  display:inline-flex;
+  align-items:baseline;
+  gap:5px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:6px 13px;
+  font-size:12.5px;
+  color:var(--muted);
+  white-space:nowrap;
+  box-shadow:var(--shadow-sm);
+}
+.count-pill b{font-size:15px;color:var(--accent);font-weight:800}
+
+/* ---------- 折叠式说明 ---------- */
+.page-intro{margin:0 0 10px}
+.page-intro summary{
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:12.5px;
+  font-weight:700;
+  color:var(--accent);
+  list-style:none;
+  padding:3px 0;
+  user-select:none;
+}
+.page-intro summary::-webkit-details-marker{display:none}
+.page-intro summary:before{content:"▸";transition:transform .18s ease;display:inline-block}
+.page-intro[open] summary:before{transform:rotate(90deg)}
+.page-intro .note{
+  margin:8px 0 0;
+  padding:13px 15px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-left:3px solid var(--accent);
+  border-radius:var(--radius-sm);
+  color:var(--ink-soft);
+  font-size:13px;
+  line-height:1.75;
+  max-width:none;
+}
+.machine-note{
+  margin:8px 0 0;
+  color:var(--faint);
+  font-size:11.5px;
+  line-height:1.6;
+}
+
+/* ---------- 图例 ---------- */
+.legend{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 10px;align-items:center}
+.legend span{
+  padding:4px 10px;
+  border-radius:999px;
+  font-size:11.5px;
+  font-weight:700;
+  border:1px solid transparent;
+  line-height:1.5;
+}
+.legend .p1,.legend .ok{background:var(--ok-bg);color:var(--ok);border-color:#bfe8d5}
+.legend .p2{background:var(--accent-soft);color:#1d4ed8;border-color:#c9dcff}
+.legend .p3,.legend .wait{background:var(--warn-bg);color:var(--warn);border-color:#f6dfb0}
+.legend .export,.legend .export-cn{background:var(--cn-bg);color:var(--cn);border-color:#f6c6ce;border-left:3px solid var(--cn)}
+
+/* ---------- 工具栏 ---------- */
+.toolbar{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  align-items:center;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:10px 12px;
+  margin:0 0 12px;
+  box-shadow:var(--shadow-sm);
+  /* 关键：不再各自 sticky，由 .page-stack 统一承担 */
+  position:static;
+}
+.toolbar input,.toolbar select,.toolbar button{
+  font:inherit;
+  font-size:13px;
+  border:1px solid #c3cfdf;
+  border-radius:var(--radius-sm);
+  padding:8px 10px;
+  background:#fff;
+  color:var(--ink);
+  transition:border-color .15s ease,box-shadow .15s ease,background .15s ease;
+}
+.toolbar input{min-width:min(320px,100%);flex:1 1 240px}
+.toolbar select{cursor:pointer;background:#fff}
+.toolbar input:hover,.toolbar select:hover{border-color:#9db0c9}
+.toolbar input:focus,.toolbar select:focus,.toolbar button:focus{
+  outline:none;
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(37,99,235,.14);
+}
+.toolbar button{
+  cursor:pointer;
+  font-weight:700;
+  background:var(--navy);
+  color:#fff;
+  border-color:var(--navy);
+  white-space:nowrap;
+}
+.toolbar button:hover{background:var(--navy-2);border-color:var(--navy-2)}
+.toolbar button.ghost{background:#fff;color:var(--ink-soft);border-color:#c3cfdf;font-weight:600}
+.toolbar button.ghost:hover{background:var(--accent-soft);color:var(--accent);border-color:#a9c6f5}
+.toolbar #count,.toolbar .count-inline{margin-left:auto;color:var(--muted);font-size:12.5px;white-space:nowrap}
+
+/* ---------- 表格：双向冻结，严格 z-index 分层 ---------- */
+.table-wrap{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-md);
+  overflow:visible;
+}
+
+table{
+  border-collapse:separate;
+  border-spacing:0;
+  width:100%;
+  background:var(--surface);
+  font-size:12.5px;
+  box-shadow:none;
+}
+
+/* z-index 分层约定（数字越大越靠前）：
+   60  .page-stack（返回主页 + 工具栏）——永远压住表格
+   32  thead th 首列（同时纵横冻结）
+   30  thead th 其余列
+   12  tbody td 首列（仅横向冻结）
+   auto tbody 其余单元格                                   */
+thead th{
+  position:sticky;
+  top:var(--stack-h);
+  z-index:30;
+  background:linear-gradient(180deg,#1d3555 0,#152a45 100%);
+  color:#fff;
+  padding:10px 9px;
+  text-align:left;
+  white-space:nowrap;
+  font-weight:700;
+  font-size:12px;
+  letter-spacing:.01em;
+  border-bottom:1px solid #0d1c30;
+  box-shadow:inset 0 -1px 0 rgba(255,255,255,.07);
+}
+thead th:first-child{
+  left:0;
+  z-index:32;
+  width:var(--rank-w);
+  min-width:var(--rank-w);
+  box-shadow:inset -1px 0 0 rgba(255,255,255,.14),inset 0 -1px 0 rgba(255,255,255,.07);
+}
+
+tbody td{
+  border-bottom:1px solid var(--line-soft);
+  border-right:1px solid var(--line-soft);
+  padding:9px;
+  vertical-align:top;
+  line-height:1.55;
+  color:var(--ink-soft);
+}
+tbody td:last-child{border-right:none}
+tbody tr:last-child td{border-bottom:none}
+
+/* 首列「排序」横向冻结，纵向不冻结，因此永远排在 thead 之后 */
+tbody td:first-child{
+  position:sticky;
+  left:0;
+  z-index:12;
+  width:var(--rank-w);
+  min-width:var(--rank-w);
+  background:#f7f9fc;
+  color:var(--faint);
+  font-variant-numeric:tabular-nums;
+  font-weight:700;
+  text-align:center;
+  box-shadow:inset -1px 0 0 var(--line);
+}
+
+tbody tr:nth-child(even) td{background:#fbfcfe}
+tbody tr:nth-child(even) td:first-child{background:#f3f6fa}
+tbody tr:hover td{background:#eff6ff}
+tbody tr:hover td:first-child{background:#e3edfb}
+
+/* 状态着色，优先级高于斑马纹与 hover */
+tbody tr.status-mastered td{background:var(--ok-bg)!important}
+tbody tr.status-mastered td:first-child{background:#d7f2e5!important;color:var(--ok)}
+tbody tr.status-drop td{background:var(--drop-bg)!important;opacity:.72}
+tbody tr.status-drop td:first-child{background:#f9dbe1!important;color:var(--drop)}
+tbody tr.status-pending td{background:var(--warn-bg)!important}
+tbody tr.status-pending td:first-child{background:#fdecca!important;color:var(--warn)}
+
+/* ---------- 单元格语义样式 ---------- */
+.tag{font-weight:700;color:var(--ink)}
+.model-cell{font-weight:700;color:var(--ink);min-width:150px}
+.parts-cell{min-width:200px;max-width:330px}
+.signal-cell{min-width:170px;max-width:300px}
+
+.priority-P1,.ok-text,.price-good,.us-high{color:var(--ok);font-weight:700}
+.priority-P2{color:#1d4ed8;font-weight:700}
+.priority-P3,.wait-text,.price-check,.us-review{color:var(--warn);font-weight:700}
+.us-niche{color:#6d28d9;font-weight:700}
+
+/* ---------- 中国品牌 / 出口标识（要求 5：保持明显标识） ---------- */
+.brand-export,.export,.export-cn{
+  color:var(--cn)!important;
+  font-weight:800;
+}
+td.brand-export,td.export,td.export-cn{
+  background:var(--cn-bg)!important;
+  box-shadow:inset 3px 0 0 var(--cn);
+}
+tbody tr:hover td.brand-export,tbody tr:hover td.export,tbody tr:hover td.export-cn{background:#ffe4e9!important}
+.cn-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:3px;
+  margin-left:5px;
+  padding:1px 6px;
+  border-radius:999px;
+  background:var(--cn);
+  color:#fff;
+  font-size:9.5px;
+  font-weight:800;
+  letter-spacing:.03em;
+  vertical-align:2px;
+  white-space:nowrap;
+}
+
+/* ---------- 状态列 + 备注列 ---------- */
+.cell-status{min-width:104px}
+.cell-status select{
+  width:98px;
+  font:inherit;
+  font-size:12px;
+  padding:6px 5px;
+  border:1px solid #c3cfdf;
+  border-radius:6px;
+  background:#fff;
+  color:var(--ink);
+  cursor:pointer;
+}
+.cell-status select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.14)}
+
+.cell-note{min-width:212px;background:#fcfdff}
+tbody tr:nth-child(even) td.cell-note{background:#f8fafd}
+.note-input{
+  display:block;
+  width:200px;
+  min-height:56px;
+  resize:vertical;
+  border:1px solid #c3cfdf;
+  border-radius:6px;
+  padding:7px 8px;
+  font:inherit;
+  font-size:12px;
+  line-height:1.5;
+  color:var(--ink);
+  background:#fff;
+}
+.note-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.14)}
+.note-input.is-saved{border-color:#7fc9a6;box-shadow:0 0 0 3px rgba(15,123,82,.12)}
+.note-hint{display:block;margin-top:3px;color:var(--faint);font-size:10px;line-height:1.4}
+
+/* ---------- 推荐卡片区 ---------- */
+.recommendations{margin-top:30px}
+.recommendations h2{font-size:19px;margin:0 0 5px;letter-spacing:-.01em}
+.recommendations .sub{color:var(--muted);margin:0 0 14px;font-size:13px}
+.rec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
+.rec{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-left:3px solid var(--accent);
+  border-radius:var(--radius-sm);
+  padding:14px;
+  box-shadow:var(--shadow-sm);
+  transition:transform .15s ease,box-shadow .15s ease;
+}
+.rec:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.rec h3{font-size:14.5px;margin:0 0 7px;color:var(--ink)}
+.rec p{margin:5px 0;line-height:1.65;color:var(--ink-soft);font-size:12.5px}
+.rec .season{
+  display:inline-block;
+  background:var(--accent-soft);
+  color:#1d4ed8;
+  font-weight:700;
+  font-size:11px;
+  padding:2px 8px;
+  border-radius:999px;
+  margin-bottom:7px;
+}
+
+/* ---------- 页脚 ---------- */
+.footer{
+  margin-top:22px;
+  padding-top:14px;
+  border-top:1px solid var(--line);
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.75;
+}
+
+.empty-row td{
+  text-align:center!important;
+  padding:40px 12px!important;
+  color:var(--faint)!important;
+  font-size:13px;
+  background:#fff!important;
+}
+
+/* ---------- 窄屏 ---------- */
+@media (max-width:900px){
+  .page-bar{gap:9px;padding:11px 0 8px}
+  .page-bar h1{font-size:16px;width:100%;order:3}
+  .toolbar input{flex:1 1 100%}
+  .count-pill{order:2}
+  tbody td:first-child,thead th:first-child{position:static;box-shadow:none}
+}
+
+@media print{
+  .page-stack,.toolbar,.machine-note{position:static;box-shadow:none}
+  .note-input{border:none}
+}
+</style>
+<script id="final-ui-js">
+/* ============================================================
+   跨站选品池 · 共享行为层  (window.PoolUI)
+   由 enhance_final_pools.ps1 内联注入到各子页面 </body> 之前。
+   注入锚点：<!--FINAL-UI-JS-->
+
+   设计要点（对应四条验收标准）：
+   1. 表头与排序列不重叠
+      顶部「返回主页 + 标题 + 工具栏」合并为单一 sticky 容器 .page-stack，
+      其真实高度由 ResizeObserver 写入 --stack-h，thead th 以该值做 top 偏移。
+      z-index 严格分层：page-stack 60 > thead 首列 32 > thead 其余 30 > tbody 首列 12。
+   2. 返回主页按钮始终可见
+      按钮位于 .page-stack 内，随页面滚动常驻；颜色全部为字面量，
+      不依赖任何可能失效的 CSS 变量回退。
+   3. 筛选后状态与备注不串行
+      状态与备注不再由脚本事后追加单元格，而是由各页 render() 依据
+      内容派生 ID（品类|品牌英文名|型号）从同一 store 直接渲染，
+      与行序、筛选结果、DOM 位置完全解耦。
+   4. 刷新后状态与备注仍保留
+      单一 localStorage 键 pool-ui-v2::<pageKey> 保存 {s:状态, n:备注}，
+      并自动迁移旧版本键（含旧 enhance 指纹键）。
+   ============================================================ */
+
+(function (global) {
+  'use strict';
+
+  var STORE_PREFIX = 'pool-ui-v2::';
+  var STATUSES = ['未处理', '掌握了', '不做', '待定'];
+  var STATUS_CLASS = {
+    '掌握了': 'status-mastered',
+    '不做': 'status-drop',
+    '待定': 'status-pending'
+  };
+
+  function esc(v) {
+    return String(v == null ? '' : v).replace(/[&<>"']/g, function (m) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
+    });
+  }
+
+  function readJSON(key) {
+    try {
+      var raw = localStorage.getItem(key);
+      if (!raw) return null;
+      var v = JSON.parse(raw);
+      return (v && typeof v === 'object') ? v : null;
+    } catch (e) { return null; }
+  }
+
+  /* ---------------- 状态 / 备注 存储 ---------------- */
+
+  function Store(pageKey, legacyKeys) {
+    this.key = STORE_PREFIX + pageKey;
+    this.data = readJSON(this.key) || {};
+    this._migrate(pageKey, legacyKeys || []);
+  }
+
+  Store.prototype._migrate = function (pageKey, legacyKeys) {
+    var self = this;
+    var touched = false;
+
+    function absorb(id, status, note) {
+      if (!id) return;
+      var cur = self.data[id] || {};
+      // 已有的新版数据优先，旧数据只补空缺，避免迁移覆盖用户最新标记
+      if (status && STATUSES.indexOf(status) >= 0 && status !== '未处理' && !cur.s) {
+        cur.s = status; touched = true;
+      }
+      if (note && !cur.n) { cur.n = note; touched = true; }
+      if (cur.s || cur.n) self.data[id] = cur;
+    }
+
+    // 旧版：各页自带的 state，值为状态字符串
+    legacyKeys.forEach(function (k) {
+      var old = readJSON(k);
+      if (!old) return;
+      Object.keys(old).forEach(function (id) {
+        var v = old[id];
+        if (typeof v === 'string') absorb(id, v, '');
+        else if (v && typeof v === 'object') absorb(id, v.status || v.s, v.note || v.n);
+      });
+    });
+
+    // 旧版：enhance_final_pools 注入的指纹键 final-pool-memory-v1-<page>-<hash>
+    try {
+      var prefix = 'final-pool-memory-v1-' + pageKey + '-';
+      for (var i = 0; i < localStorage.length; i++) {
+        var k = localStorage.key(i);
+        if (!k || k.indexOf(prefix) !== 0) continue;
+        var mem = readJSON(k);
+        if (!mem) continue;
+        Object.keys(mem).forEach(function (rawId) {
+          var v = mem[rawId] || {};
+          // 旧指纹键的 ID 可能是 "page|rank|model" 形式，取末段型号做后备匹配
+          var parts = String(rawId).split('|');
+          var id = parts.length > 2 ? parts[parts.length - 1] : rawId;
+          absorb(id, v.status, v.note);
+        });
+      }
+    } catch (e) { /* localStorage 不可用时静默跳过 */ }
+
+    if (touched) this.save();
+  };
+
+  Store.prototype.save = function () {
+    try { localStorage.setItem(this.key, JSON.stringify(this.data)); return true; }
+    catch (e) { return false; }
+  };
+
+  Store.prototype.status = function (id) {
+    var r = this.data[id];
+    return (r && r.s) || '未处理';
+  };
+
+  Store.prototype.note = function (id) {
+    var r = this.data[id];
+    return (r && r.n) || '';
+  };
+
+  Store.prototype.setStatus = function (id, value) {
+    var r = this.data[id] || (this.data[id] = {});
+    if (value && value !== '未处理') r.s = value; else delete r.s;
+    if (!r.s && !r.n) delete this.data[id];
+    return this.save();
+  };
+
+  Store.prototype.setNote = function (id, value) {
+    var r = this.data[id] || (this.data[id] = {});
+    if (value) r.n = value; else delete r.n;
+    if (!r.s && !r.n) delete this.data[id];
+    return this.save();
+  };
+
+  Store.prototype.clear = function (legacyKeys) {
+    this.data = {};
+    try {
+      localStorage.removeItem(this.key);
+      (legacyKeys || []).forEach(function (k) { localStorage.removeItem(k); });
+    } catch (e) { /* 忽略 */ }
+  };
+
+  Store.prototype.marked = function () {
+    var n = 0, d = this.data;
+    for (var k in d) if (d[k] && (d[k].s || d[k].n)) n++;
+    return n;
+  };
+
+  /* ---------------- 单元格 HTML ---------------- */
+
+  function statusCellHtml(id, status) {
+    var out = '<td class="cell-status"><select data-row-id="' + esc(id) + '" aria-label="开发状态">';
+    for (var i = 0; i < STATUSES.length; i++) {
+      var s = STATUSES[i];
+      out += '<option value="' + s + '"' + (s === status ? ' selected' : '') + '>' + s + '</option>';
+    }
+    return out + '</select></td>';
+  }
+
+  function noteCellHtml(id, note) {
+    return '<td class="cell-note">' +
+      '<textarea class="note-input" data-row-id="' + esc(id) + '" rows="2" ' +
+      'placeholder="供应商、配件词、核验结果…" aria-label="备注">' + esc(note) + '</textarea>' +
+      '<span class="note-hint">自动保存在本机浏览器</span></td>';
+  }
+
+  function rowClass(status) { return STATUS_CLASS[status] || ''; }
+
+  /* ---------------- 顶部固定区 ---------------- */
+
+  function mountChrome(opts) {
+    opts = opts || {};
+    var h1 = document.querySelector('h1');
+    var toolbar = document.querySelector('.toolbar');
+    if (!h1) return null;
+
+    var stack = document.createElement('div');
+    stack.className = 'page-stack';
+
+    var bar = document.createElement('div');
+    bar.className = 'page-bar';
+
+    var home = document.createElement('a');
+    home.className = 'home-link';
+    home.href = opts.home || 'index.html';
+    home.innerHTML = '<span class="arrow" aria-hidden="true">←</span><span>返回主页</span>';
+    home.title = '返回跨站选品池目录';
+
+    var parent = h1.parentNode;
+    parent.insertBefore(stack, h1);
+    bar.appendChild(home);
+    bar.appendChild(h1);
+
+    var spacer = document.createElement('div');
+    spacer.className = 'spacer';
+    bar.appendChild(spacer);
+
+    var pill = document.createElement('span');
+    pill.className = 'count-pill';
+    pill.id = 'countPill';
+    bar.appendChild(pill);
+
+    stack.appendChild(bar);
+    if (toolbar) stack.appendChild(toolbar);
+
+    // 说明文字折叠，避免长段文字把工具栏推出视口
+    var note = document.querySelector('body > .note, .page-stack ~ .note');
+    if (!note) note = document.querySelector('p.note');
+    if (note && note.parentNode) {
+      var details = document.createElement('details');
+      details.className = 'page-intro';
+      var summary = document.createElement('summary');
+      summary.textContent = '选品规则与数据口径说明';
+      details.appendChild(summary);
+      note.parentNode.insertBefore(details, note);
+      details.appendChild(note);
+
+      var machine = document.createElement('p');
+      machine.className = 'machine-note';
+      machine.textContent = '本机记忆已启用：「状态」与「备注」按内容标识保存在当前浏览器本地存储，'
+        + '筛选、排序和刷新都不会串行或丢失；不会上传网络，换浏览器或清除站点数据后需重新标记。';
+      note.parentNode.appendChild(machine);
+    }
+
+    // 用真实高度驱动表头偏移，工具栏换行时自动跟随
+    var root = document.documentElement;
+    var apply = function () {
+      var h = Math.round(stack.getBoundingClientRect().height);
+      if (h > 0) root.style.setProperty('--stack-h', h + 'px');
+    };
+    apply();
+    if (global.ResizeObserver) new ResizeObserver(apply).observe(stack);
+    global.addEventListener('resize', apply);
+    global.addEventListener('load', apply);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(apply);
+
+    return { stack: stack, home: home, pill: pill };
+  }
+
+  /* ---------------- 表格事件委托 ---------------- */
+
+  /* 关键：状态变更只改当前行的 class，不触发整表 render()。
+     否则 innerHTML 重建会销毁正在输入的 textarea，造成「备注串行/丢失」。 */
+  function bindTable(tbody, store, hooks) {
+    if (!tbody) return;
+    hooks = hooks || {};
+
+    tbody.addEventListener('change', function (ev) {
+      var sel = ev.target;
+      if (!sel || sel.tagName !== 'SELECT' || !sel.dataset.rowId) return;
+      var id = sel.dataset.rowId;
+      store.setStatus(id, sel.value);
+      var tr = sel.closest('tr');
+      if (tr) {
+        tr.classList.remove('status-mastered', 'status-drop', 'status-pending');
+        var cls = rowClass(sel.value);
+        if (cls) tr.classList.add(cls);
+      }
+      if (hooks.onStatus) hooks.onStatus(id, sel.value, tr);
+    });
+
+    var timers = {};
+    tbody.addEventListener('input', function (ev) {
+      var ta = ev.target;
+      if (!ta || !ta.classList.contains('note-input') || !ta.dataset.rowId) return;
+      var id = ta.dataset.rowId;
+      clearTimeout(timers[id]);
+      timers[id] = setTimeout(function () {
+        store.setNote(id, ta.value);
+        ta.classList.add('is-saved');
+        setTimeout(function () { ta.classList.remove('is-saved'); }, 700);
+        if (hooks.onNote) hooks.onNote(id, ta.value);
+      }, 220);
+    });
+
+    // 失焦立即落盘，避免防抖窗口内关闭页面
+    tbody.addEventListener('focusout', function (ev) {
+      var ta = ev.target;
+      if (!ta || !ta.classList.contains('note-input') || !ta.dataset.rowId) return;
+      clearTimeout(timers[ta.dataset.rowId]);
+      store.setNote(ta.dataset.rowId, ta.value);
+      if (hooks.onNote) hooks.onNote(ta.dataset.rowId, ta.value);
+    });
+  }
+
+  /* 筛选造成整表重绘时，保留输入焦点与光标位置 */
+  function withFocusKept(fn) {
+    var el = document.activeElement;
+    var keep = null;
+    if (el && el.classList && el.classList.contains('note-input')) {
+      keep = { id: el.dataset.rowId, start: el.selectionStart, end: el.selectionEnd };
+    }
+    fn();
+    if (!keep) return;
+    var next = document.querySelector('.note-input[data-row-id="' + (global.CSS && CSS.escape ? CSS.escape(keep.id) : keep.id) + '"]');
+    if (!next) return;
+    try { next.focus({ preventScroll: true }); next.setSelectionRange(keep.start, keep.end); } catch (e) { }
+  }
+
+  function setCount(shown, total, marked) {
+    var pill = document.getElementById('countPill');
+    var txt = '显示 <b>' + shown + '</b> / ' + total + ' 条';
+    if (typeof marked === 'number' && marked > 0) txt += ' · 已标记 ' + marked;
+    if (pill) pill.innerHTML = txt;
+    var legacy = document.getElementById('count');
+    if (legacy) legacy.textContent = '显示 ' + shown + ' / ' + total + ' 条';
+  }
+
+  function cnBadge() { return '<span class="cn-badge">中国</span>'; }
+
+  global.PoolUI = {
+    STATUSES: STATUSES,
+    esc: esc,
+    Store: Store,
+    statusCellHtml: statusCellHtml,
+    noteCellHtml: noteCellHtml,
+    rowClass: rowClass,
+    mountChrome: mountChrome,
+    bindTable: bindTable,
+    withFocusKept: withFocusKept,
+    setCount: setCount,
+    cnBadge: cnBadge
+  };
+})(window);
+</script>
+<!--FINAL-UI-END-->
+</head><body>
+<h1>AL波兰站选品池</h1>
+<p class="note">更新日期：2026-09-10。筛选原则是“国内有保有量、波兰/欧洲也有真实使用或销售、且中国能找到型号专用拆机件/功能件”。优先中国品牌和中国制造供应链；价格使用 PLN，不设美国站 200 美元门槛，但低于 200 PLN 的整机按低价抛货剔除。Allegro 页面数据来自当前可见搜索结果中的报价、评价和“osób kupiło ostatnio”（近期购买）提示，不等同于后台完整销量。已排除耗材、电池、电源适配器、纯装饰件和低价抛货。</p>
+<div class="legend"><span class="export">中国品牌 / 出口（红色加粗 + 中国角标）</span></div>
+<div class="toolbar">
+<input id="search" placeholder="搜索品牌、英文型号、品类、波兰语词、拆机件…">
+<select id="category"><option value="">全部品类</option></select>
+<select id="source"><option value="">全部品牌来源</option><option value="中国品牌/出口">中国品牌 / 出口</option><option value="海外品牌/中国制造供应链">海外品牌 / 中国制造供应链</option></select>
+<select id="supply"><option value="">全部配件可得性</option><option value="高">高</option><option value="中">中</option><option value="待核">待核</option></select>
+<select id="statusFilter"><option value="">全部状态</option><option value="未处理">未处理</option><option value="掌握了">掌握了</option><option value="不做">不做</option><option value="待定">待定</option></select>
+<button id="resetStatus" class="ghost" type="button">清空状态与备注</button>
+<span id="count"></span>
+</div>
+<div class="table-wrap"><table id="grid"><thead><tr>
+<th>排序</th><th>品类</th><th>品牌中文名</th><th>品牌英文名</th><th>型号（英文）</th>
+        <th>Allegro在售价</th><th>Allegro搜索词</th>
+        <th>拆机/替换升级件</th><th>国内外使用判断</th><th>品牌来源</th><th>替换件可得性</th>
+        <th>状态</th><th>备注</th>
+</tr></thead><tbody></tbody></table></div>
+<p class="footer">品牌中文名按国内常用叫法或音译展示；正式开发前按具体 EU 版本、型号代际、专利、认证、商标和平台规则复核。整机含电池的设备只是不开发电池本身。</p>
+<script>
+const data=[{"category":"扫地机器人","brandCn":"追觅","brandEn":"Dreame","model":"L40 Ultra AE","price":"1549 PLN","search":"Dreame L40 Ultra AE robot sprzątający","parts":"主控板、激光雷达/视觉模组、轮组电机、齿轮箱、风机、泵、污水箱总成、充电触点板（电池不做）","domestic":"中国国内保有量高；波兰官方店和多报价","source":"中国品牌/出口","supply":"高","fit":"优先型号专用运动、泵阀、充电和底座功能件；不做滤芯、拖布、尘袋和装饰件","rank":1},{"category":"扫地机器人","brandCn":"追觅","brandEn":"Dreame","model":"X50 Ultra Complete","price":"2749 PLN","search":"Dreame X50 Ultra Complete robot sprzątający","parts":"主控板、激光雷达、升降/越障机构电机、轮组电机、风机、泵、污水箱总成、基站控制板（电池不做）","domestic":"中国高端扫地机保有量高；波兰高价多报价","source":"中国品牌/出口","supply":"高","fit":"优先越障机构、泵阀、控制板和基站结构；不做滤芯、拖布、尘袋和装饰件","rank":2},{"category":"扫地机器人","brandCn":"石头科技","brandEn":"Roborock","model":"Qrevo 5AE","price":"1149 PLN","search":"Roborock Qrevo 5AE robot sprzątający","parts":"主控板、激光雷达、轮组电机、泵、风机、基站控制板、污水箱总成、充电触点板（电池不做）","domestic":"中国国内用户和维修生态强；波兰官方店销量信号强","source":"中国品牌/出口","supply":"高","fit":"优先主控、泵阀、轮组和基站功能总成；不做滤芯、拖布、尘袋和装饰件","rank":3},{"category":"扫地机器人","brandCn":"石头科技","brandEn":"Roborock","model":"Qrevo Edge 5V1","price":"1599 PLN","search":"Roborock Qrevo Edge 5V1","parts":"主控板、边刷/轮组电机、齿轮箱、泵、风机、基站控制板、污水箱总成和充电触点板（电池不做）","domestic":"中国高端扫地机用户多；波兰多报价和近期购买","source":"中国品牌/出口","supply":"高","fit":"优先运动、泵阀、基站和控制板；不做滤芯、拖布、尘袋和装饰件","rank":4},{"category":"扫地机器人","brandCn":"科沃斯","brandEn":"Ecovacs","model":"DEEBOT X9 PRO OMNI","price":"1761 PLN","search":"Ecovacs DEEBOT X9 PRO OMNI","parts":"主控板、导航/视觉模组、轮组电机、风机、泵、基站控制板、污水箱总成和充电触点板（电池不做）","domestic":"中国智能清洁用户和供应链成熟；波兰有官方/企业卖家","source":"中国品牌/出口","supply":"高","fit":"优先导航、轮组、泵和基站功能件；不做滤芯、拖布、尘袋和装饰件","rank":5},{"category":"无人机","brandCn":"大疆","brandEn":"DJI","model":"Neo 2 Fly More Combo","price":"1598 PLN","search":"DJI Neo 2 Fly More Combo dron","parts":"飞控板、云台/相机模组、图传板、无刷电机、电调、GPS/视觉定位板、遥控器主板（电池不做）","domestic":"中国航拍用户和维修生态强；波兰户外影像渠道活跃","source":"中国品牌/出口","supply":"高","fit":"优先云台、相机、飞控和起落架功能件；不做桨叶、电池、充电器和装饰件","rank":6},{"category":"无人机","brandCn":"大疆","brandEn":"DJI","model":"Neo Motion Fly More Combo","price":"1739 PLN","search":"DJI Neo Motion Fly More Combo","parts":"飞控板、云台相机模组、图传板、无刷电机、电调、视觉定位板和遥控器主板（电池不做）","domestic":"中国出口主流航拍品牌；波兰 FPV/户外用户使用","source":"中国品牌/出口","supply":"高","fit":"优先云台、飞控、图传和保护结构；不做桨叶、电池、充电器和装饰件","rank":7},{"category":"3D打印机","brandCn":"拓竹","brandEn":"Bambu Lab","model":"P1S Combo with AMS","price":"2559.50 PLN","search":"Bambu Lab P1S Combo AMS drukarka 3D","parts":"主板、运动控制板、步进电机、挤出机总成、热床控制板、屏幕、导轨/丝杆、AMS驱动板和传感器","domestic":"中国创客和打印农场用户多；波兰打印店和教育渠道使用","source":"中国品牌/出口","supply":"高","fit":"优先主板、AMS驱动、挤出机、导轨和腔体锁止；不做喷嘴、耗材、打印片和装饰件","rank":8},{"category":"3D打印机","brandCn":"拓竹","brandEn":"Bambu Lab","model":"P1S","price":"1899 PLN","search":"Bambu Lab P1S drukarka 3D","parts":"主板、运动控制板、步进电机、挤出机总成、热床控制板、屏幕、导轨/丝杆和传感器","domestic":"中国出口品牌，国内维修件供应链密集；波兰多企业卖家","source":"中国品牌/出口","supply":"高","fit":"优先运动控制、挤出和腔体功能件；不做喷嘴、耗材、打印片和装饰件","rank":9},{"category":"3D打印机","brandCn":"创想三维","brandEn":"Creality","model":"K1C","price":"1499 PLN","search":"Creality K1C drukarka 3D","parts":"主板、运动控制板、步进电机、挤出机、热床控制板、屏幕、导轨/丝杆、摄像头和限位传感器","domestic":"中国用户和维修配件市场大；波兰创客用户保有量高","source":"中国品牌/出口","supply":"高","fit":"优先主板、挤出机、运动和腔体结构；不做喷嘴、耗材、打印片和装饰件","rank":10},{"category":"3D打印机","brandCn":"创想三维","brandEn":"Creality","model":"K1 MAX","price":"2149 PLN","search":"Creality K1 MAX drukarka 3D","parts":"主板、运动控制板、步进电机、挤出机、热床控制板、屏幕、导轨/丝杆、摄像头和传感器","domestic":"中国大尺寸打印机用户和供应链强；波兰专业用户使用","source":"中国品牌/出口","supply":"高","fit":"优先主控、运动、挤出和摄像头功能件；不做喷嘴、耗材、打印片和装饰件","rank":11},{"category":"电动滑板车","brandCn":"九号","brandEn":"Segway-Ninebot","model":"F3 Pro","price":"2685 PLN","search":"Segway Ninebot F3 Pro hulajnoga","parts":"主控器、轮毂电机、仪表显示板、转向柱折叠机构、刹车执行器、加速度/霍尔传感器和车架组件（电池不做）","domestic":"中国城市用户和维修生态强；波兰通勤和户外用户使用","source":"中国品牌/出口","supply":"高","fit":"优先控制器、仪表、折叠锁止和制动功能件；不做电池、充电器、轮胎耗材和装饰件","rank":12},{"category":"电动滑板车","brandCn":"九号","brandEn":"Segway-Ninebot","model":"ZT3 Pro D","price":"2839.99 PLN","search":"Segway Ninebot ZT3 Pro D","parts":"主控器、轮毂电机、仪表板、转向/折叠机构、刹车执行器、传感器和车架总成（电池不做）","domestic":"中国高性能电动滑板车用户多；波兰高价通勤和越野渠道","source":"中国品牌/出口","supply":"高","fit":"优先控制、转向、制动和车架功能件；不做电池、充电器、轮胎和装饰件","rank":13},{"category":"投影仪","brandCn":"小米","brandEn":"Xiaomi","model":"Smart Projector L1 Pro","price":"1059.49 PLN","search":"Xiaomi Smart Projector L1 Pro","parts":"主板/逻辑板、DMD/光机组件、LED驱动板、风扇、镜头调节机构、遥控接收板和散热风道（电源板仅拆机件）","domestic":"中国家庭影音用户多；波兰智能家居和投影渠道有售","source":"中国品牌/出口","supply":"高","fit":"优先光机散热、镜头调节、安装和控制板功能件；不做灯泡、装饰件和通用适配器","rank":14},{"category":"投影仪","brandCn":"安克星云（安克创新）","brandEn":"Nebula","model":"Capsule 3 D2425","price":"1698.99 PLN","search":"Anker Nebula Capsule 3 D2425 projektor","parts":"主板、DLP光机、LED驱动板、风扇、镜头/云台机构、遥控接收板和散热结构（电池不做）","domestic":"安克创新中国出口品牌；波兰便携投影用户使用","source":"中国品牌/出口","supply":"高","fit":"优先光机、云台/镜头、散热和安装结构；不做电池、灯泡、适配器和装饰件","rank":15},{"category":"投影仪","brandCn":"安克星云（安克创新）","brandEn":"Nebula","model":"Capsule 3 300 ANSI","price":"2390 PLN","search":"Anker Nebula Capsule 3 300 ANSI","parts":"主板、DLP/光机组件、LED驱动板、风扇、镜头机构、遥控接收板和散热风道（电池不做）","domestic":"中国出口品牌，国内影音用户熟悉；波兰企业卖家多报价","source":"中国品牌/出口","supply":"高","fit":"优先型号专用光机、散热和安装结构；不做电池、适配器、灯泡和装饰件","rank":16},{"category":"除湿机","brandCn":"美的","brandEn":"Midea","model":"MDDF-20DEN7-QA3","price":"359.99 PLN","search":"Midea MDDF-20DEN7-QA3 osuszacz","parts":"主控板、显示板、风机电机、风轮、温湿度传感器、压缩机启动模块、排水泵、水箱和脚轮底座","domestic":"中国国内家电保有量极高；波兰有Midea/Comfee同平台机型","source":"中国品牌/出口","supply":"高","fit":"优先主控、风机、传感器、排水和结构件；不做冷媒、滤网耗材、适配器和装饰件","rank":17},{"category":"除湿机","brandCn":"美的/科慕菲","brandEn":"Comfee","model":"MDDF-16DEN7-WF 16L","price":"249.99 PLN","search":"Comfee MDDF-16DEN7-WF osuszacz","parts":"主控板、显示板、风机电机、温湿度传感器、压缩机启动模块、排水泵、水箱和脚轮底座","domestic":"美的系中国供应链；波兰家用除湿机有多报价","source":"中国品牌/出口","supply":"高","fit":"优先排水、风机、控制和水箱结构；不做冷媒、滤网耗材和装饰件","rank":18},{"category":"空气净化器","brandCn":"小米","brandEn":"Xiaomi","model":"Mi Air Purifier 4 Pro","price":"869 PLN","search":"Xiaomi Mi Air Purifier 4 Pro oczyszczacz","parts":"主控板、风机电机、风轮、颗粒物/温湿度传感器板、显示板、上盖锁止和机身风道（滤芯不做）","domestic":"中国智能家居保有量高；波兰官方店和143个报价","source":"中国品牌/出口","supply":"高","fit":"优先风机、传感器、显示板、风道和底座；不做滤芯、适配器和装饰件","rank":19},{"category":"高压清洗机","brandCn":"卡赫","brandEn":"Kärcher","model":"K5 Power","price":"1424.94 PLN","search":"Kärcher K5 Power myjka ciśnieniowa","parts":"电机/泵总成、卸荷阀、压力开关、控制板、软管卷盘、扳机喷枪总成、热保护传感器和车架","domestic":"中国家庭和清洁设备渠道常见；波兰专业清洁保有量高","source":"海外品牌/中国制造供应链","supply":"高","fit":"优先泵、阀、压力控制、卷盘和承载件；不做喷嘴、清洁液、通用电源线和装饰件","rank":20},{"category":"高压清洗机","brandCn":"卡赫","brandEn":"Kärcher","model":"K7 Comfort Premium","price":"1999 PLN","search":"Kärcher K7 Comfort Premium myjka","parts":"电机/泵总成、卸荷阀、压力开关、控制板、软管卷盘、喷枪总成、热保护传感器和车架","domestic":"中国维修和OEM供应链强；波兰高端清洗设备保有量大","source":"海外品牌/中国制造供应链","supply":"高","fit":"优先高压泵、阀组、卷盘、控制和车架功能件；不做喷嘴、清洁剂和电源线","rank":21},{"category":"高压清洗机","brandCn":"卡赫","brandEn":"Kärcher","model":"K3 1.601-888.0","price":"393.22 PLN","search":"Kärcher K3 1.601-888.0","parts":"泵总成、卸荷阀、压力开关、控制板、软管接口、喷枪总成、热保护传感器和轮架","domestic":"中国家用清洁渠道覆盖广；波兰评价量和近期购买强","source":"海外品牌/中国制造供应链","supply":"高","fit":"优先泵阀、压力控制、喷枪和承载件；不做喷嘴、清洁液和通用电源线","rank":22},{"category":"湿干吸尘器/洗地机","brandCn":"添可","brandEn":"Tineco","model":"Floor ONE S7 Stretch Ultra","price":"1586.72 PLN","search":"Tineco Floor ONE S7 Stretch Ultra","parts":"主控板、吸水/真空电机、刷盘电机、水泵、污水箱总成、浮球传感器、显示板和充电触点板（电池不做）","domestic":"中国洗地机用户和维修生态成熟；波兰家用清洁渠道在售","source":"中国品牌/出口","supply":"高","fit":"优先电机、泵、污水箱、控制板和停靠底座；不做滚刷、滤网、清洁液和电池","rank":23},{"category":"湿干吸尘器/洗地机","brandCn":"添可","brandEn":"Tineco","model":"Floor ONE S7 Stretch Steam Plus","price":"2249.90 PLN","search":"Tineco Floor ONE S7 Stretch Steam Plus","parts":"主控板、真空电机、刷盘电机、水泵、加热器、污水箱、浮球传感器和显示板（电池不做）","domestic":"中国高端洗地机供应链强；波兰高客单型号有近期购买","source":"中国品牌/出口","supply":"高","fit":"优先蒸汽加热、泵、真空和控制总成；不做滚刷、滤网、清洁液和电池","rank":24},{"category":"商用安防录像机","brandCn":"海康威视","brandEn":"Hikvision","model":"DS-7608NXI-K1 8-channel","price":"552.99 PLN","search":"Hikvision DS-7608NXI-K1 rejestrator NVR","parts":"主板、PoE/端口板、硬盘背板、风扇模块、散热组件、前面板/显示板、机架固定件和接口板（硬盘/电源不做）","domestic":"中国工程安防保有量大；波兰安装商和企业卖家使用","source":"中国品牌/出口","supply":"高","fit":"优先主板、背板、端口、风扇和机架功能件；不做硬盘、电源适配器和装饰件","rank":25},{"category":"商用安防录像机","brandCn":"海康威视","brandEn":"Hikvision","model":"DS-7616NXI-K1 16-channel","price":"637.97 PLN","search":"Hikvision DS-7616NXI-K1 16 kanal NVR","parts":"主板、PoE/端口板、硬盘背板、风扇、散热组件、前面板、机架固定件和接口板（硬盘/电源不做）","domestic":"中国工程安防用户和维修件供应链强；波兰专业安装渠道","source":"中国品牌/出口","supply":"高","fit":"优先主板、背板、风扇、端口板和机架件；不做硬盘、电源适配器和装饰件","rank":26},{"category":"咖啡机","brandCn":"赛吉/铂富欧洲品牌","brandEn":"Sage (Breville)","model":"SES875BSS Barista Express","price":"2259 PLN","search":"Sage SES875BSS Barista Express ekspres","parts":"主控板、显示/按键板、泵、流量计、电磁阀、磨豆机电机/齿轮箱、加热块、温度传感器和滴水盘总成","domestic":"中国咖啡机维修和精密件供应链成熟；波兰家用咖啡用户保有量高","source":"海外品牌/中国制造供应链","supply":"高","fit":"优先泵阀、磨豆机齿轮箱、加热和控制板；不做咖啡豆、清洁片、滤芯和装饰件","rank":27},{"category":"高压设备/空压机","brandCn":"威沃","brandEn":"VEVOR","model":"1800W 6.8L 300 bar compressor","price":"659.60 PLN","search":"VEVOR 1800W 6.8L 300 bar compressor","parts":"压缩机电机、泵头总成、压力开关、控制板、启动电容、止回阀、调压阀组、压力传感器和散热风扇","domestic":"中国工具和工业品用户多；波兰Vevor官方店在售","source":"中国品牌/出口","supply":"高","fit":"优先泵头、电机、压力控制、阀组和机架；不做润滑油、气管耗材和通用电源线","rank":28},{"category":"割草机器人","brandCn":"库犸","brandEn":"Mammotion","model":"LUBA mini AWD 1000","price":"4,299 PLN","search":"Mammotion LUBA mini AWD kosiarka automatyczna","parts":"主控板、轮组驱动电机、切割盘电机、RTK/GPS 定位模块、超声/视觉传感器、提升机构和底盘结构件（刀片耗材不做）","domestic":"【候选类目】中国机器人割草机供应链集中；波兰独栋住宅草坪保有量大且 Home&Garden 为强势类目","source":"中国品牌/出口","supply":"待核","fit":"【候选类目】欧洲割草机器人增速高；先核验 Allegro 在售报价与配件需求，再定型号专用件","rank":29},{"category":"电动自行车","brandCn":"英格威","brandEn":"ENGWE","model":"X26 / Engine X","price":"4,599 PLN","search":"ENGWE X26 rower elektryczny e-bike","parts":"主控器、轮毂/中置电机、显示仪表、扭矩传感器、变速/刹车执行机构、折叠锁止和货架（电池和充电器不做）","domestic":"【候选类目】欧洲骑行文化深厚、E-bike 销量长期领先电动汽车；波兰通勤与休闲双场景","source":"中国品牌/出口","supply":"待核","fit":"【候选类目】EU 25km/h 合规机型才能上架；优先显示仪表、传感器和折叠结构；不做电池充电器","rank":30},{"category":"智能宠物设备","brandCn":"PETLIBRO","brandEn":"PETLIBRO","model":"Granary Wi-Fi Feeder / One RFID Smart Feeder","price":"449 PLN","search":"PETLIBRO karmnik automatyczny dla zwierzat Wi-Fi","parts":"主控板、称重传感器、出料电机/齿轮箱、仓体总成、RFID 识别模块和防夹结构（干燥剂耗材不做）","domestic":"【候选类目】Allegro 宠物用品为购物起点增速前列（+8）；智能喂食器客单稳定","source":"中国品牌/出口","supply":"待核","fit":"【候选类目】波兰养宠家庭比例高；优先称重与出料结构；不做耗材","rank":31},{"category":"美容仪器","brandCn":"觅光","brandEn":"AMIRO","model":"R1 PRO / S1 Pro","price":"1,299 PLN","search":"AMIRO R1 PRO urzadzenie do pielegnacji twarzy RF","parts":"主控板、射频/LED 输出模组、温度传感器、探头支架、磁吸充电底座和外壳总成","domestic":"【候选类目】Allegro Health & Beauty 增速为大盘两倍；美容仪器客单高；注意 EU 医疗器械宣传边界","source":"中国品牌/出口","supply":"待核","fit":"【候选类目】波兰面部护理设备搜索增长；优先探头结构与支架；合规前置","rank":32},{"category":"行车记录仪","brandCn":"70迈","brandEn":"70mai","model":"A810 / A800SE","price":"599 PLN","search":"70mai A810 rejestrator samochodowy 4K","parts":"主控板、图像传感器模组、GPS 模块、镜头座、散热结构和吸盘/静电贴支架总成（存储卡不做）","domestic":"【候选类目】Allegro 汽车用品为购物起点增长类目（+6）；记录仪前后双录套装为主力","source":"中国品牌/出口","supply":"待核","fit":"【候选类目】波兰车险与安全驾驶需求推动；优先支架与散热件","rank":33},{"category":"电动工具","brandCn":"威克士","brandEn":"WORX","model":"20V Brushless Hammer Drill WX358","price":"899 PLN","search":"WORX WX358 wiertarko-wkretarka 20V bezszczotkowa","parts":"主控板、无刷电机、齿轮箱、钻夹头、电池接口板（电池不做）和机壳总成","domestic":"【候选类目】波兰 Home&Garden 强势、DIY 文化成熟；20V 无绳平台为主流","source":"中国品牌/出口","supply":"待核","fit":"【候选类目】优先齿轮箱与夹头结构件；不做电池充电器","rank":34},{"category":"空气源热泵","brandCn":"美的","brandEn":"Midea","model":"M-Thermal Arctic 8 kW","price":"18,999 PLN","search":"Midea M-Thermal Arctic pompa ciepla 8kW","parts":"主控板、压缩机驱动模块、风机电机、膨胀阀/水路阀组、水温传感器、显示板和底座减振结构","domestic":"【候选类目】波兰严寒气候+能源转型补贴，热泵为政策驱动型高客单类目；中国热泵供应链全球领先","source":"中国品牌/出口","supply":"待核","fit":"【候选类目】需安装服务商体系支撑；优先水路阀组、传感器和电控件；EU F-gas/Ecodesign 合规前置","rank":35},{"category":"安防摄像套装","brandCn":"睿联","brandEn":"Reolink","model":"RLC-810A + RLN8-410 8CH Kit","price":"1,399 PLN","search":"Reolink RLC-810A zestaw kamer RLN8-410 8 kanalow","parts":"PoE 主板、镜头/IR 补光模组、防水壳体、壁装支架和 NVR 背板（硬盘与电源不做）","domestic":"【候选类目】波兰住宅与中小商户安防需求稳定；PoE 套装在 Allegro 多报价","source":"中国品牌/出口","supply":"待核","fit":"【候选类目】优先支架、防水壳和背板件；不做硬盘电源","rank":36},{"category":"阳台光伏/微逆变器","brandCn":"正浩","brandEn":"EcoFlow","model":"PowerStream 600W + 400W panel","price":"3,499 PLN","search":"EcoFlow PowerStream mikroinstalacja balkonowa 600W","parts":"微逆变器主板、MPPT 控制板、并网通信模块、散热壳体、壁挂支架和防水接插件（组件线缆不做）","domestic":"【候选类目】波兰电价高企推动阳台/庭院即插即用光伏；EU 净计量政策逐步放开","source":"中国品牌/出口","supply":"待核","fit":"【候选类目】NC RfG 并网认证与安装规范前置；优先散热、支架和通信件","rank":37},{"category":"睡眠健康设备","brandCn":"SnoreCircle","brandEn":"SnoreCircle","model":"BA10 / YA4300","price":"599 PLN","search":"SnoreCircle urzadzenie antychrap inteligentne","parts":"主控板、骨传导/压电传感模组、EMS 微电流模块、充电触点和亲肤头带结构（凝胶贴耗材不做）","domestic":"【候选类目】美欧睡眠经济高增（止鼾面罩/呼吸训练器增速快）；中国代工供应链成熟","source":"中国品牌/出口","supply":"待核","fit":"【候选类目】波兰与欧洲中老年人群渗透率低、空间大；优先传感与佩戴结构；不做耗材","rank":38},{"category":"家庭健身","brandCn":"速境","brandEn":"Speediance","model":"Gym Monster 2 / Gym Monster 3","price":"8,999–10,999 PLN","search":"Speediance Gym Monster siłownia domowa","parts":"PMSM 电机总成、线缆滑轮系统、数字阻力控制板、触屏总成（拆机件）、导轨/滑块结构和配件接口件","domestic":"官方 EU 独立站明确覆盖波兰，智能数字力量头部品牌，IFA2026 全欧主推","source":"中国品牌/出口","supply":"高","fit":"免订阅智能力量训练，客单极高；优先触屏、线缆滑轮与配件接口件；大件需 EU 仓履约核验","rank":39},{"category":"家庭健身","brandCn":"金史密斯/WalkingPad","brandEn":"KingSmith","model":"A1 Pro / R2 Pro / R3","price":"1,899–3,499 PLN","search":"WalkingPad R2 Pro bieżnia spacerowa składana","parts":"折叠铰链/锁止总成、跑台滚筒、无刷电机总成、脚感控速传感器、遥控通信板和减振底座","domestic":"折叠走步机欧洲线上渗透快，波兰居家健身搜索上行","source":"中国品牌/出口","supply":"待核","fit":"走步机品类定义者；优先折叠铰链与滚筒件；需核 Allegro 在售报价与 EU 仓","rank":40},{"category":"家庭健身","brandCn":"优瑞沃","brandEn":"UREVO","model":"CyberPad / 2-in-1 Folding Treadmill","price":"1,499–2,899 PLN","search":"UREVO CyberPad bieżnia pod biurko","parts":"折叠机构、跑台滚筒、无刷电机、脚感/霍尔传感器、控制板和减振底座","domestic":"欧洲为 UREVO 高增市场，办公场景走步机适配居家办公人群","source":"中国品牌/出口","supply":"待核","fit":"Under-desk 场景差异化；优先折叠与传感件；需核 Allegro 在售","rank":41},{"category":"家庭健身","brandCn":"野小兽","brandEn":"Yesoul","model":"S3 Bike / R1 Rower","price":"1,299–2,499 PLN","search":"Yesoul S3 rower treningowy","parts":"磁控阻力总成、飞轮轴承、皮带传动组件、触屏通信板（仅拆机件）、车架调节锁止和踏板曲柄","domestic":"Yesoul 设欧洲直播中心，德英澳重点盘，波兰属 EU 覆盖半径","source":"中国品牌/出口","supply":"待核","fit":"车+课智能单车；优先磁阻与传动件；需核 Allegro 在售与内容本地化","rank":42}];
+const PAGE_KEY='poland-allegro';
+const store=new PoolUI.Store(PAGE_KEY,[]);
+const esc=PoolUI.esc;
+const el=id=>document.getElementById(id);
+const search=el('search'),category=el('category'),source=el('source'),supply=el('supply'),statusFilter=el('statusFilter');
+const tbody=document.querySelector('#grid tbody');
+function idOf(r){return [r.category,r.brandEn,r.model].join('|')}
+function isCn(r){return /^中国/.test(String(r.source))}
+PoolUI.mountChrome({home:'index.html'});
+const cats=[...new Set(data.map(r=>r.category))].sort((a,b)=>a.localeCompare(b,'zh-CN'));
+category.innerHTML+=cats.map(c=>'<option value="'+esc(c)+'">'+esc(c)+'</option>').join('');
+function shownCount(){return document.querySelectorAll('#grid tbody tr:not(.empty-row)').length}
+function render(){
+  const q=search.value.trim().toLowerCase(),c=category.value,src=source.value,sp=supply.value,sf=statusFilter.value;
+  const out=data.filter(r=>{
+    const st=store.status(idOf(r));
+    return (!q||Object.values(r).some(v=>String(v).toLowerCase().includes(q)))
+      &&(!c||r.category===c)&&(!src||r.source===src)
+      &&(!sp||r.supply===sp)&&(!sf||st===sf);
+  });
+  tbody.innerHTML=out.length?out.map(r=>{
+    const id=idOf(r),st=store.status(id),cn=isCn(r),bc=cn?' class="brand-export"':'',badge=cn?PoolUI.cnBadge():'';
+    return '<tr class="'+PoolUI.rowClass(st)+'">'
+      +'<td>'+esc(r.rank)+'</td>'
+      +'<td>'+esc(r.category)+'</td>'
+      +'<td'+bc+'>'+esc(r.brandCn)+badge+'</td>'
+      +'<td'+bc+'>'+esc(r.brandEn)+'</td>'
+      +'<td class="model-cell">'+esc(r.model)+'</td>'
+      +'<td>'+esc(r.price)+'</td>'
+      +'<td>'+esc(r.search)+'</td>'
+      +'<td class="parts-cell">'+esc(r.parts)+' ｜ '+esc(r.fit)+'</td>'
+      +'<td>'+esc(r.domestic)+'</td>'
+      +'<td'+bc+'>'+esc(r.source)+'</td>'
+      +'<td>'+esc(r.supply)+'</td>'
+      +PoolUI.statusCellHtml(id,st)
+      +PoolUI.noteCellHtml(id,store.note(id))
+      +'</tr>';
+  }).join(''):'<tr class="empty-row"><td colspan="13">没有符合当前筛选条件的记录</td></tr>';
+  PoolUI.setCount(out.length,data.length,store.marked());
+}
+function refilter(){PoolUI.withFocusKept(render)}
+PoolUI.bindTable(tbody,store,{
+  onStatus:()=>{PoolUI.setCount(shownCount(),data.length,store.marked());if(statusFilter.value)refilter()},
+  onNote:()=>PoolUI.setCount(shownCount(),data.length,store.marked())
+});
+search.addEventListener('input',refilter);
+[category,source,supply,statusFilter].forEach(x=>x.addEventListener('change',refilter));
+el('resetStatus').addEventListener('click',()=>{if(!confirm('清空本页所有状态与备注？该操作不可撤销。'))return;store.clear([]);search.value='';category.value='';source.value='';supply.value='';statusFilter.value='';render()});
+render();
+</script>
+</body></html>
+

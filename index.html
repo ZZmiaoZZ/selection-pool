@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>最终版｜跨站选品池目录</title>
+<link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIAAABAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8AAAAAAAAAAAAAAAAAAAAAAAAAABQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/wAAAAAAAAAAAAAAABQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/AAAAAAAAAAAUJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/wAAAAAAAAAAFCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8AAAAAAAAAABQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/AAAAAAAAAAAUJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/wAAAAAAAAAAFCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8AAAAAAAAAABQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/AAAAAAAAAAAUJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/wAAAAAAAAAAAAAAABQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/wAAAAAAAAAAAAAAAAAAAAAAAAAAFCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
+<style>
+:root{--ink:#141c2b;--ink-soft:#3c4a60;--muted:#66748c;--faint:#8c9ab0;--line:#dbe3ee;--navy:#14243c;--accent:#2563eb;--cn:#c0243c;--surface:#fff;--radius:14px}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",-apple-system,"Segoe UI",Arial,sans-serif;-webkit-font-smoothing:antialiased;background:#eef3f9;background-image:radial-gradient(1100px 520px at 12% -8%,#e2ecff 0,rgba(226,236,255,0) 62%),radial-gradient(900px 480px at 92% 4%,#e6f6f1 0,rgba(230,246,241,0) 58%),linear-gradient(180deg,#f7fafe 0,#eef3f9 100%)}
+main{max-width:1200px;margin:0 auto;padding:clamp(30px,5.5vw,68px) clamp(16px,4vw,44px) 64px}
+header{margin-bottom:clamp(26px,4vw,40px)}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;color:var(--accent);font-size:11.5px;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
+.eyebrow:before{content:"";width:26px;height:3px;background:var(--accent);border-radius:2px}
+h1{font-size:clamp(27px,4.2vw,46px);line-height:1.14;margin:15px 0 14px;letter-spacing:-.025em;font-weight:800}
+.lede{max-width:780px;color:var(--ink-soft);line-height:1.85;font-size:15px;margin:0}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:26px 0 0}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:15px 17px;box-shadow:0 1px 2px rgba(16,32,56,.05),0 8px 22px -14px rgba(16,32,56,.22)}
+.kpi b{display:block;font-size:27px;line-height:1.15;letter-spacing:-.02em;color:var(--navy);font-variant-numeric:tabular-nums}
+.kpi span{display:block;margin-top:4px;color:var(--muted);font-size:12px}
+.kpi.cn b{color:var(--cn)}
+.section-title{display:flex;align-items:baseline;gap:11px;margin:clamp(30px,4.5vw,46px) 0 15px}
+.section-title h2{font-size:19px;margin:0;letter-spacing:-.01em}
+.section-title span{color:var(--faint);font-size:12.5px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:15px}
+.card{position:relative;display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;text-decoration:none;color:inherit;box-shadow:0 1px 2px rgba(16,32,56,.05),0 10px 26px -18px rgba(16,32,56,.28);transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease}
+.card:hover{transform:translateY(-3px);border-color:#b9cdeb;box-shadow:0 4px 10px rgba(16,32,56,.07),0 20px 40px -20px rgba(16,32,56,.32)}
+.card:focus-visible{outline:3px solid rgba(37,99,235,.35);outline-offset:3px}
+.card-top{display:flex;align-items:center;gap:8px;margin-bottom:11px}
+.badge{background:var(--navy);color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.05em;padding:3px 9px;border-radius:999px}
+.site{color:var(--faint);font-size:11.5px;font-weight:600;letter-spacing:.02em}
+.card h2{font-size:17px;margin:0 0 8px;letter-spacing:-.01em}
+.card-desc{flex:1 1 auto;margin:0 0 14px;color:var(--ink-soft);font-size:13px;line-height:1.72}
+.card-stats{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:15px}
+.card-stats span{background:#f4f7fc;border:1px solid #e4ebf5;border-radius:999px;padding:4px 10px;color:var(--muted);font-size:11.5px}
+.card-stats b{color:var(--navy);font-weight:800;font-variant-numeric:tabular-nums}
+.card-go{display:inline-flex;align-items:center;gap:7px;align-self:flex-start;background:var(--navy);color:#fff;padding:9px 15px;border-radius:9px;font-size:12.5px;font-weight:700}
+.card:hover .card-go{background:#1e3a5f}
+.card-go em{font-style:normal;font-size:15px;line-height:1;transition:transform .18s ease}
+.card:hover .card-go em{transform:translateX(3px)}
+.panels{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:15px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:0 1px 2px rgba(16,32,56,.05)}
+.panel h3{margin:0 0 11px;font-size:14.5px;display:flex;align-items:center;gap:7px}
+.panel h3:before{content:"";width:3px;height:15px;background:var(--accent);border-radius:2px}
+.panel.keep h3:before{background:#0f7b52}
+.panel.drop h3:before{background:var(--cn)}
+.panel ul{margin:0;padding-left:18px;color:var(--ink-soft);font-size:13px;line-height:1.85}
+.panel li{margin:3px 0}
+.panel code{background:#f2f6fb;border:1px solid #e2e9f3;border-radius:4px;padding:1px 5px;font-size:11.5px;color:var(--navy);font-family:ui-monospace,Consolas,monospace}
+.flow{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;box-shadow:0 1px 2px rgba(16,32,56,.05)}
+.flow ol{margin:0;padding-left:20px;color:var(--ink-soft);font-size:13px;line-height:1.9}
+.flow b{color:var(--ink)}
+.flow code{background:#f2f6fb;border:1px solid #e2e9f3;border-radius:4px;padding:1px 5px;font-size:11.5px;color:var(--navy);font-family:ui-monospace,Consolas,monospace}
+footer{margin-top:clamp(30px,4.5vw,44px);padding-top:17px;border-top:1px solid var(--line);color:var(--faint);font-size:12px;line-height:1.8}
+@media (max-width:640px){.kpi b{font-size:23px}h1{font-size:26px}}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <div class="eyebrow">Cross-Marketplace Selection Pool</div>
+  <h1>最终版｜跨站选品池</h1>
+  <p class="lede">统一入口。四个站点池共用一套表格结构与本机记忆机制：每条记录都保留品牌中英文名、英文型号、拆机/替换升级件、状态与备注；「状态」和「备注」按内容标识保存在本机浏览器，筛选、排序、刷新都不会串行或丢失。标有「【候选类目】」的记录为第二轮评审引入的方向性候选（型号与 listing 待核验）；日本站支持勾选至多 3 条记录并排数据对比。</p>
+  <div class="kpis">
+    <div class="kpi"><b>481</b><span>全站记录合计</span></div>
+    <div class="kpi cn"><b>275</b><span>中国品牌 / 供应链（占 57%）</span></div>
+    <div class="kpi"><b>4</b><span>站点选品池</span></div>
+    <div class="kpi"><b>2026-09-10</b><span>最近装配日期</span></div>
+  </div>
+</header>
+
+<div class="section-title"><h2>站点选品池</h2><span>点击卡片进入，页面内可搜索、多维筛选并逐条标记</span></div>
+<div class="grid">
+<a class="card" href="AMZ美国站选品池.html">
+  <div class="card-top">
+    <span class="badge">AMZ</span>
+    <span class="site">Amazon US</span>
+  </div>
+  <h2>AMZ 美国站选品池</h2>
+  <p class="card-desc">原「中国出口优先主池 + 优先开发池」已合并为单文件。覆盖全行业高客单方向，工具栏按「优先级 P1/P2/P3」即可定位当期优先开发子集。</p>
+  <div class="card-stats">
+    <span><b>380</b> 条记录</span>
+    <span><b>183</b> 条中国品牌/供应链</span>
+    <span><b>124</b> 个品类</span>
+  </div>
+  <span class="card-go">打开选品池 <em>&rarr;</em></span>
+</a><a class="card" href="MC墨西哥选品池.html">
+  <div class="card-top">
+    <span class="badge">MC</span>
+    <span class="site">Mercado Libre MX</span>
+  </div>
+  <h2>MC 墨西哥选品池</h2>
+  <p class="card-desc">墨西哥站池。使用本地市场逻辑与 MXN 价格，不套用美国站 200 美元门槛；已剔除低价抛货类记录。</p>
+  <div class="card-stats">
+    <span><b>13</b> 条记录</span>
+    <span><b>9</b> 条中国品牌/供应链</span>
+    <span><b>11</b> 个品类</span>
+  </div>
+  <span class="card-go">打开选品池 <em>&rarr;</em></span>
+</a><a class="card" href="AL波兰站选品池.html">
+  <div class="card-top">
+    <span class="badge">AL</span>
+    <span class="site">Allegro.pl</span>
+  </div>
+  <h2>AL 波兰站选品池</h2>
+  <p class="card-desc">波兰站池。使用 PLN 价格，优先国内外都有保有量、欧洲有真实销售或使用、且能找到型号专用功能件的品牌。</p>
+  <div class="card-stats">
+    <span><b>42</b> 条记录</span>
+    <span><b>38</b> 条中国品牌/供应链</span>
+    <span><b>23</b> 个品类</span>
+  </div>
+  <span class="card-go">打开选品池 <em>&rarr;</em></span>
+</a><a class="card" href="AMZ日本站选品池.html">
+  <div class="card-top">
+    <span class="badge">AMZ</span>
+    <span class="site">Amazon JP</span>
+  </div>
+  <h2>AMZ 日本站选品池</h2>
+  <p class="card-desc">日本站池。使用 JPY 价格与日语搜索词，覆盖地震备电等本地刚需场景；支持勾选至多 3 条记录并排数据对比。</p>
+  <div class="card-stats">
+    <span><b>46</b> 条记录</span>
+    <span><b>45</b> 条中国品牌/供应链</span>
+    <span><b>16</b> 个品类</span>
+  </div>
+  <span class="card-go">打开选品池 <em>&rarr;</em></span>
+</a>
+</div>
+
+<div class="section-title"><h2>纳入与排除标准</h2><span>由生成脚本强制执行，不靠人工记忆</span></div>
+<div class="panels">
+  <div class="panel keep">
+    <h3>必须保留的字段</h3>
+    <ul>
+      <li>品牌中文名 + 品牌英文名</li>
+      <li>型号（英文，海外页面实际在用的写法）</li>
+      <li>拆机/替换升级件（可搜核心件 + 高价值非耗材替换/升级件）</li>
+      <li>状态（未处理 / 掌握了 / 不做 / 待定）</li>
+      <li>备注（自由文本，本机保存）</li>
+    </ul>
+  </div>
+  <div class="panel drop">
+    <h3>明确排除的方向</h3>
+    <ul>
+      <li>耗材（滤芯、滤网、刀片、喷嘴、打印材料等）</li>
+      <li>电池与电芯</li>
+      <li>电源适配器、充电器、线缆</li>
+      <li>低价抛货（按各站低价区间剔除，不进入主池）</li>
+      <li>纯装饰件（贴纸、外观壳、灯效等无功能件）</li>
+    </ul>
+  </div>
+  <div class="panel">
+    <h3>中国品牌标识</h3>
+    <ul>
+      <li>品牌来源含「中国」的记录，中英文品牌名均以<strong style="color:var(--cn)">红色加粗</strong>显示</li>
+      <li>单元格附左侧红色标线与「中国」角标</li>
+      <li>各池工具栏可按品牌来源直接筛选</li>
+    </ul>
+  </div>
+</div>
+
+<div class="section-title"><h2>数据流转与重新生成</h2><span>改数据或改结构都要动脚本，不要只改最终 HTML</span></div>
+<div class="flow">
+<ol>
+  <li><b><code>build_selection_pool.ps1</code></b>：读取旧版美国站网页提取基础记录，做品牌中英文归一、拆机件补全、排除规则过滤、优先级排序与连续重编号，输出<b>AMZ美国站选品池</b>单页（原主池与优先池已合并，工具栏「优先级」可筛 P1/P2/P3）。</li>
+  <li><b><code>build_mexico_pool.ps1</code></b>：内置 Mercado Libre México 记录，按 18 MXN = 1 USD 工作汇率折算并过滤低价抛货，输出<b>MC墨西哥选品池</b>。</li>
+  <li><b><code>build_poland_pool.ps1</code></b>：内置 Allegro.pl 记录，使用 PLN 价格与近期购买信号，输出<b>AL波兰站选品池</b>。</li>
+  <li><b><code>build_japan_pool.ps1</code></b>：内置 Amazon.co.jp 记录，使用 JPY 价格与日语搜索词，按 1 RMB ≈ 20.8 JPY 工作换算并过滤低价抛货，输出<b>AMZ日本站选品池</b>。</li>
+  <li><b><code>enhance_final_pools.ps1</code></b>：把 <code>assets\pool-ui.css</code> 与 <code>assets\pool-ui.js</code> 内联注入五个页面的 <code>&lt;!--FINAL-UI-ASSETS--&gt;</code> 锚点，并按真实数据重新生成本页。</li>
+</ol>
+<p style="margin:13px 0 0;color:var(--muted);font-size:12.5px">完整重建顺序：先跑四个 <code>build_*.ps1</code>，再跑 <code>enhance_final_pools.ps1</code>。共享样式与交互只改 <code>assets\</code> 下的两个文件，改完重跑装配脚本即可同步到全部页面。</p>
+</div>
+
+<footer>
+装配日期：2026-09-10｜共 4 个子页面、481 条记录。<br>
+页面数据来自各站公开搜索页当日可见的在售、评价与榜单标签，不等同于后台真实成交量；品牌中文名按国内常用叫法或音译展示，正式开发前请按具体型号代际、商标、专利、认证和平台规则复核。
+</footer>
+</main>
+</body>
+</html>

@@ -1,0 +1,438 @@
+/* ============================================================
+   跨站选品池 · 共享 UI 样式层
+   由 enhance_final_pools.ps1 内联注入到各子页面 head 末尾。
+   注入锚点：FINAL-UI-ASSETS 注释，必须位于原始样式块的结束标签之后。
+
+   注意：本文件内容会被原样内联进 style 元素，
+   因此正文和注释中都不得出现 style 的结束标签字面量，
+   否则样式表会在该处提前截断，后面所有规则全部失效。
+   ============================================================ */
+
+:root{
+  --ink:#141c2b;
+  --ink-soft:#3c4a60;
+  --muted:#66748c;
+  --faint:#8c9ab0;
+  --line:#dbe3ee;
+  --line-soft:#eaeff6;
+  --navy:#14243c;
+  --navy-2:#1e3a5f;
+  --accent:#2563eb;
+  --accent-soft:#eef4ff;
+  --surface:#ffffff;
+  --canvas:#f2f6fb;
+  --ok:#0f7b52;
+  --ok-bg:#e7f8f0;
+  --warn:#9a6206;
+  --warn-bg:#fff6e5;
+  --drop:#b8213c;
+  --drop-bg:#fdeef1;
+  --cn:#c0243c;
+  --cn-bg:#fff0f2;
+  --radius:12px;
+  --radius-sm:8px;
+  --shadow-sm:0 1px 2px rgba(16,32,56,.06),0 2px 8px rgba(16,32,56,.05);
+  --shadow-md:0 2px 6px rgba(16,32,56,.07),0 10px 26px rgba(16,32,56,.08);
+  /* 由 pool-ui.js 实时测量写入，驱动表头 sticky 定位，避免与工具栏重叠 */
+  --stack-h:120px;
+  --rank-w:58px;
+}
+
+*{box-sizing:border-box}
+
+html{scroll-padding-top:calc(var(--stack-h) + 16px)}
+
+body{
+  margin:0 auto;
+  max-width:2200px;
+  padding:0 clamp(12px,2vw,32px) 56px;
+  background:var(--canvas);
+  color:var(--ink);
+  font-family:"Microsoft YaHei","PingFang SC",-apple-system,"Segoe UI",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---------- 顶部固定区：返回主页 + 标题 + 工具栏 ---------- */
+/* .page-stack 整块 sticky，内部不再各自 sticky，从根上消除层叠打架 */
+.page-stack{
+  position:sticky;
+  top:0;
+  z-index:60;
+  margin:0 calc(-1 * clamp(12px,2vw,32px));
+  padding:0 clamp(12px,2vw,32px);
+  background:linear-gradient(180deg,var(--canvas) 0,var(--canvas) 82%,rgba(242,246,251,.94) 100%);
+  backdrop-filter:blur(10px);
+  box-shadow:0 1px 0 var(--line),0 8px 20px -14px rgba(16,32,56,.28);
+}
+
+.page-bar{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  flex-wrap:wrap;
+  padding:14px 0 10px;
+}
+
+.home-link{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  flex:0 0 auto;
+  background:var(--navy);
+  color:#fff;
+  text-decoration:none;
+  border:1px solid var(--navy);
+  border-radius:var(--radius-sm);
+  padding:9px 14px 9px 11px;
+  font-size:13px;
+  font-weight:700;
+  line-height:1;
+  white-space:nowrap;
+  box-shadow:var(--shadow-sm);
+  transition:background .15s ease,transform .15s ease,box-shadow .15s ease;
+}
+.home-link:hover{background:var(--navy-2);border-color:var(--navy-2);transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.home-link:focus-visible{outline:3px solid rgba(37,99,235,.35);outline-offset:2px}
+.home-link .arrow{font-size:15px;line-height:1}
+
+.page-bar h1{
+  margin:0;
+  font-size:clamp(17px,1.9vw,25px);
+  line-height:1.25;
+  letter-spacing:-.01em;
+  font-weight:800;
+  color:var(--ink);
+}
+
+.page-bar .spacer{flex:1 1 auto}
+
+.count-pill{
+  flex:0 0 auto;
+  display:inline-flex;
+  align-items:baseline;
+  gap:5px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:6px 13px;
+  font-size:12.5px;
+  color:var(--muted);
+  white-space:nowrap;
+  box-shadow:var(--shadow-sm);
+}
+.count-pill b{font-size:15px;color:var(--accent);font-weight:800}
+
+/* ---------- 折叠式说明 ---------- */
+.page-intro{margin:0 0 10px}
+.page-intro summary{
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:12.5px;
+  font-weight:700;
+  color:var(--accent);
+  list-style:none;
+  padding:3px 0;
+  user-select:none;
+}
+.page-intro summary::-webkit-details-marker{display:none}
+.page-intro summary:before{content:"▸";transition:transform .18s ease;display:inline-block}
+.page-intro[open] summary:before{transform:rotate(90deg)}
+.page-intro .note{
+  margin:8px 0 0;
+  padding:13px 15px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-left:3px solid var(--accent);
+  border-radius:var(--radius-sm);
+  color:var(--ink-soft);
+  font-size:13px;
+  line-height:1.75;
+  max-width:none;
+}
+.machine-note{
+  margin:8px 0 0;
+  color:var(--faint);
+  font-size:11.5px;
+  line-height:1.6;
+}
+
+/* ---------- 图例 ---------- */
+.legend{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 10px;align-items:center}
+.legend span{
+  padding:4px 10px;
+  border-radius:999px;
+  font-size:11.5px;
+  font-weight:700;
+  border:1px solid transparent;
+  line-height:1.5;
+}
+.legend .p1,.legend .ok{background:var(--ok-bg);color:var(--ok);border-color:#bfe8d5}
+.legend .p2{background:var(--accent-soft);color:#1d4ed8;border-color:#c9dcff}
+.legend .p3,.legend .wait{background:var(--warn-bg);color:var(--warn);border-color:#f6dfb0}
+.legend .export,.legend .export-cn{background:var(--cn-bg);color:var(--cn);border-color:#f6c6ce;border-left:3px solid var(--cn)}
+
+/* ---------- 工具栏 ---------- */
+.toolbar{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  align-items:center;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:10px 12px;
+  margin:0 0 12px;
+  box-shadow:var(--shadow-sm);
+  /* 关键：不再各自 sticky，由 .page-stack 统一承担 */
+  position:static;
+}
+.toolbar input,.toolbar select,.toolbar button{
+  font:inherit;
+  font-size:13px;
+  border:1px solid #c3cfdf;
+  border-radius:var(--radius-sm);
+  padding:8px 10px;
+  background:#fff;
+  color:var(--ink);
+  transition:border-color .15s ease,box-shadow .15s ease,background .15s ease;
+}
+.toolbar input{min-width:min(320px,100%);flex:1 1 240px}
+.toolbar select{cursor:pointer;background:#fff}
+.toolbar input:hover,.toolbar select:hover{border-color:#9db0c9}
+.toolbar input:focus,.toolbar select:focus,.toolbar button:focus{
+  outline:none;
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(37,99,235,.14);
+}
+.toolbar button{
+  cursor:pointer;
+  font-weight:700;
+  background:var(--navy);
+  color:#fff;
+  border-color:var(--navy);
+  white-space:nowrap;
+}
+.toolbar button:hover{background:var(--navy-2);border-color:var(--navy-2)}
+.toolbar button.ghost{background:#fff;color:var(--ink-soft);border-color:#c3cfdf;font-weight:600}
+.toolbar button.ghost:hover{background:var(--accent-soft);color:var(--accent);border-color:#a9c6f5}
+.toolbar #count,.toolbar .count-inline{margin-left:auto;color:var(--muted);font-size:12.5px;white-space:nowrap}
+
+/* ---------- 表格：双向冻结，严格 z-index 分层 ---------- */
+.table-wrap{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-md);
+  overflow:visible;
+}
+
+table{
+  border-collapse:separate;
+  border-spacing:0;
+  width:100%;
+  background:var(--surface);
+  font-size:12.5px;
+  box-shadow:none;
+}
+
+/* z-index 分层约定（数字越大越靠前）：
+   60  .page-stack（返回主页 + 工具栏）——永远压住表格
+   32  thead th 首列（同时纵横冻结）
+   30  thead th 其余列
+   12  tbody td 首列（仅横向冻结）
+   auto tbody 其余单元格                                   */
+thead th{
+  position:sticky;
+  top:var(--stack-h);
+  z-index:30;
+  background:linear-gradient(180deg,#1d3555 0,#152a45 100%);
+  color:#fff;
+  padding:10px 9px;
+  text-align:left;
+  white-space:nowrap;
+  font-weight:700;
+  font-size:12px;
+  letter-spacing:.01em;
+  border-bottom:1px solid #0d1c30;
+  box-shadow:inset 0 -1px 0 rgba(255,255,255,.07);
+}
+thead th:first-child{
+  left:0;
+  z-index:32;
+  width:var(--rank-w);
+  min-width:var(--rank-w);
+  box-shadow:inset -1px 0 0 rgba(255,255,255,.14),inset 0 -1px 0 rgba(255,255,255,.07);
+}
+
+tbody td{
+  border-bottom:1px solid var(--line-soft);
+  border-right:1px solid var(--line-soft);
+  padding:9px;
+  vertical-align:top;
+  line-height:1.55;
+  color:var(--ink-soft);
+}
+tbody td:last-child{border-right:none}
+tbody tr:last-child td{border-bottom:none}
+
+/* 首列「排序」横向冻结，纵向不冻结，因此永远排在 thead 之后 */
+tbody td:first-child{
+  position:sticky;
+  left:0;
+  z-index:12;
+  width:var(--rank-w);
+  min-width:var(--rank-w);
+  background:#f7f9fc;
+  color:var(--faint);
+  font-variant-numeric:tabular-nums;
+  font-weight:700;
+  text-align:center;
+  box-shadow:inset -1px 0 0 var(--line);
+}
+
+tbody tr:nth-child(even) td{background:#fbfcfe}
+tbody tr:nth-child(even) td:first-child{background:#f3f6fa}
+tbody tr:hover td{background:#eff6ff}
+tbody tr:hover td:first-child{background:#e3edfb}
+
+/* 状态着色，优先级高于斑马纹与 hover */
+tbody tr.status-mastered td{background:var(--ok-bg)!important}
+tbody tr.status-mastered td:first-child{background:#d7f2e5!important;color:var(--ok)}
+tbody tr.status-drop td{background:var(--drop-bg)!important;opacity:.72}
+tbody tr.status-drop td:first-child{background:#f9dbe1!important;color:var(--drop)}
+tbody tr.status-pending td{background:var(--warn-bg)!important}
+tbody tr.status-pending td:first-child{background:#fdecca!important;color:var(--warn)}
+
+/* ---------- 单元格语义样式 ---------- */
+.tag{font-weight:700;color:var(--ink)}
+.model-cell{font-weight:700;color:var(--ink);min-width:150px}
+.parts-cell{min-width:200px;max-width:330px}
+.signal-cell{min-width:170px;max-width:300px}
+
+.priority-P1,.ok-text,.price-good,.us-high{color:var(--ok);font-weight:700}
+.priority-P2{color:#1d4ed8;font-weight:700}
+.priority-P3,.wait-text,.price-check,.us-review{color:var(--warn);font-weight:700}
+.us-niche{color:#6d28d9;font-weight:700}
+
+/* ---------- 中国品牌 / 出口标识（要求 5：保持明显标识） ---------- */
+.brand-export,.export,.export-cn{
+  color:var(--cn)!important;
+  font-weight:800;
+}
+td.brand-export,td.export,td.export-cn{
+  background:var(--cn-bg)!important;
+  box-shadow:inset 3px 0 0 var(--cn);
+}
+tbody tr:hover td.brand-export,tbody tr:hover td.export,tbody tr:hover td.export-cn{background:#ffe4e9!important}
+.cn-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:3px;
+  margin-left:5px;
+  padding:1px 6px;
+  border-radius:999px;
+  background:var(--cn);
+  color:#fff;
+  font-size:9.5px;
+  font-weight:800;
+  letter-spacing:.03em;
+  vertical-align:2px;
+  white-space:nowrap;
+}
+
+/* ---------- 状态列 + 备注列 ---------- */
+.cell-status{min-width:104px}
+.cell-status select{
+  width:98px;
+  font:inherit;
+  font-size:12px;
+  padding:6px 5px;
+  border:1px solid #c3cfdf;
+  border-radius:6px;
+  background:#fff;
+  color:var(--ink);
+  cursor:pointer;
+}
+.cell-status select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.14)}
+
+.cell-note{min-width:212px;background:#fcfdff}
+tbody tr:nth-child(even) td.cell-note{background:#f8fafd}
+.note-input{
+  display:block;
+  width:200px;
+  min-height:56px;
+  resize:vertical;
+  border:1px solid #c3cfdf;
+  border-radius:6px;
+  padding:7px 8px;
+  font:inherit;
+  font-size:12px;
+  line-height:1.5;
+  color:var(--ink);
+  background:#fff;
+}
+.note-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.14)}
+.note-input.is-saved{border-color:#7fc9a6;box-shadow:0 0 0 3px rgba(15,123,82,.12)}
+.note-hint{display:block;margin-top:3px;color:var(--faint);font-size:10px;line-height:1.4}
+
+/* ---------- 推荐卡片区 ---------- */
+.recommendations{margin-top:30px}
+.recommendations h2{font-size:19px;margin:0 0 5px;letter-spacing:-.01em}
+.recommendations .sub{color:var(--muted);margin:0 0 14px;font-size:13px}
+.rec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
+.rec{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-left:3px solid var(--accent);
+  border-radius:var(--radius-sm);
+  padding:14px;
+  box-shadow:var(--shadow-sm);
+  transition:transform .15s ease,box-shadow .15s ease;
+}
+.rec:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.rec h3{font-size:14.5px;margin:0 0 7px;color:var(--ink)}
+.rec p{margin:5px 0;line-height:1.65;color:var(--ink-soft);font-size:12.5px}
+.rec .season{
+  display:inline-block;
+  background:var(--accent-soft);
+  color:#1d4ed8;
+  font-weight:700;
+  font-size:11px;
+  padding:2px 8px;
+  border-radius:999px;
+  margin-bottom:7px;
+}
+
+/* ---------- 页脚 ---------- */
+.footer{
+  margin-top:22px;
+  padding-top:14px;
+  border-top:1px solid var(--line);
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.75;
+}
+
+.empty-row td{
+  text-align:center!important;
+  padding:40px 12px!important;
+  color:var(--faint)!important;
+  font-size:13px;
+  background:#fff!important;
+}
+
+/* ---------- 窄屏 ---------- */
+@media (max-width:900px){
+  .page-bar{gap:9px;padding:11px 0 8px}
+  .page-bar h1{font-size:16px;width:100%;order:3}
+  .toolbar input{flex:1 1 100%}
+  .count-pill{order:2}
+  tbody td:first-child,thead th:first-child{position:static;box-shadow:none}
+}
+
+@media print{
+  .page-stack,.toolbar,.machine-note{position:static;box-shadow:none}
+  .note-input{border:none}
+}

@@ -1,0 +1,870 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AMZ美国站选品池</title>
+<style>
+:root{font-family:"Microsoft YaHei",Arial,sans-serif;color:#172033;background:#f4f7fb}
+*{box-sizing:border-box}
+body{margin:0;padding:24px}
+h1{font-size:26px;margin:0 0 8px}
+.note{color:#536176;line-height:1.65;margin:0 0 16px}
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
+.legend span{padding:5px 9px;border-radius:4px;font-size:12px;font-weight:700}
+.p1{background:#dcfce7;color:#166534}
+.p2{background:#dbeafe;color:#1d4ed8}
+.p3{background:#fef3c7;color:#92400e}
+.export-cn{background:#fff1f2;color:#b91c1c;font-weight:800;border-left:3px solid #dc2626;padding-left:6px}
+.toolbar{display:flex;gap:9px;flex-wrap:wrap;align-items:center;background:#fff;border:1px solid #d7e0ec;padding:12px;margin-bottom:14px}
+input,select,button{font:inherit;border:1px solid #b8c6d8;padding:8px 10px;border-radius:5px;background:#fff;color:#172033}
+button{cursor:pointer}
+table{border-collapse:collapse;width:100%;background:#fff;font-size:12.5px}
+th{background:#132238;color:#fff;padding:9px 8px;text-align:left;white-space:nowrap}
+td{border:1px solid #d7e0ec;padding:8px;vertical-align:top;line-height:1.45}
+
+.rec{background:#fff;border:1px solid #d7e0ec;border-left:4px solid #2563eb;padding:13px}
+.footer{margin-top:18px;color:#6b778a;font-size:12px}
+</style>
+<!--FINAL-UI-BEGIN-->
+<link rel="icon" type="image/x-icon" href="data:image/x-icon;base64,AAABAAEAEBAAAAEAIAAABAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8AAAAAAAAAAAAAAAAAAAAAAAAAABQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/wAAAAAAAAAAAAAAABQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/AAAAAAAAAAAUJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/wAAAAAAAAAAFCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8AAAAAAAAAABQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/AAAAAAAAAAAUJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/wAAAAAAAAAAFCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8AAAAAAAAAABQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/AAAAAAAAAAAUJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/wAAAAAAAAAAAAAAABQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/wAAAAAAAAAAAAAAAAAAAAAAAAAAFCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUJDz/FCQ8/xQkPP8UJDz/FCQ8/xQkPP8UJDz/FCQ8/wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA">
+<style id="final-ui">
+/* ============================================================
+   跨站选品池 · 共享 UI 样式层
+   由 enhance_final_pools.ps1 内联注入到各子页面 head 末尾。
+   注入锚点：FINAL-UI-ASSETS 注释，必须位于原始样式块的结束标签之后。
+
+   注意：本文件内容会被原样内联进 style 元素，
+   因此正文和注释中都不得出现 style 的结束标签字面量，
+   否则样式表会在该处提前截断，后面所有规则全部失效。
+   ============================================================ */
+
+:root{
+  --ink:#141c2b;
+  --ink-soft:#3c4a60;
+  --muted:#66748c;
+  --faint:#8c9ab0;
+  --line:#dbe3ee;
+  --line-soft:#eaeff6;
+  --navy:#14243c;
+  --navy-2:#1e3a5f;
+  --accent:#2563eb;
+  --accent-soft:#eef4ff;
+  --surface:#ffffff;
+  --canvas:#f2f6fb;
+  --ok:#0f7b52;
+  --ok-bg:#e7f8f0;
+  --warn:#9a6206;
+  --warn-bg:#fff6e5;
+  --drop:#b8213c;
+  --drop-bg:#fdeef1;
+  --cn:#c0243c;
+  --cn-bg:#fff0f2;
+  --radius:12px;
+  --radius-sm:8px;
+  --shadow-sm:0 1px 2px rgba(16,32,56,.06),0 2px 8px rgba(16,32,56,.05);
+  --shadow-md:0 2px 6px rgba(16,32,56,.07),0 10px 26px rgba(16,32,56,.08);
+  /* 由 pool-ui.js 实时测量写入，驱动表头 sticky 定位，避免与工具栏重叠 */
+  --stack-h:120px;
+  --rank-w:58px;
+}
+
+*{box-sizing:border-box}
+
+html{scroll-padding-top:calc(var(--stack-h) + 16px)}
+
+body{
+  margin:0 auto;
+  max-width:2200px;
+  padding:0 clamp(12px,2vw,32px) 56px;
+  background:var(--canvas);
+  color:var(--ink);
+  font-family:"Microsoft YaHei","PingFang SC",-apple-system,"Segoe UI",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---------- 顶部固定区：返回主页 + 标题 + 工具栏 ---------- */
+/* .page-stack 整块 sticky，内部不再各自 sticky，从根上消除层叠打架 */
+.page-stack{
+  position:sticky;
+  top:0;
+  z-index:60;
+  margin:0 calc(-1 * clamp(12px,2vw,32px));
+  padding:0 clamp(12px,2vw,32px);
+  background:linear-gradient(180deg,var(--canvas) 0,var(--canvas) 82%,rgba(242,246,251,.94) 100%);
+  backdrop-filter:blur(10px);
+  box-shadow:0 1px 0 var(--line),0 8px 20px -14px rgba(16,32,56,.28);
+}
+
+.page-bar{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  flex-wrap:wrap;
+  padding:14px 0 10px;
+}
+
+.home-link{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  flex:0 0 auto;
+  background:var(--navy);
+  color:#fff;
+  text-decoration:none;
+  border:1px solid var(--navy);
+  border-radius:var(--radius-sm);
+  padding:9px 14px 9px 11px;
+  font-size:13px;
+  font-weight:700;
+  line-height:1;
+  white-space:nowrap;
+  box-shadow:var(--shadow-sm);
+  transition:background .15s ease,transform .15s ease,box-shadow .15s ease;
+}
+.home-link:hover{background:var(--navy-2);border-color:var(--navy-2);transform:translateY(-1px);box-shadow:var(--shadow-md)}
+.home-link:focus-visible{outline:3px solid rgba(37,99,235,.35);outline-offset:2px}
+.home-link .arrow{font-size:15px;line-height:1}
+
+.page-bar h1{
+  margin:0;
+  font-size:clamp(17px,1.9vw,25px);
+  line-height:1.25;
+  letter-spacing:-.01em;
+  font-weight:800;
+  color:var(--ink);
+}
+
+.page-bar .spacer{flex:1 1 auto}
+
+.count-pill{
+  flex:0 0 auto;
+  display:inline-flex;
+  align-items:baseline;
+  gap:5px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:6px 13px;
+  font-size:12.5px;
+  color:var(--muted);
+  white-space:nowrap;
+  box-shadow:var(--shadow-sm);
+}
+.count-pill b{font-size:15px;color:var(--accent);font-weight:800}
+
+/* ---------- 折叠式说明 ---------- */
+.page-intro{margin:0 0 10px}
+.page-intro summary{
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:12.5px;
+  font-weight:700;
+  color:var(--accent);
+  list-style:none;
+  padding:3px 0;
+  user-select:none;
+}
+.page-intro summary::-webkit-details-marker{display:none}
+.page-intro summary:before{content:"▸";transition:transform .18s ease;display:inline-block}
+.page-intro[open] summary:before{transform:rotate(90deg)}
+.page-intro .note{
+  margin:8px 0 0;
+  padding:13px 15px;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-left:3px solid var(--accent);
+  border-radius:var(--radius-sm);
+  color:var(--ink-soft);
+  font-size:13px;
+  line-height:1.75;
+  max-width:none;
+}
+.machine-note{
+  margin:8px 0 0;
+  color:var(--faint);
+  font-size:11.5px;
+  line-height:1.6;
+}
+
+/* ---------- 图例 ---------- */
+.legend{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 10px;align-items:center}
+.legend span{
+  padding:4px 10px;
+  border-radius:999px;
+  font-size:11.5px;
+  font-weight:700;
+  border:1px solid transparent;
+  line-height:1.5;
+}
+.legend .p1,.legend .ok{background:var(--ok-bg);color:var(--ok);border-color:#bfe8d5}
+.legend .p2{background:var(--accent-soft);color:#1d4ed8;border-color:#c9dcff}
+.legend .p3,.legend .wait{background:var(--warn-bg);color:var(--warn);border-color:#f6dfb0}
+.legend .export,.legend .export-cn{background:var(--cn-bg);color:var(--cn);border-color:#f6c6ce;border-left:3px solid var(--cn)}
+
+/* ---------- 工具栏 ---------- */
+.toolbar{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  align-items:center;
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:10px 12px;
+  margin:0 0 12px;
+  box-shadow:var(--shadow-sm);
+  /* 关键：不再各自 sticky，由 .page-stack 统一承担 */
+  position:static;
+}
+.toolbar input,.toolbar select,.toolbar button{
+  font:inherit;
+  font-size:13px;
+  border:1px solid #c3cfdf;
+  border-radius:var(--radius-sm);
+  padding:8px 10px;
+  background:#fff;
+  color:var(--ink);
+  transition:border-color .15s ease,box-shadow .15s ease,background .15s ease;
+}
+.toolbar input{min-width:min(320px,100%);flex:1 1 240px}
+.toolbar select{cursor:pointer;background:#fff}
+.toolbar input:hover,.toolbar select:hover{border-color:#9db0c9}
+.toolbar input:focus,.toolbar select:focus,.toolbar button:focus{
+  outline:none;
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(37,99,235,.14);
+}
+.toolbar button{
+  cursor:pointer;
+  font-weight:700;
+  background:var(--navy);
+  color:#fff;
+  border-color:var(--navy);
+  white-space:nowrap;
+}
+.toolbar button:hover{background:var(--navy-2);border-color:var(--navy-2)}
+.toolbar button.ghost{background:#fff;color:var(--ink-soft);border-color:#c3cfdf;font-weight:600}
+.toolbar button.ghost:hover{background:var(--accent-soft);color:var(--accent);border-color:#a9c6f5}
+.toolbar #count,.toolbar .count-inline{margin-left:auto;color:var(--muted);font-size:12.5px;white-space:nowrap}
+
+/* ---------- 表格：双向冻结，严格 z-index 分层 ---------- */
+.table-wrap{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow-md);
+  overflow:visible;
+}
+
+table{
+  border-collapse:separate;
+  border-spacing:0;
+  width:100%;
+  background:var(--surface);
+  font-size:12.5px;
+  box-shadow:none;
+}
+
+/* z-index 分层约定（数字越大越靠前）：
+   60  .page-stack（返回主页 + 工具栏）——永远压住表格
+   32  thead th 首列（同时纵横冻结）
+   30  thead th 其余列
+   12  tbody td 首列（仅横向冻结）
+   auto tbody 其余单元格                                   */
+thead th{
+  position:sticky;
+  top:var(--stack-h);
+  z-index:30;
+  background:linear-gradient(180deg,#1d3555 0,#152a45 100%);
+  color:#fff;
+  padding:10px 9px;
+  text-align:left;
+  white-space:nowrap;
+  font-weight:700;
+  font-size:12px;
+  letter-spacing:.01em;
+  border-bottom:1px solid #0d1c30;
+  box-shadow:inset 0 -1px 0 rgba(255,255,255,.07);
+}
+thead th:first-child{
+  left:0;
+  z-index:32;
+  width:var(--rank-w);
+  min-width:var(--rank-w);
+  box-shadow:inset -1px 0 0 rgba(255,255,255,.14),inset 0 -1px 0 rgba(255,255,255,.07);
+}
+
+tbody td{
+  border-bottom:1px solid var(--line-soft);
+  border-right:1px solid var(--line-soft);
+  padding:9px;
+  vertical-align:top;
+  line-height:1.55;
+  color:var(--ink-soft);
+}
+tbody td:last-child{border-right:none}
+tbody tr:last-child td{border-bottom:none}
+
+/* 首列「排序」横向冻结，纵向不冻结，因此永远排在 thead 之后 */
+tbody td:first-child{
+  position:sticky;
+  left:0;
+  z-index:12;
+  width:var(--rank-w);
+  min-width:var(--rank-w);
+  background:#f7f9fc;
+  color:var(--faint);
+  font-variant-numeric:tabular-nums;
+  font-weight:700;
+  text-align:center;
+  box-shadow:inset -1px 0 0 var(--line);
+}
+
+tbody tr:nth-child(even) td{background:#fbfcfe}
+tbody tr:nth-child(even) td:first-child{background:#f3f6fa}
+tbody tr:hover td{background:#eff6ff}
+tbody tr:hover td:first-child{background:#e3edfb}
+
+/* 状态着色，优先级高于斑马纹与 hover */
+tbody tr.status-mastered td{background:var(--ok-bg)!important}
+tbody tr.status-mastered td:first-child{background:#d7f2e5!important;color:var(--ok)}
+tbody tr.status-drop td{background:var(--drop-bg)!important;opacity:.72}
+tbody tr.status-drop td:first-child{background:#f9dbe1!important;color:var(--drop)}
+tbody tr.status-pending td{background:var(--warn-bg)!important}
+tbody tr.status-pending td:first-child{background:#fdecca!important;color:var(--warn)}
+
+/* ---------- 单元格语义样式 ---------- */
+.tag{font-weight:700;color:var(--ink)}
+.model-cell{font-weight:700;color:var(--ink);min-width:150px}
+.parts-cell{min-width:200px;max-width:330px}
+.signal-cell{min-width:170px;max-width:300px}
+
+.priority-P1,.ok-text,.price-good,.us-high{color:var(--ok);font-weight:700}
+.priority-P2{color:#1d4ed8;font-weight:700}
+.priority-P3,.wait-text,.price-check,.us-review{color:var(--warn);font-weight:700}
+.us-niche{color:#6d28d9;font-weight:700}
+
+/* ---------- 中国品牌 / 出口标识（要求 5：保持明显标识） ---------- */
+.brand-export,.export,.export-cn{
+  color:var(--cn)!important;
+  font-weight:800;
+}
+td.brand-export,td.export,td.export-cn{
+  background:var(--cn-bg)!important;
+  box-shadow:inset 3px 0 0 var(--cn);
+}
+tbody tr:hover td.brand-export,tbody tr:hover td.export,tbody tr:hover td.export-cn{background:#ffe4e9!important}
+.cn-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:3px;
+  margin-left:5px;
+  padding:1px 6px;
+  border-radius:999px;
+  background:var(--cn);
+  color:#fff;
+  font-size:9.5px;
+  font-weight:800;
+  letter-spacing:.03em;
+  vertical-align:2px;
+  white-space:nowrap;
+}
+
+/* ---------- 状态列 + 备注列 ---------- */
+.cell-status{min-width:104px}
+.cell-status select{
+  width:98px;
+  font:inherit;
+  font-size:12px;
+  padding:6px 5px;
+  border:1px solid #c3cfdf;
+  border-radius:6px;
+  background:#fff;
+  color:var(--ink);
+  cursor:pointer;
+}
+.cell-status select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.14)}
+
+.cell-note{min-width:212px;background:#fcfdff}
+tbody tr:nth-child(even) td.cell-note{background:#f8fafd}
+.note-input{
+  display:block;
+  width:200px;
+  min-height:56px;
+  resize:vertical;
+  border:1px solid #c3cfdf;
+  border-radius:6px;
+  padding:7px 8px;
+  font:inherit;
+  font-size:12px;
+  line-height:1.5;
+  color:var(--ink);
+  background:#fff;
+}
+.note-input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(37,99,235,.14)}
+.note-input.is-saved{border-color:#7fc9a6;box-shadow:0 0 0 3px rgba(15,123,82,.12)}
+.note-hint{display:block;margin-top:3px;color:var(--faint);font-size:10px;line-height:1.4}
+
+/* ---------- 推荐卡片区 ---------- */
+.recommendations{margin-top:30px}
+.recommendations h2{font-size:19px;margin:0 0 5px;letter-spacing:-.01em}
+.recommendations .sub{color:var(--muted);margin:0 0 14px;font-size:13px}
+.rec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
+.rec{
+  background:var(--surface);
+  border:1px solid var(--line);
+  border-left:3px solid var(--accent);
+  border-radius:var(--radius-sm);
+  padding:14px;
+  box-shadow:var(--shadow-sm);
+  transition:transform .15s ease,box-shadow .15s ease;
+}
+.rec:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.rec h3{font-size:14.5px;margin:0 0 7px;color:var(--ink)}
+.rec p{margin:5px 0;line-height:1.65;color:var(--ink-soft);font-size:12.5px}
+.rec .season{
+  display:inline-block;
+  background:var(--accent-soft);
+  color:#1d4ed8;
+  font-weight:700;
+  font-size:11px;
+  padding:2px 8px;
+  border-radius:999px;
+  margin-bottom:7px;
+}
+
+/* ---------- 页脚 ---------- */
+.footer{
+  margin-top:22px;
+  padding-top:14px;
+  border-top:1px solid var(--line);
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.75;
+}
+
+.empty-row td{
+  text-align:center!important;
+  padding:40px 12px!important;
+  color:var(--faint)!important;
+  font-size:13px;
+  background:#fff!important;
+}
+
+/* ---------- 窄屏 ---------- */
+@media (max-width:900px){
+  .page-bar{gap:9px;padding:11px 0 8px}
+  .page-bar h1{font-size:16px;width:100%;order:3}
+  .toolbar input{flex:1 1 100%}
+  .count-pill{order:2}
+  tbody td:first-child,thead th:first-child{position:static;box-shadow:none}
+}
+
+@media print{
+  .page-stack,.toolbar,.machine-note{position:static;box-shadow:none}
+  .note-input{border:none}
+}
+</style>
+<script id="final-ui-js">
+/* ============================================================
+   跨站选品池 · 共享行为层  (window.PoolUI)
+   由 enhance_final_pools.ps1 内联注入到各子页面 </body> 之前。
+   注入锚点：<!--FINAL-UI-JS-->
+
+   设计要点（对应四条验收标准）：
+   1. 表头与排序列不重叠
+      顶部「返回主页 + 标题 + 工具栏」合并为单一 sticky 容器 .page-stack，
+      其真实高度由 ResizeObserver 写入 --stack-h，thead th 以该值做 top 偏移。
+      z-index 严格分层：page-stack 60 > thead 首列 32 > thead 其余 30 > tbody 首列 12。
+   2. 返回主页按钮始终可见
+      按钮位于 .page-stack 内，随页面滚动常驻；颜色全部为字面量，
+      不依赖任何可能失效的 CSS 变量回退。
+   3. 筛选后状态与备注不串行
+      状态与备注不再由脚本事后追加单元格，而是由各页 render() 依据
+      内容派生 ID（品类|品牌英文名|型号）从同一 store 直接渲染，
+      与行序、筛选结果、DOM 位置完全解耦。
+   4. 刷新后状态与备注仍保留
+      单一 localStorage 键 pool-ui-v2::<pageKey> 保存 {s:状态, n:备注}，
+      并自动迁移旧版本键（含旧 enhance 指纹键）。
+   ============================================================ */
+
+(function (global) {
+  'use strict';
+
+  var STORE_PREFIX = 'pool-ui-v2::';
+  var STATUSES = ['未处理', '掌握了', '不做', '待定'];
+  var STATUS_CLASS = {
+    '掌握了': 'status-mastered',
+    '不做': 'status-drop',
+    '待定': 'status-pending'
+  };
+
+  function esc(v) {
+    return String(v == null ? '' : v).replace(/[&<>"']/g, function (m) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m];
+    });
+  }
+
+  function readJSON(key) {
+    try {
+      var raw = localStorage.getItem(key);
+      if (!raw) return null;
+      var v = JSON.parse(raw);
+      return (v && typeof v === 'object') ? v : null;
+    } catch (e) { return null; }
+  }
+
+  /* ---------------- 状态 / 备注 存储 ---------------- */
+
+  function Store(pageKey, legacyKeys) {
+    this.key = STORE_PREFIX + pageKey;
+    this.data = readJSON(this.key) || {};
+    this._migrate(pageKey, legacyKeys || []);
+  }
+
+  Store.prototype._migrate = function (pageKey, legacyKeys) {
+    var self = this;
+    var touched = false;
+
+    function absorb(id, status, note) {
+      if (!id) return;
+      var cur = self.data[id] || {};
+      // 已有的新版数据优先，旧数据只补空缺，避免迁移覆盖用户最新标记
+      if (status && STATUSES.indexOf(status) >= 0 && status !== '未处理' && !cur.s) {
+        cur.s = status; touched = true;
+      }
+      if (note && !cur.n) { cur.n = note; touched = true; }
+      if (cur.s || cur.n) self.data[id] = cur;
+    }
+
+    // 旧版：各页自带的 state，值为状态字符串
+    legacyKeys.forEach(function (k) {
+      var old = readJSON(k);
+      if (!old) return;
+      Object.keys(old).forEach(function (id) {
+        var v = old[id];
+        if (typeof v === 'string') absorb(id, v, '');
+        else if (v && typeof v === 'object') absorb(id, v.status || v.s, v.note || v.n);
+      });
+    });
+
+    // 旧版：enhance_final_pools 注入的指纹键 final-pool-memory-v1-<page>-<hash>
+    try {
+      var prefix = 'final-pool-memory-v1-' + pageKey + '-';
+      for (var i = 0; i < localStorage.length; i++) {
+        var k = localStorage.key(i);
+        if (!k || k.indexOf(prefix) !== 0) continue;
+        var mem = readJSON(k);
+        if (!mem) continue;
+        Object.keys(mem).forEach(function (rawId) {
+          var v = mem[rawId] || {};
+          // 旧指纹键的 ID 可能是 "page|rank|model" 形式，取末段型号做后备匹配
+          var parts = String(rawId).split('|');
+          var id = parts.length > 2 ? parts[parts.length - 1] : rawId;
+          absorb(id, v.status, v.note);
+        });
+      }
+    } catch (e) { /* localStorage 不可用时静默跳过 */ }
+
+    if (touched) this.save();
+  };
+
+  Store.prototype.save = function () {
+    try { localStorage.setItem(this.key, JSON.stringify(this.data)); return true; }
+    catch (e) { return false; }
+  };
+
+  Store.prototype.status = function (id) {
+    var r = this.data[id];
+    return (r && r.s) || '未处理';
+  };
+
+  Store.prototype.note = function (id) {
+    var r = this.data[id];
+    return (r && r.n) || '';
+  };
+
+  Store.prototype.setStatus = function (id, value) {
+    var r = this.data[id] || (this.data[id] = {});
+    if (value && value !== '未处理') r.s = value; else delete r.s;
+    if (!r.s && !r.n) delete this.data[id];
+    return this.save();
+  };
+
+  Store.prototype.setNote = function (id, value) {
+    var r = this.data[id] || (this.data[id] = {});
+    if (value) r.n = value; else delete r.n;
+    if (!r.s && !r.n) delete this.data[id];
+    return this.save();
+  };
+
+  Store.prototype.clear = function (legacyKeys) {
+    this.data = {};
+    try {
+      localStorage.removeItem(this.key);
+      (legacyKeys || []).forEach(function (k) { localStorage.removeItem(k); });
+    } catch (e) { /* 忽略 */ }
+  };
+
+  Store.prototype.marked = function () {
+    var n = 0, d = this.data;
+    for (var k in d) if (d[k] && (d[k].s || d[k].n)) n++;
+    return n;
+  };
+
+  /* ---------------- 单元格 HTML ---------------- */
+
+  function statusCellHtml(id, status) {
+    var out = '<td class="cell-status"><select data-row-id="' + esc(id) + '" aria-label="开发状态">';
+    for (var i = 0; i < STATUSES.length; i++) {
+      var s = STATUSES[i];
+      out += '<option value="' + s + '"' + (s === status ? ' selected' : '') + '>' + s + '</option>';
+    }
+    return out + '</select></td>';
+  }
+
+  function noteCellHtml(id, note) {
+    return '<td class="cell-note">' +
+      '<textarea class="note-input" data-row-id="' + esc(id) + '" rows="2" ' +
+      'placeholder="供应商、配件词、核验结果…" aria-label="备注">' + esc(note) + '</textarea>' +
+      '<span class="note-hint">自动保存在本机浏览器</span></td>';
+  }
+
+  function rowClass(status) { return STATUS_CLASS[status] || ''; }
+
+  /* ---------------- 顶部固定区 ---------------- */
+
+  function mountChrome(opts) {
+    opts = opts || {};
+    var h1 = document.querySelector('h1');
+    var toolbar = document.querySelector('.toolbar');
+    if (!h1) return null;
+
+    var stack = document.createElement('div');
+    stack.className = 'page-stack';
+
+    var bar = document.createElement('div');
+    bar.className = 'page-bar';
+
+    var home = document.createElement('a');
+    home.className = 'home-link';
+    home.href = opts.home || 'index.html';
+    home.innerHTML = '<span class="arrow" aria-hidden="true">←</span><span>返回主页</span>';
+    home.title = '返回跨站选品池目录';
+
+    var parent = h1.parentNode;
+    parent.insertBefore(stack, h1);
+    bar.appendChild(home);
+    bar.appendChild(h1);
+
+    var spacer = document.createElement('div');
+    spacer.className = 'spacer';
+    bar.appendChild(spacer);
+
+    var pill = document.createElement('span');
+    pill.className = 'count-pill';
+    pill.id = 'countPill';
+    bar.appendChild(pill);
+
+    stack.appendChild(bar);
+    if (toolbar) stack.appendChild(toolbar);
+
+    // 说明文字折叠，避免长段文字把工具栏推出视口
+    var note = document.querySelector('body > .note, .page-stack ~ .note');
+    if (!note) note = document.querySelector('p.note');
+    if (note && note.parentNode) {
+      var details = document.createElement('details');
+      details.className = 'page-intro';
+      var summary = document.createElement('summary');
+      summary.textContent = '选品规则与数据口径说明';
+      details.appendChild(summary);
+      note.parentNode.insertBefore(details, note);
+      details.appendChild(note);
+
+      var machine = document.createElement('p');
+      machine.className = 'machine-note';
+      machine.textContent = '本机记忆已启用：「状态」与「备注」按内容标识保存在当前浏览器本地存储，'
+        + '筛选、排序和刷新都不会串行或丢失；不会上传网络，换浏览器或清除站点数据后需重新标记。';
+      note.parentNode.appendChild(machine);
+    }
+
+    // 用真实高度驱动表头偏移，工具栏换行时自动跟随
+    var root = document.documentElement;
+    var apply = function () {
+      var h = Math.round(stack.getBoundingClientRect().height);
+      if (h > 0) root.style.setProperty('--stack-h', h + 'px');
+    };
+    apply();
+    if (global.ResizeObserver) new ResizeObserver(apply).observe(stack);
+    global.addEventListener('resize', apply);
+    global.addEventListener('load', apply);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(apply);
+
+    return { stack: stack, home: home, pill: pill };
+  }
+
+  /* ---------------- 表格事件委托 ---------------- */
+
+  /* 关键：状态变更只改当前行的 class，不触发整表 render()。
+     否则 innerHTML 重建会销毁正在输入的 textarea，造成「备注串行/丢失」。 */
+  function bindTable(tbody, store, hooks) {
+    if (!tbody) return;
+    hooks = hooks || {};
+
+    tbody.addEventListener('change', function (ev) {
+      var sel = ev.target;
+      if (!sel || sel.tagName !== 'SELECT' || !sel.dataset.rowId) return;
+      var id = sel.dataset.rowId;
+      store.setStatus(id, sel.value);
+      var tr = sel.closest('tr');
+      if (tr) {
+        tr.classList.remove('status-mastered', 'status-drop', 'status-pending');
+        var cls = rowClass(sel.value);
+        if (cls) tr.classList.add(cls);
+      }
+      if (hooks.onStatus) hooks.onStatus(id, sel.value, tr);
+    });
+
+    var timers = {};
+    tbody.addEventListener('input', function (ev) {
+      var ta = ev.target;
+      if (!ta || !ta.classList.contains('note-input') || !ta.dataset.rowId) return;
+      var id = ta.dataset.rowId;
+      clearTimeout(timers[id]);
+      timers[id] = setTimeout(function () {
+        store.setNote(id, ta.value);
+        ta.classList.add('is-saved');
+        setTimeout(function () { ta.classList.remove('is-saved'); }, 700);
+        if (hooks.onNote) hooks.onNote(id, ta.value);
+      }, 220);
+    });
+
+    // 失焦立即落盘，避免防抖窗口内关闭页面
+    tbody.addEventListener('focusout', function (ev) {
+      var ta = ev.target;
+      if (!ta || !ta.classList.contains('note-input') || !ta.dataset.rowId) return;
+      clearTimeout(timers[ta.dataset.rowId]);
+      store.setNote(ta.dataset.rowId, ta.value);
+      if (hooks.onNote) hooks.onNote(ta.dataset.rowId, ta.value);
+    });
+  }
+
+  /* 筛选造成整表重绘时，保留输入焦点与光标位置 */
+  function withFocusKept(fn) {
+    var el = document.activeElement;
+    var keep = null;
+    if (el && el.classList && el.classList.contains('note-input')) {
+      keep = { id: el.dataset.rowId, start: el.selectionStart, end: el.selectionEnd };
+    }
+    fn();
+    if (!keep) return;
+    var next = document.querySelector('.note-input[data-row-id="' + (global.CSS && CSS.escape ? CSS.escape(keep.id) : keep.id) + '"]');
+    if (!next) return;
+    try { next.focus({ preventScroll: true }); next.setSelectionRange(keep.start, keep.end); } catch (e) { }
+  }
+
+  function setCount(shown, total, marked) {
+    var pill = document.getElementById('countPill');
+    var txt = '显示 <b>' + shown + '</b> / ' + total + ' 条';
+    if (typeof marked === 'number' && marked > 0) txt += ' · 已标记 ' + marked;
+    if (pill) pill.innerHTML = txt;
+    var legacy = document.getElementById('count');
+    if (legacy) legacy.textContent = '显示 ' + shown + ' / ' + total + ' 条';
+  }
+
+  function cnBadge() { return '<span class="cn-badge">中国</span>'; }
+
+  global.PoolUI = {
+    STATUSES: STATUSES,
+    esc: esc,
+    Store: Store,
+    statusCellHtml: statusCellHtml,
+    noteCellHtml: noteCellHtml,
+    rowClass: rowClass,
+    mountChrome: mountChrome,
+    bindTable: bindTable,
+    withFocusKept: withFocusKept,
+    setCount: setCount,
+    cnBadge: cnBadge
+  };
+})(window);
+</script>
+<!--FINAL-UI-END-->
+</head><body>
+<h1>AMZ美国站选品池</h1>
+<p class="note">更新日期：2026-09-10。此版按美国站出口优先逻辑重排：优先中国品牌/出口、或中国供应链强、且能在中国找到型号专用拆机件、替换件或功能改装件的方向。覆盖燃气烤炉、颗粒烤炉、户外煎烤炉、除雪机、劈木机、高压清洗机、空压机、冬季采暖炉、商用洗地机、地毯抽洗机和商用制冰机。已移除车库门开启器、激光雕刻机、CNC、掌机和小主机。生成脚本强制排除耗材、电池、电源适配器、纯装饰件和低价抛货。原「美国站优先池」已并入本页，工具栏「优先级」筛选 P1 即为当期优先开发子集。</p>
+<div class="legend"><span class="p1">P1 中国品牌/出口或中国供应链强</span><span class="p2">P2 海外品牌/中国替换件中等</span><span class="p3">P3 需先核实供应链</span><span class="export-cn">中国品牌 / 出口（红色加粗 + 中国角标）</span></div>
+<div class="toolbar">
+<input id="search" placeholder="搜索中文名、英文名、型号、品类、拆机件…">
+<select id="category"><option value="">全部品类</option></select>
+<select id="priority"><option value="">全部优先级</option><option value="P1">P1 优先</option><option value="P2">P2 次选</option><option value="P3">P3 待核</option></select>
+<select id="brandSource"><option value="">全部品牌来源</option><option value="中国">中国品牌 / 出口</option><option value="海外">海外品牌</option></select>
+<select id="supply"><option value="">全部配件可得性</option><option value="高">高</option><option value="中">中</option><option value="待核">待核</option></select>
+<select id="level"><option value="">全部热度</option><option value="S">S 级</option><option value="A">A 级</option><option value="B">B 级</option></select>
+<select id="statusFilter"><option value="">全部状态</option><option value="未处理">未处理</option><option value="掌握了">掌握了</option><option value="不做">不做</option><option value="待定">待定</option></select>
+<button id="resetStatus" class="ghost" type="button">清空状态与备注</button>
+<span id="count"></span>
+</div>
+<div class="table-wrap"><table id="grid"><thead><tr>
+<th>排序</th><th>层级</th><th>品类</th><th>品牌中文名</th><th>品牌英文名</th><th>型号（英文）</th>
+        <th>国内用户信号</th><th>海外销售类型</th><th class="parts-col">拆机/替换升级件</th><th>品牌来源</th><th>中国替换件可得性</th><th>优先级</th>
+        <th>状态</th><th>备注</th>
+</tr></thead><tbody></tbody></table></div>
+<p class="footer">「状态」与「备注」按内容标识保存在当前浏览器本地存储，不会上传到网络；换浏览器或清除站点数据后需要重新标记。品牌中文译名以常用市场译名为主，正式上架前请按商标、官方型号、专利和认证复核。整机含电池的设备只是不开发电池本身。</p>
+<script>
+const data=[{"热度排序":1,"热度层级":"S","品类":"桌面CNC","品牌中文名":"Carvera","品牌英文名":"Carvera","推荐型号或型号族":"Carvera Air、Carvera Pro","国内用户信号":"国内创客和小型工坊有用户","海外销售类型":"海外桌面CNC市场强","拆机/替换升级件":"吸尘罩、废料板、主轴夹具、探针结构、机架和工作台扩展","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":2,"热度层级":"S","品类":"显卡","品牌中文名":"七彩虹 iGame","品牌英文名":"Colorful iGame","推荐型号或型号族":"RTX 4070 Super Vulcan、RTX 4080 Super Vulcan、RTX 4090 Neptune","国内用户信号":"国内装机和游戏玩家非常多","海外销售类型":"海外华人和跨境市场","拆机/替换升级件":"全覆盖水冷头、背板、显卡支撑架、风扇罩、竖装支架和散热改装","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":3,"热度层级":"S","品类":"VR设备","品牌中文名":"小鸟看看 PICO","品牌英文名":"PICO","推荐型号或型号族":"4 Ultra、4 Enterprise","国内用户信号":"国内用户和渠道明确","海外销售类型":"海外市场有渠道和机构用户","拆机/替换升级件":"头戴支架、面罩、镜片座、手柄保护、底座和收纳结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":4,"热度层级":"S","品类":"运动相机","品牌中文名":"影石","品牌英文名":"Insta360","推荐型号或型号族":"X4、Ace Pro 2","国内用户信号":"国内用户和内容生态强","海外销售类型":"全球主流","拆机/替换升级件":"飞控板、云台控制板、相机模组、图传板、无刷电机、电调、GPS/视觉定位板、遥控器主板（电池不做）；相机笼、镜头保护结构、快拆底座、云台配重、收纳结构和防护框","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":5,"热度层级":"S","品类":"投影仪","品牌中文名":"极米","品牌英文名":"XGIMI","推荐型号或型号族":"Horizon Ultra、Horizon Pro","国内用户信号":"国内家庭和影音用户多","海外销售类型":"海外零售和评测覆盖广","拆机/替换升级件":"主板/逻辑板、DMD/光机组件、激光/灯驱动板、液晶面板、风扇、镜头位移电机、遥控接收板、电源板（仅拆机件）；云台底座、吊装结构、镜头防尘结构、散热支架、便携箱内衬","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":6,"热度层级":"S","品类":"智能天文","品牌中文名":"振旺","品牌英文名":"ZWO","推荐型号或型号族":"Seestar S50、Seestar S30","国内用户信号":"国内天文用户和经销商多","海外销售类型":"海外天文社区热度高","拆机/替换升级件":"遮光罩、防露罩、滤镜抽屉、三脚架转接、防震底座和收纳结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":7,"热度层级":"S","品类":"天文赤道仪","品牌中文名":"振旺","品牌英文名":"ZWO","推荐型号或型号族":"AM5、AM3","国内用户信号":"国内天文用户和经销商多","海外销售类型":"海外天文市场强","拆机/替换升级件":"鸠尾板、导星支架、防露结构、线缆固定、调平结构和运输箱内衬","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":8,"热度层级":"S","品类":"电动滑板车","品牌中文名":"九号","品牌英文名":"Segway-Ninebot","推荐型号或型号族":"Max G2、GT1、GT2","国内用户信号":"国内保有量大","海外销售类型":"全球渠道强","拆机/替换升级件":"折叠结构、立杆加强件、货架、挡泥板、灯具支架和车身结构件","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":9,"热度层级":"S","品类":"电动滑板车","品牌中文名":"小牛","品牌英文名":"NIU","推荐型号或型号族":"KQi3 Max、KQi300X、KQi Air","国内用户信号":"国内用户和供应链明确","海外销售类型":"海外电商和门店强","拆机/替换升级件":"车把和立杆加强、货架、挡泥板、脚撑、灯具支架和防水结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":10,"热度层级":"S","品类":"电动滑板车","品牌中文名":"小米/米家","品牌英文名":"Xiaomi/Mijia","推荐型号或型号族":"Xiaomi Electric Scooter 4 Ultra、4 Pro (2nd Gen)","国内用户信号":"国内用户基数极大","海外销售类型":"全球渠道和海外电商强","拆机/替换升级件":"折叠扣升级、立杆加强件、悬挂结构、挡泥板、仪表保护和车身支架","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":11,"热度层级":"S","品类":"电动自行车","品牌中文名":"小牛","品牌英文名":"NIU","推荐型号或型号族":"NQi GTS、MQi GT、RQi Sport","国内用户信号":"国内保有量和门店多","海外销售类型":"海外出口和门店明确","拆机/替换升级件":"主控器、轮毂/中置电机、显示仪表、扭矩传感器、变速/刹车执行机构、线束总成和折叠锁止（电池和充电器不做）；货架、脚踏、挡泥板、仪表保护、灯具支架和车身结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":12,"热度层级":"S","品类":"电动自行车","品牌中文名":"小牛","品牌英文名":"NIU","推荐型号或型号族":"US、MQi、UQi高配系列","国内用户信号":"国内保有量极大","海外销售类型":"海外出口和经销渠道明确","拆机/替换升级件":"主控器、轮毂/中置电机、显示仪表、扭矩传感器、变速/刹车执行机构、线束总成和折叠锁止（电池和充电器不做）；货架、脚踏、挡泥板、仪表保护、灯具支架、车身外壳和支架","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":13,"热度层级":"S","品类":"电动自行车","品牌中文名":"九号","品牌英文名":"Segway-Ninebot","推荐型号或型号族":"E300P、E200P、F90、E125","国内用户信号":"国内用户和门店非常多","海外销售类型":"海外渠道和品牌认知强","拆机/替换升级件":"主控器、轮毂/中置电机、显示仪表、扭矩传感器、变速/刹车执行机构、线束总成和折叠锁止（电池和充电器不做）；车身外壳、货架、脚踏、灯具支架、挡泥板和结构加强件","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":14,"热度层级":"S","品类":"电动独轮车","品牌中文名":"乐行天下","品牌英文名":"InMotion","推荐型号或型号族":"V11、V13、V14","国内用户信号":"国内玩家和维修圈明确","海外销售类型":"海外独轮车社区强","拆机/替换升级件":"脚踏、动力垫、防撞外壳、座椅、拉杆、支撑架和悬挂保护","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":15,"热度层级":"S","品类":"电动独轮车","品牌中文名":"国王歌","品牌英文名":"King Song","推荐型号或型号族":"S22 Pro、S19、S18","国内用户信号":"国内玩家和维修渠道多","海外销售类型":"海外独轮车社区强","拆机/替换升级件":"脚踏、动力垫、防撞外壳、座椅、支撑架和悬挂保护","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":16,"热度层级":"S","品类":"电动独轮车","品牌中文名":"Veteran","品牌英文名":"Veteran","推荐型号或型号族":"Patton、Sherman-S、Lynx","国内用户信号":"国内高端玩家多","海外销售类型":"海外高端独轮车社区强","拆机/替换升级件":"脚踏、动力垫、防撞外壳、座椅、支撑架和保护结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":17,"热度层级":"S","品类":"电动独轮车","品牌中文名":"比格德","品牌英文名":"Begode","推荐型号或型号族":"Master、Extreme、T4","国内用户信号":"国内硬核玩家多","海外销售类型":"海外硬核玩家社区强","拆机/替换升级件":"脚踏、动力垫、防撞外壳、支撑架、悬挂保护和外壳结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":18,"热度层级":"S","品类":"家庭健身","品牌中文名":"速境","品牌英文名":"Speediance","推荐型号或型号族":"Gym Monster、家庭健身房套装","国内用户信号":"国内高端家庭健身用户增长","海外销售类型":"海外内容和渠道可见","拆机/替换升级件":"主控板、显示屏、阻力/驱动电机、滚筒、皮带张紧总成、踏板/曲柄、传感器和屏幕臂总成；训练配件固定件、底座、拉力结构、收纳和保护件","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":19,"热度层级":"S","品类":"桌面音频","品牌中文名":"飞傲","品牌英文名":"FiiO","推荐型号或型号族":"K9 Pro ESS、R7、M23","国内用户信号":"国内烧友和线下渠道多","海外销售类型":"海外耳机音频市场强","拆机/替换升级件":"桌面支架、机架安装件、旋钮、散热结构、脚垫和保护结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":20,"热度层级":"S","品类":"数字音频播放器","品牌中文名":"艾索洛","品牌英文名":"Eversolo","推荐型号或型号族":"DMP-A6、DMP-A8","国内用户信号":"国内发烧友和渠道多","海外销售类型":"海外高端音频市场强","拆机/替换升级件":"桌面支架、机架安装、旋钮、散热、脚垫和收纳结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":21,"热度层级":"S","品类":"教育机器人","品牌中文名":"大象机器人","品牌英文名":"Elephant Robotics","推荐型号或型号族":"myCobot 280、myCobot 320、myPalletizer","国内用户信号":"国内高校和创客用户多","海外销售类型":"海外机器人社区可见","拆机/替换升级件":"夹爪、末端工具、相机支架、底座、快拆和线缆拖链","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":22,"热度层级":"S","品类":"教育机器人","品牌中文名":"越疆","品牌英文名":"Dobot","推荐型号或型号族":"Magician、Magician Lite、CR系列","国内用户信号":"国内教育和企业用户多","海外销售类型":"海外教育和轻工业市场可见","拆机/替换升级件":"夹爪、工具快拆、相机支架、底座和防护结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":23,"热度层级":"S","品类":"四足机器人","品牌中文名":"宇树","品牌英文名":"Unitree","推荐型号或型号族":"Go2 Pro、B2系列","国内用户信号":"国内机器人用户和开发者多","海外销售类型":"海外机器人社区和开发者市场强","拆机/替换升级件":"外壳结构、足端保护、载荷支架、相机支架、运输结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":24,"热度层级":"S","品类":"3D扫描","品牌中文名":"Revopoint","品牌英文名":"Revopoint","推荐型号或型号族":"MIRACO、RANGE 3、POP 3 Plus套装","国内用户信号":"国内创客和专业用户多","海外销售类型":"海外3D扫描市场可见","拆机/替换升级件":"扫描仪支架、转盘、定位夹具、收纳和线缆结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":25,"热度层级":"S","品类":"3D扫描","品牌中文名":"先临三维","品牌英文名":"Shining 3D","推荐型号或型号族":"Einstar Vega、EinScan SE V2、EinScan HX","国内用户信号":"国内工业和教育用户多","海外销售类型":"海外专业市场强","拆机/替换升级件":"扫描仪支架、转盘、校准板固定、收纳箱内衬和线缆件","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":26,"热度层级":"S","品类":"SPA","品牌中文名":"MSPA","品牌英文名":"MSPA","推荐型号或型号族":"Carlton、Urban、Tekapo系列","国内用户信号":"国内代工和用户有基础","海外销售类型":"海外充气SPA和户外SPA可见","拆机/替换升级件":"头枕、扶手、杯架、盖布固定、管路转接和外壳结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":27,"热度层级":"S","品类":"SPA","品牌中文名":"百适乐","品牌英文名":"Bestway","推荐型号或型号族":"Lay-Z-Spa St Moritz、Helsinki、Maldives","国内用户信号":"国内供应链和用户多","海外销售类型":"全球渠道强","拆机/替换升级件":"头枕、杯架、盖布固定、排水转接、管路和外壳结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":28,"热度层级":"S","品类":"SPA","品牌中文名":"英特","品牌英文名":"Intex","推荐型号或型号族":"PureSpa Plus、PureSpa Bubble Massage","国内用户信号":"国内用户和供应链多","海外销售类型":"全球大众市场强","拆机/替换升级件":"头枕、杯架、盖布固定、管路转接和收纳结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":29,"热度层级":"S","品类":"自动麻将桌","品牌中文名":"雀友","品牌英文名":"Queyou","推荐型号或型号族":"136张和144张全自动麻将桌系列","国内用户信号":"国内用户和维修店多","海外销售类型":"华人市场和出口渠道","拆机/替换升级件":"推牌结构、输送结构、升牌结构、桌面支撑、桌腿和控制面板外壳","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":30,"热度层级":"S","品类":"自动麻将桌","品牌中文名":"宣和","品牌英文名":"Xuanhe","推荐型号或型号族":"136张和144张全自动麻将桌系列","国内用户信号":"国内用户和维修供应链多","海外销售类型":"华人市场和出口渠道","拆机/替换升级件":"推牌结构、输送结构、升牌结构、桌面支撑、桌腿和维修结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":31,"热度层级":"S","品类":"空气净化器","品牌中文名":"戴森","品牌英文名":"Dyson","推荐型号或型号族":"Purifier Big+Quiet、Purifier Hot+Cool Formaldehyde","国内用户信号":"国内高端家庭用户多","海外销售类型":"全球主流","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；风道改装、落地支架、进风罩、传感器保护结构、墙面安装件","品牌来源":"海外品牌/中国兼容供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":32,"热度层级":"S","品类":"台球桌","品牌中文名":"瑞森","品牌英文名":"Rasson","推荐型号或型号族":"Victory II、Accura、Hyperion","国内用户信号":"国内台球馆和玩家用户多","海外销售类型":"海外赛事和专业市场知名","拆机/替换升级件":"袋口结构、回球轨道、调平件、球杆架、灯具安装件和桌面防护","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":33,"热度层级":"S","品类":"台球桌","品牌中文名":"星牌","品牌英文名":"Xingpai","推荐型号或型号族":"6811、6810及赛事系列","国内用户信号":"国内台球馆和家庭用户多","海外销售类型":"海外出口和赛事市场可见","拆机/替换升级件":"袋口结构、回球轨道、调平件、球杆架和桌面防护","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":34,"热度层级":"S","品类":"便携空调","品牌中文名":"美的","品牌英文名":"Midea","推荐型号或型号族":"MAP系列、可移动变频系列","国内用户信号":"国内用户和供应链强","海外销售类型":"美国和欧洲渠道强","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；窗封改装、排风管转接、冷凝水排放、脚轮底座和支架","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":35,"热度层级":"S","品类":"制冰机","品牌中文名":"通用电气 Profile","品牌英文名":"GE Profile","推荐型号或型号族":"Opal 2.0 Nugget Ice Maker","国内用户信号":"国内用户和维修供应链存在","海外销售类型":"美国品牌和销量强","拆机/替换升级件":"水路结构、外壳、出冰口改装、底座和排水结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":36,"热度层级":"S","品类":"厨师机","品牌中文名":"凯膳怡","品牌英文名":"KitchenAid","推荐型号或型号族":"Artisan 5QT、Professional 600","国内用户信号":"国内用户和维修供应链多","海外销售类型":"全球主流","拆机/替换升级件":"齿轮箱外壳、抬头锁、碗托、附件转接、底座和防震结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":37,"热度层级":"S","品类":"吸尘器","品牌中文名":"戴森","品牌英文名":"Dyson","推荐型号或型号族":"V15 Detect、Gen5detect、Outsize","国内用户信号":"国内用户和维修供应链多","海外销售类型":"全球主流","拆机/替换升级件":"墙挂底座、延长杆、工具收纳、尘杯结构、软管和改装支架","品牌来源":"海外品牌/中国兼容供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":38,"热度层级":"S","品类":"洗地机","品牌中文名":"添可","品牌英文名":"Tineco","推荐型号或型号族":"Floor One S7、S7 Stretch","国内用户信号":"国内用户和工厂供应链多","海外销售类型":"海外电商强","拆机/替换升级件":"真空电机、刷盘电机、水泵、加热器、控制板、浮球传感器、污水箱总成、吸水扒总成、软管接口；滚刷仓结构、污水箱、清洁底座、推杆和墙挂件","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":39,"热度层级":"S","品类":"高压清洗机","品牌中文名":"卡赫","品牌英文名":"Kärcher","推荐型号或型号族":"K5 Premium、K7、HD系列","国内用户信号":"国内专业和家庭用户多","海外销售类型":"全球主流","拆机/替换升级件":"电机/泵总成、卸荷阀、压力开关、主控板、软管卷盘、扳机喷枪总成、热保护传感器；枪杆、软管卷盘、墙挂结构、泡沫壶支架、脚轮和收纳","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":40,"热度层级":"S","品类":"电动工具系统","品牌中文名":"米沃奇","品牌英文名":"Milwaukee","推荐型号或型号族":"M18 FUEL高端套装、MX FUEL","国内用户信号":"国内专业工人和供应链多","海外销售类型":"全球专业市场强","拆机/替换升级件":"工具箱内衬、墙挂系统、导轨夹具、集尘结构、专用支架和改装件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":41,"热度层级":"S","品类":"电动工具系统","品牌中文名":"得伟","品牌英文名":"DeWalt","推荐型号或型号族":"20V/60V FlexVolt高端套装","国内用户信号":"国内装修和工厂用户多","海外销售类型":"全球主流","拆机/替换升级件":"工具箱结构、墙挂、导轨夹具、集尘改装、支架和收纳","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":42,"热度层级":"S","品类":"电动工具系统","品牌中文名":"牧田","品牌英文名":"Makita","推荐型号或型号族":"40V XGT高端套装、18V LXT专业套装","国内用户信号":"国内专业用户和渠道多","海外销售类型":"全球主流","拆机/替换升级件":"工具箱、墙挂、导轨夹具、集尘结构、支架和专用底座","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":43,"热度层级":"S","品类":"专业工具","品牌中文名":"费斯托","品牌英文名":"Festool","推荐型号或型号族":"CT Dust Extractor、TS 60、Domino DF 500","国内用户信号":"国内木工和装修工作室多","海外销售类型":"欧美专业市场强","拆机/替换升级件":"集尘转接、导轨夹具、工具箱内衬、工作台支架和专用底座","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":44,"热度层级":"S","品类":"网络设备","品牌中文名":"优倍快","品牌英文名":"Ubiquiti","推荐型号或型号族":"UniFi Dream Machine Pro、UDM-SE、UXG-Pro","国内用户信号":"国内网络玩家和企业用户多","海外销售类型":"全球网络市场强","拆机/替换升级件":"主板、交换芯片散热组件、风扇模块、背板、端口板、天线板、机架固定件和状态显示板（电源适配器不做）；机架托盘、散热改装、壁挂、线缆管理和防尘结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":45,"热度层级":"S","品类":"园艺设备","品牌中文名":"EGO Power+","品牌英文名":"EGO Power+","推荐型号或型号族":"56V高端割草机、Zero Turn系列","国内用户信号":"国内园林和高端用户有基础","海外销售类型":"美国户外电动设备强","拆机/替换升级件":"集草箱结构、刀盘防护、车库挂架、工具收纳和割草机改装件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":46,"热度层级":"S","品类":"温室种植","品牌中文名":"艾科英菲尼迪","品牌英文名":"AC Infinity","推荐型号或型号族":"Controller 69 Pro、Grow Tent高配套装","国内用户信号":"国内室内种植和供应链明确","海外销售类型":"美国室内种植市场强","拆机/替换升级件":"风道结构、灯架、管路转接、机架、托盘和温室支撑件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":47,"热度层级":"S","品类":"泳池设备","品牌中文名":"海沃德","品牌英文名":"Hayward","推荐型号或型号族":"TriStar、EcoStar、AquaRite高配系列","国内用户信号":"国内泳池工程和维修用户有基础","海外销售类型":"美国泳池市场强","拆机/替换升级件":"主控板、驱动电机、泵体总成、齿轮箱、浮力/导航传感器、履带驱动轮和密封壳体（滤网耗材不做）；泵体底座、管路转接、控制箱支架、盐氯机外壳和防护结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":48,"热度层级":"S","品类":"雪地摩托","品牌中文名":"北极星","品牌英文名":"Polaris","推荐型号或型号族":"RMK、Switchback、Matryx系列","国内用户信号":"国内有进口玩家和配件工厂","海外销售类型":"北美冬季市场强","拆机/替换升级件":"风挡、脚踏、雪地护板、行李架、手把护罩和防护结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":49,"热度层级":"S","品类":"皮划艇","品牌中文名":"霍比","品牌英文名":"Hobie","推荐型号或型号族":"Mirage Outback、Mirage Pro Angler","国内用户信号":"国内高端水上运动用户有基础","海外销售类型":"美国和澳洲市场强","拆机/替换升级件":"脚踏驱动结构、座椅底座、舵系统、拖车架、鱼探仪支架和收纳件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":50,"热度层级":"S","品类":"标签打印机","品牌中文名":"斑马","品牌英文名":"Zebra","推荐型号或型号族":"ZD421、ZD621、ZT411、ZT610","国内用户信号":"国内仓储和工厂用户多","海外销售类型":"全球商用市场强","拆机/替换升级件":"主板、打印控制板、走纸电机、齿轮箱、压纸滚轮总成、传感器板、切刀/剥离器总成和显示板；桌面支架、卷纸架、剥离器结构、打印头保护、机架和收纳","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":51,"热度层级":"S","品类":"加湿器","品牌中文名":"美的","品牌英文名":"Midea","推荐型号或型号族":"智能蒸发/超声波加湿器海外系列","国内用户信号":"国内家庭用户和家电渠道非常多","海外销售类型":"全球渠道和OEM强","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；水箱外壳、底座、浮球、雾化仓保护、防倾倒结构和墙装架","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":52,"热度层级":"S","品类":"加湿器","品牌中文名":"德尔玛","品牌英文名":"Deerma","推荐型号或型号族":"DEM-F系列、F600/F628海外型号","国内用户信号":"国内销量大，配件和模具供应充足","海外销售类型":"跨境电商和OEM活跃","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；水箱、底座、雾化片仓、浮球、旋钮和防漏结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":53,"热度层级":"S","品类":"加湿器","品牌中文名":"小熊","品牌英文名":"Bear","推荐型号或型号族":"JSQ系列、加湿器出口系列","国内用户信号":"国内家庭用户多，供应链成熟","海外销售类型":"东南亚、中东和跨境渠道","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；水箱、底座、旋钮、雾化仓保护和防倾倒结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":54,"热度层级":"S","品类":"加湿器","品牌中文名":"智米","品牌英文名":"Smartmi","推荐型号或型号族":"Evaporative Humidifier 2、Rainforest系列","国内用户信号":"智能家居用户和小米生态用户多","海外销售类型":"欧美智能家居渠道","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；水箱结构、底座、风道静音件、传感器保护和墙装结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":55,"热度层级":"S","品类":"加湿器","品牌中文名":"小米/米家","品牌英文名":"Xiaomi/Mijia","推荐型号或型号族":"米家智能加湿器 2、无雾加湿器系列","国内用户信号":"国内覆盖面广，配件和维修生态强","海外销售类型":"海外米家渠道和跨境电商","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；水箱、底座、浮球、风道、墙装架和防倾倒结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":56,"热度层级":"S","品类":"空气净化器","品牌中文名":"小米/米家","品牌英文名":"Xiaomi/Mijia","推荐型号或型号族":"米家空气净化器 4 Pro、Ultra系列","国内用户信号":"国内用户和生态链配件供应强","海外销售类型":"海外米家和跨境电商","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；底座、风道导流、墙装结构、传感器保护和防倾倒件","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":57,"热度层级":"S","品类":"除湿机","品牌中文名":"海尔","品牌英文名":"Haier","推荐型号或型号族":"大型除湿机、地下室除湿系列","国内用户信号":"国内家电渠道和维修资源广","海外销售类型":"欧美、东南亚家电渠道","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；连续排水转接、脚轮底座、风道和水箱结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":58,"热度层级":"S","品类":"吸尘器","品牌中文名":"石头科技","品牌英文名":"Roborock","推荐型号或型号族":"Dyad Pro、Flexi Pro、H系列手持/洗地平台","国内用户信号":"国内石头科技用户和维修生态强","海外销售类型":"海外智能清洁渠道强","拆机/替换升级件":"滚刷仓结构、污水箱、底座、风道和停靠支架","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":59,"热度层级":"S","品类":"安防摄像机","品牌中文名":"萤石","品牌英文名":"EZVIZ","推荐型号或型号族":"C8W、H8 Pro、NVR套装","国内用户信号":"萤石国内渠道和安装生态成熟","海外销售类型":"全球消费安防渠道","拆机/替换升级件":"壁装、立杆、遮阳罩、防水接线盒和线缆管理","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":60,"热度层级":"S","品类":"网络设备","品牌中文名":"锐捷/睿易","品牌英文名":"Ruijie/Reyee","推荐型号或型号族":"RG-EG、RG-AP、RG-Switch高配系列","国内用户信号":"国内企业网络用户和供应链强","海外销售类型":"海外工程和跨境渠道","拆机/替换升级件":"主板、交换芯片散热组件、风扇模块、背板、端口板、天线板、机架固定件和状态显示板（电源适配器不做）；机架托盘、壁装支架、散热、光纤理线和防尘结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":61,"热度层级":"S","品类":"冰淇淋机","品牌中文名":"斯贝曼","品牌英文名":"Spaceman","推荐型号或型号族":"6210-C、6235-C Commercial Soft Serve Series","国内用户信号":"国内商用餐饮、工厂和配件供应链明确","海外销售类型":"北美、欧洲、澳洲和东南亚出口","拆机/替换升级件":"料斗盖、门组件、搅拌器护罩、脚轮底座、散热风道和维修面板","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":62,"热度层级":"S","品类":"冰淇淋机","品牌中文名":"东贝","品牌英文名":"Donper","推荐型号或型号族":"Commercial Soft Serve、Batch Freezer Export Series","国内用户信号":"东贝国内制造和商用渠道强","海外销售类型":"全球OEM、餐饮工程和跨境出口","拆机/替换升级件":"料斗盖、门组件、脚轮、搅拌器护罩、冷凝器风道和外壳结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":63,"热度层级":"S","品类":"造雪机","品牌中文名":"SMI 造雪机","品牌英文名":"SMI Snow Makers","推荐型号或型号族":"Super PoleCat、SnowBurst、Fan Gun Series","国内用户信号":"国内雪场工程和金属结构供应链可配套","海外销售类型":"北美雪场和冬季工程市场强","拆机/替换升级件":"液压泵/阀块、驱动电机、控制器、喷雪/刮冰执行机构、传感器、工作灯控制板、车架总成；炮体支架、旋转底座、软管导向、护罩、检修平台和运输架","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":64,"热度层级":"S","品类":"冰场刮冰车","品牌中文名":"赞博尼","品牌英文名":"Zamboni","推荐型号或型号族":"Zamboni 552、525、450","国内用户信号":"国内冰场、冰球馆和维修供应链有用户","海外销售类型":"美国冰场和体育场馆市场强","拆机/替换升级件":"液压泵/阀块、驱动电机、控制器、喷雪/刮冰执行机构、传感器、工作灯控制板、车架总成；刮冰刀架、水箱支撑、侧板、脚轮、检修门和运输固定件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":65,"热度层级":"S","品类":"商用除雪设备","品牌中文名":"山猫","品牌英文名":"Bobcat","推荐型号或型号族":"Toolcat 5600、S650、S76 Snow Attachments","国内用户信号":"国内工程机械、液压和属具供应链强","海外销售类型":"美国商业地产、市政和雪场市场强","拆机/替换升级件":"除雪铲连接架、抛雪机导流槽、液压管护罩、轮架和驾驶室防护件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":66,"热度层级":"S","品类":"投影仪","品牌中文名":"安克星云（安克创新）","品牌英文名":"Nebula","推荐型号或型号族":"Capsule 3 Laser","国内用户信号":"安克创新消费电子出口品牌，国内研发和结构件供应链成熟","海外销售类型":"Amazon US、Best Buy及海外影音渠道常见","拆机/替换升级件":"主板/逻辑板、DMD/光机组件、激光/灯驱动板、液晶面板、风扇、镜头位移电机、遥控接收板、电源板（仅拆机件）；云台齿轮和俯仰锁止组件、吊装/VESA转接、镜头滑盖、散热风道和运输固定结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":67,"热度层级":"S","品类":"投影仪","品牌中文名":"安克星云（安克创新）","品牌英文名":"Nebula","推荐型号或型号族":"X1 / Cosmos 4K SE","国内用户信号":"安克创新出口品牌，国内光机、云台和结构供应链可配套","海外销售类型":"Amazon US、Best Buy及家庭影院渠道","拆机/替换升级件":"主板/逻辑板、DMD/光机组件、激光/灯驱动板、液晶面板、风扇、镜头位移电机、遥控接收板、电源板（仅拆机件）；电动云台齿轮/锁止、吊装板、镜头滑盖、散热风道、运输保护内架和脚垫结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":68,"热度层级":"S","品类":"投影仪","品牌中文名":"爱普生","品牌英文名":"Epson","推荐型号或型号族":"Home Cinema 5050UB / 5050UBe","国内用户信号":"爱普生在中国有光学、精密制造和维修供应链","海外销售类型":"Amazon US家庭影院和影音安装渠道强","拆机/替换升级件":"主板/逻辑板、DMD/光机组件、激光/灯驱动板、液晶面板、风扇、镜头位移电机、遥控接收板、电源板（仅拆机件）；吊装板、镜头移位锁止件、灯仓门结构、散热风道、机架和运输固定结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":69,"热度层级":"S","品类":"3D打印机","品牌中文名":"拓竹","品牌英文名":"Bambu Lab","推荐型号或型号族":"P1S / X1 Carbon / X1E","国内用户信号":"拓竹为中国出口品牌，深圳精密加工和电子供应链强","海外销售类型":"Amazon US、专业创客和教育渠道热度高","拆机/替换升级件":"主板、运动控制板、步进电机、挤出机总成、热床控制板、屏幕、导轨/丝杆、自动调平传感器；腔体门铰链/锁扣、AMS料盘驱动结构、挤出机安装座、导轨张紧件、散热风道和防尘门结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":70,"热度层级":"S","品类":"运动相机","品牌中文名":"大疆","品牌英文名":"DJI","推荐型号或型号族":"Osmo Pocket 3 / Osmo Action 4","国内用户信号":"大疆中国出口品牌，精密结构和相机配件供应链强","海外销售类型":"Amazon US、Best Buy和户外影像渠道热度高","拆机/替换升级件":"飞控板、云台控制板、相机模组、图传板、无刷电机、电调、GPS/视觉定位板、遥控器主板（电池不做）；云台保护/锁止结构、相机笼、快拆底座、磁吸安装座、防水壳骨架和线缆应力件","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":71,"热度层级":"S","品类":"无人机","品牌中文名":"大疆","品牌英文名":"DJI","推荐型号或型号族":"Mavic 3 Pro / Air 3S","国内用户信号":"大疆中国出口品牌，航拍和机加工供应链成熟","海外销售类型":"Amazon US、专业航拍和户外渠道强","拆机/替换升级件":"飞控板、云台控制板、相机模组、图传板、无刷电机、电调、GPS/视觉定位板、遥控器主板（电池不做）；云台保护架、起落架结构、桨叶收纳座、遥控器支架、运输内架和快拆安装件","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":72,"热度层级":"S","品类":"发电机","品牌中文名":"吉耐","品牌英文名":"Generac","推荐型号或型号族":"GP6500 / GP8000E","国内用户信号":"吉耐发电机有中国钣金、发动机附件和结构件供应链","海外销售类型":"Amazon US、家用应急和户外电源渠道","拆机/替换升级件":"主控板/逆变板、点火模块、调压器、显示控制板、发动机控制模块、启动电机、散热风扇和机架总成；轮架、折叠手柄、控制面板支架、燃油箱护罩、消音器隔热结构和运输固定件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":73,"热度层级":"S","品类":"发电机","品牌中文名":"冠军","品牌英文名":"Champion Power Equipment","推荐型号或型号族":"8750W Dual Fuel / 100302 Tri-Fuel","国内用户信号":"冠军品牌有中国制造、钣金和发动机配套供应链","海外销售类型":"Amazon US应急、房车和户外渠道常见","拆机/替换升级件":"主控板/逆变板、点火模块、调压器、显示控制板、发动机控制模块、启动电机、散热风扇和机架总成；轮架、手柄、控制面板支架、气瓶固定结构、消音器隔热罩和运输架","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":74,"热度层级":"S","品类":"家庭健身","品牌中文名":"必烈","品牌英文名":"Peloton","推荐型号或型号族":"Bike+ / Tread+","国内用户信号":"Peloton有中国金属、塑胶和显示结构兼容供应链","海外销售类型":"美国订阅健身和家用设备市场强","拆机/替换升级件":"主控板、显示屏、阻力/驱动电机、滚筒、皮带张紧总成、踏板/曲柄、传感器和屏幕臂总成；屏幕臂安装结构、脚踏/曲柄护罩、跑带滚筒张紧座、平板支架和运输固定件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":75,"热度层级":"S","品类":"智能门锁","品牌中文名":"史莱奇","品牌英文名":"Schlage","推荐型号或型号族":"Encode Plus / Connect BE489","国内用户信号":"史莱奇锁体、齿轮和面板有中国精密加工配套供应链","海外销售类型":"Amazon US住宅智能门锁主流","拆机/替换升级件":"主控板、无线通信板、指纹/键盘模块、锁体电机、齿轮箱、离合器、锁舌总成和内侧旋钮组件（电池不做）；锁体齿轮组件、内外面板安装框、门厚调节结构、键盘模块载架和防撬加强件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":76,"热度层级":"S","品类":"网络设备","品牌中文名":"华硕","品牌英文名":"ASUS","推荐型号或型号族":"ROG Rapture GT-BE98 / ZenWiFi Pro ET12","国内用户信号":"华硕网络设备有中国制造、机箱和散热供应链","海外销售类型":"Amazon US Wi-Fi 6E/7高端路由市场","拆机/替换升级件":"主板、交换芯片散热组件、风扇模块、背板、端口板、天线板、机架固定件和状态显示板（电源适配器不做）；壁装/机架托盘、散热风道、天线保护结构、理线底座和防倾倒支架","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":77,"热度层级":"S","品类":"网络设备","品牌中文名":"网件","品牌英文名":"NETGEAR","推荐型号或型号族":"Nighthawk RS700S / Orbi 970","国内用户信号":"网件路由有中国机箱、散热和结构件兼容供应链","海外销售类型":"Amazon US高端路由和Mesh渠道","拆机/替换升级件":"主板、交换芯片散热组件、风扇模块、背板、端口板、天线板、机架固定件和状态显示板（电源适配器不做）；壁装/机架托盘、散热风道、天线保护结构、理线和防倾倒安装件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":78,"热度层级":"S","品类":"分体空调","品牌中文名":"MRCOOL","品牌英文名":"MRCOOL","推荐型号或型号族":"DIY 4th Gen 36K / Olympus 36K","国内用户信号":"MRCOOL分体机有中国压缩机、钣金和安装件供应链","海外销售类型":"Amazon US DIY空调和承包商渠道","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；室外机底座、线组/管路固定结构、冷凝水排放支架、墙穿护套和防震安装件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":79,"热度层级":"S","品类":"除雪机","品牌中文名":"小型骑士","品牌英文名":"Cub Cadet","推荐型号或型号族":"2X 30 IntelliPower / 3X 30 TRAC","国内用户信号":"小型骑士有中国园林机械、钣金和轮架供应链","海外销售类型":"Amazon US、Home Depot和北美庭院设备渠道","拆机/替换升级件":"发动机点火模块、启动电机、传动箱、蜗轮/螺旋输送总成、导流槽齿轮机构、控制手柄总成、车架；导流槽总成、把手与轮架、操控拉线固定、护罩、运输架和收纳结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":80,"热度层级":"S","品类":"高压清洗机","品牌中文名":"辛普森清洗设备","品牌英文名":"Simpson","推荐型号或型号族":"ALH4240 / PS4240","国内用户信号":"辛普森清洗设备有中国泵架、车架和钣金供应链","海外销售类型":"Amazon US家用/专业清洗设备渠道","拆机/替换升级件":"电机/泵总成、卸荷阀、压力开关、主控板、软管卷盘、扳机喷枪总成、热保护传感器；推车车架、软管卷盘支架、喷枪挂架、泵体护罩、轮架和运输固定件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":81,"热度层级":"S","品类":"家庭机器人","品牌中文名":"可伊 Loona","品牌英文名":"Loona","推荐型号或型号族":"Loona Smart Robot","国内用户信号":"KEYi Tech中国机器人出口品牌，国内电机、结构和注塑供应链成熟","海外销售类型":"Amazon US、Kickstarter/Indiegogo和家庭机器人渠道","拆机/替换升级件":"主控板、运动控制板、云台/摄像头模组、轮组电机、齿轮箱、传感器板、扬声器和充电触点板（电池不做）；充电底座定位结构、轮组/转向功能件、云台摄像头保护架、底盘防撞结构、宠物互动配件安装座和运输内架","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":82,"热度层级":"S","品类":"咖啡机","品牌中文名":"铂富","品牌英文名":"Breville","推荐型号或型号族":"Barista Express / Barista Pro / Dual Boiler","国内用户信号":"铂富在中国有泵、阀、金属件和兼容维修供应链","海外销售类型":"Amazon US、专业咖啡渠道和家用咖啡发烧友市场","拆机/替换升级件":"主控板、显示/按键板、泵、流量计、电磁阀、磨豆机电机/齿轮箱、加热块、温度传感器、滴水盘总成；冲煮头锁止/导轨、磨豆机齿轮箱维修结构、泵阀安装支架、滴水盘结构、侧板维修件和无底手柄功能件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":83,"热度层级":"S","品类":"纹身机","品牌中文名":"龙鹰","品牌英文名":"Dragonhawk","推荐型号或型号族":"Mast Tour Y22 / Mast Archer","国内用户信号":"中国出口纹身品牌，跨境销量和配件模具供应链明确","海外销售类型":"Amazon US、纹身电商和工作室渠道","拆机/替换升级件":"主控/驱动板、无刷电机、偏心轮/连杆、调压模块、握柄锁止总成、无线通信板（电池不做）；可调握柄、机器收纳架、消毒托盘、夹具和防跌落支架","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":84,"热度层级":"S","品类":"老年代步车","品牌中文名":"德迈医疗","品牌英文名":"Drive Medical","推荐型号或型号族":"Scout Compact Travel Scooter / Phoenix HD 4","国内用户信号":"美国医疗渠道覆盖广，中国兼容车架、座椅和护罩供应链强","海外销售类型":"美国医疗器械、Amazon和家庭护理渠道","拆机/替换升级件":"主控器、无刷电机/电机总成、转向/驱动桥、操纵杆控制器、显示板、座椅升降/滑轨、刹车电磁组件、车架折叠锁止；座椅旋转底座、扶手/车篮支架、拆装锁止、后视镜和防倾倒结构","品牌来源":"海外品牌/中国兼容供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":85,"热度层级":"S","品类":"工业缝纫机","品牌中文名":"重机","品牌英文名":"Juki","推荐型号或型号族":"DDL-8700 / MO-6700","国内用户信号":"美国服装和改衣店常见，中国有机头、台板和脚架配套供应链","海外销售类型":"美国专业缝纫和工坊渠道","拆机/替换升级件":"主控板、伺服电机、脚踏控制器、针杆/送料机构、旋梭组件、机头齿轮、显示/按键板和台板脚架","品牌来源":"海外品牌/中国兼容供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":86,"热度层级":"S","品类":"燃气烤炉","品牌中文名":"韦伯","品牌英文名":"Weber","推荐型号或型号族":"Spirit E-325 / Genesis E-335 / S-435","国内用户信号":"美国庭院烤炉保有量大，中国有燃烧器、阀组、点火和钣金供应链","海外销售类型":"Amazon US、庭院家居和专业烧烤渠道","拆机/替换升级件":"点火模块/点火板、燃烧器总成、燃气阀组、温度控制器、螺旋送料电机、风机、RTD温度探针、料斗总成、接油盘总成、主控板/显示板；点火模块、燃烧器总成、燃气阀组、温度控制器、接油盘总成、控制面板和侧台承载结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":87,"热度层级":"S","品类":"燃气烤炉","品牌中文名":"Monument 格栅","品牌英文名":"Monument Grills","推荐型号或型号族":"Mesa 410FBZ / Denali 405","国内用户信号":"中国出口庭院烤炉品牌，燃烧器、点火器、阀体和钣金供应链集中","海外销售类型":"Amazon US和美国庭院烧烤渠道","拆机/替换升级件":"点火模块/点火板、燃烧器总成、燃气阀组、温度控制器、螺旋送料电机、风机、RTD温度探针、料斗总成、接油盘总成、主控板/显示板；燃烧器、点火模块、阀组、温度计组件、接油盘、轮架和侧台连接件","品牌来源":"中国出口品牌","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":88,"热度层级":"S","品类":"燃气烤炉","品牌中文名":"皇家格美","品牌英文名":"Royal Gourmet","推荐型号或型号族":"8-Burner B08TWHQ7YT / GA5403B / GA5406TS","国内用户信号":"中国出口品牌，国内烤炉钣金、燃烧器和阀组工厂密集","海外销售类型":"Amazon US、庭院和户外餐饮渠道","拆机/替换升级件":"点火模块/点火板、燃烧器总成、燃气阀组、温度控制器、螺旋送料电机、风机、RTD温度探针、料斗总成、接油盘总成、主控板/显示板；点火板、燃烧器总成、燃气阀组、温控器、接油盘、轮架、侧台和控制面板","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":89,"热度层级":"S","品类":"高性能遥控车","品牌中文名":"特拉卡斯","品牌英文名":"Traxxas","推荐型号或型号族":"X-Maxx 8S / Maxx / TRX-4","国内用户信号":"美国高保有量RC品牌，中国金属加工、齿轮、悬挂和电子兼容供应链成熟","海外销售类型":"Amazon US、RC专业店和改装渠道","拆机/替换升级件":"","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":90,"热度层级":"S","品类":"铁板烧炉/户外煎烤炉","品牌中文名":"黑石","品牌英文名":"Blackstone","推荐型号或型号族":"1883 28-inch / 36-inch 4 Burner / 1813 22-inch","国内用户信号":"美国户外煎烤高保有量，中国有燃烧器、阀组、点火和铁板结构供应链","海外销售类型":"Amazon US、庭院和户外烹饪渠道","拆机/替换升级件":"点火模块/点火板、燃烧器总成、燃气阀组、温度控制器、螺旋送料电机、风机、RTD温度探针、料斗总成、接油盘总成、主控板/显示板；点火模块、燃烧器、燃气阀组、温控器、铁板承托结构、接油槽总成和折叠脚架","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":91,"热度层级":"S","品类":"高性能遥控车","品牌中文名":"阿玛","品牌英文名":"ARRMA","推荐型号或型号族":"Kraton 6S / Outcast 4S / Mojave 6S","国内用户信号":"美国高性能RC保有量大，中国有底盘、齿轮、差速器和电控兼容供应链","海外销售类型":"Amazon US、Horizon Hobby和RC改装市场","拆机/替换升级件":"","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":92,"热度层级":"S","品类":"颗粒烤炉","品牌中文名":"Pit Boss","品牌英文名":"Pit Boss","推荐型号或型号族":"700 FB2 / 500 FB2 / 440D2 Mahogany","国内用户信号":"北美颗粒烤炉保有量高，中国有送料电机、风机、控制板和料斗钣金供应链","海外销售类型":"Amazon US、庭院烧烤和户外厨房渠道","拆机/替换升级件":"点火模块/点火板、燃烧器总成、燃气阀组、温度控制器、螺旋送料电机、风机、RTD温度探针、料斗总成、接油盘总成、主控板/显示板；温控板、螺旋送料电机、风机、RTD探针、料斗总成、点火模块和显示板","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":93,"热度层级":"S","品类":"除雪机","品牌中文名":"亚达马克斯","品牌英文名":"YARDMAX","推荐型号或型号族":"YB6770 26-inch / YB6270 24-inch","国内用户信号":"中国供应链覆盖除雪机钣金、传动箱、导流槽和控制件","海外销售类型":"Amazon US、庭院设备和冬季维护渠道","拆机/替换升级件":"发动机点火模块、启动电机、传动箱、蜗轮/螺旋输送总成、导流槽齿轮机构、控制手柄总成、车架；启动电机、传动箱、螺旋输送总成、导流槽齿轮机构、控制手柄、离合结构和车架","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":94,"热度层级":"S","品类":"高性能遥控车","品牌中文名":"迈捷西","品牌英文名":"MJX","推荐型号或型号族":"Hyper Go 16210 / 14210","国内用户信号":"中国出口RC品牌，国内电子、齿轮和金属加工供应链强","海外销售类型":"Amazon US、欧洲RC渠道和跨境市场","拆机/替换升级件":"","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":95,"热度层级":"S","品类":"除雪机","品牌中文名":"EGO Power+","品牌英文名":"EGO Power+","推荐型号或型号族":"SNT2122 / SNT2420 24-inch","国内用户信号":"中国电机、控制板、齿轮箱和机架供应链成熟","海外销售类型":"Amazon US、园林工具和冬季设备渠道","拆机/替换升级件":"发动机点火模块、启动电机、传动箱、蜗轮/螺旋输送总成、导流槽齿轮机构、控制手柄总成、车架；主控板、无刷驱动电机、传动箱、导流槽执行机构、手柄总成、螺旋输送总成和车架","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":96,"热度层级":"S","品类":"劈木机","品牌中文名":"BILT HARD","品牌英文名":"BILT HARD","推荐型号或型号族":"27-Ton Gas Log Splitter / 6.5-Ton Electric","国内用户信号":"中国出口/OEM品牌，液压泵、阀块、油缸和车架供应链成熟","海外销售类型":"Amazon US、庭院工具和木材处理渠道","拆机/替换升级件":"液压泵、液压阀块、液压油缸、发动机控制模块、启动电机、楔块总成、横梁/车架总成；液压泵、液压阀块、油缸、发动机控制、启动电机、楔块总成和横梁车架","品牌来源":"中国出口/OEM品牌","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":97,"热度层级":"S","品类":"高压清洗机","品牌中文名":"西屋","品牌英文名":"Westinghouse","推荐型号或型号族":"WPX3000e / WPX3200e","国内用户信号":"中国泵体、电机、机架和卷盘供应链成熟","海外销售类型":"Amazon US、家庭维护和专业清洗渠道","拆机/替换升级件":"电机/泵总成、卸荷阀、压力开关、主控板、软管卷盘、扳机喷枪总成、热保护传感器；电机/泵总成、卸荷阀、压力开关、主控板、软管卷盘、扳机喷枪总成和热保护传感器","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":98,"热度层级":"S","品类":"高压清洗机","品牌中文名":"得伟","品牌英文名":"DeWalt","推荐型号或型号族":"DXPW3300-S / DXPW3625","国内用户信号":"中国泵架、发动机辅件、轮架和喷枪结构供应链充足","海外销售类型":"Amazon US、承包商和专业清洗渠道","拆机/替换升级件":"电机/泵总成、卸荷阀、压力开关、主控板、软管卷盘、扳机喷枪总成、热保护传感器；泵总成、卸荷阀、压力开关、发动机控制、软管卷盘、喷枪总成和车架","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":99,"热度层级":"S","品类":"空压机","品牌中文名":"麦太保 HPT","品牌英文名":"Metabo HPT","推荐型号或型号族":"EC914S 10-Gallon / EC710S","国内用户信号":"中国电机、泵头、压力开关和钣金机架供应链成熟","海外销售类型":"Amazon US、专业工具和装修渠道","拆机/替换升级件":"压缩机电机、泵头总成、压力开关、主控板、启动电容、止回阀、调压阀组、压力传感器、冷却风扇；压缩机电机、泵头、压力开关、主控板、启动电容、止回阀、调压阀组和压力传感器","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":100,"热度层级":"S","品类":"空压机","品牌中文名":"威沃","品牌英文名":"VEVOR","推荐型号或型号族":"13-Gallon 2.5HP / 20-Gallon","国内用户信号":"中国出口品牌，空压机泵头、电机、阀组和钣金供应链强","海外销售类型":"Amazon US、车库工坊和DIY工具渠道","拆机/替换升级件":"压缩机电机、泵头总成、压力开关、主控板、启动电容、止回阀、调压阀组、压力传感器、冷却风扇；压缩机电机、泵头总成、压力开关、控制板、启动电容、止回阀、调压阀组和压力传感器","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":101,"热度层级":"S","品类":"冬季采暖炉","品牌中文名":"美国炉具","品牌英文名":"US Stove","推荐型号或型号族":"Ashley 2200 / US1100E-BL","国内用户信号":"中国耐热钣金、风机、送料和控制件供应链可配套","海外销售类型":"Amazon US、壁炉和乡村住宅采暖渠道","拆机/替换升级件":"主控板、鼓风机电机、点火器、温控器、螺旋送料/送料电机、排烟风机、门组件、隔热板","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":102,"热度层级":"S","品类":"商用洗地机","品牌中文名":"HHQ","品牌英文名":"HHQ","推荐型号或型号族":"Orb-6 Commercial Floor Scrubber","国内用户信号":"中国商用清洁设备OEM和电机、泵、机架供应链强","海外销售类型":"Amazon US、商业保洁和物业渠道","拆机/替换升级件":"真空电机、刷盘电机、水泵、加热器、控制板、浮球传感器、污水箱总成、吸水扒总成、软管接口","品牌来源":"中国出口/OEM品牌","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":103,"热度层级":"S","品类":"地毯抽洗机","品牌中文名":"必胜商用","品牌英文名":"Bissell Commercial","推荐型号或型号族":"BG10 / BigGreen Commercial","国内用户信号":"中国泵、电机、吸水扒、机壳和软管供应链成熟","海外销售类型":"Amazon US、酒店保洁和专业清洁渠道","拆机/替换升级件":"真空电机、刷盘电机、水泵、加热器、控制板、浮球传感器、污水箱总成、吸水扒总成、软管接口；真空电机、水泵、加热器、控制板、浮球传感器、回收箱总成、吸水扒和软管接口","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":104,"热度层级":"S","品类":"商用制冰机","品牌中文名":"优巧","品牌英文名":"EUHOMY","推荐型号或型号族":"100 lb Commercial Ice Maker / 400 lb","国内用户信号":"中国出口品牌，制冰机主控板、阀体、风机和料斗供应链强","海外销售类型":"Amazon US、餐饮、酒吧和酒店渠道","拆机/替换升级件":"主控板、制冷控制板、压缩机启动模块、风机电机、冰厚探针、进水阀、排水泵、料斗门总成","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":105,"热度层级":"S","品类":"商用制冰机","品牌中文名":"福合","品牌英文名":"FOHERE","推荐型号或型号族":"400 lb Commercial Ice Maker","国内用户信号":"中国出口/OEM品牌，制冷控制、风机、阀体和料斗供应链成熟","海外销售类型":"Amazon US、餐饮和酒店设备渠道","拆机/替换升级件":"主控板、制冷控制板、压缩机启动模块、风机电机、冰厚探针、进水阀、排水泵、料斗门总成","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":106,"热度层级":"S","品类":"地毯抽洗机","品牌中文名":"卡赫","品牌英文名":"Kärcher","推荐型号或型号族":"Puzzi 10/1 / Puzzi 30/4","国内用户信号":"卡赫在中国有真空电机、泵、机壳、软管和维修渠道供应链","海外销售类型":"Amazon US、酒店保洁和专业地毯清洁渠道","拆机/替换升级件":"真空电机、刷盘电机、水泵、加热器、控制板、浮球传感器、污水箱总成、吸水扒总成、软管接口","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":107,"热度层级":"S","品类":"劈木机","品牌中文名":"亚达马克斯","品牌英文名":"YARDMAX","推荐型号或型号族":"YS0650 6.5-Ton / YU3066 30-Ton","国内用户信号":"中国液压泵、阀块、油缸、电机和车架供应链成熟","海外销售类型":"Amazon US、庭院工具和木材处理渠道","拆机/替换升级件":"液压泵、液压阀块、液压油缸、发动机控制模块、启动电机、楔块总成、横梁/车架总成","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":108,"热度层级":"A","品类":"桌面CNC","品牌中文名":"Genmitsu","品牌英文名":"Genmitsu","推荐型号或型号族":"PROVerXL 4030 V2、4040 Reno","国内用户信号":"国内创客用户和供应链多","海外销售类型":"海外桌面CNC知名","拆机/替换升级件":"吸尘罩、废料板、夹具、探针系统、导轨和排线结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":109,"热度层级":"A","品类":"桌面CNC","品牌中文名":"FoxAlien","品牌英文名":"FoxAlien","推荐型号或型号族":"Masuter Pro、WM-4040","国内用户信号":"国内供应链明确","海外销售类型":"海外创客市场可见","拆机/替换升级件":"吸尘罩、工作台、夹具、导轨和线缆结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":110,"热度层级":"A","品类":"桌面CNC","品牌中文名":"二树","品牌英文名":"Two Trees","推荐型号或型号族":"TTC450、TTC6050","国内用户信号":"国内创客用户多","海外销售类型":"海外电商覆盖广","拆机/替换升级件":"蜂窝台、夹具、空气辅助、吸尘罩和机架结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":111,"热度层级":"A","品类":"NAS","品牌中文名":"绿联","品牌英文名":"UGREEN","推荐型号或型号族":"DXP4800 Plus、DXP6800 Pro","国内用户信号":"国内NAS用户增长快","海外销售类型":"海外新品渠道可见","拆机/替换升级件":"主板、硬盘背板、SATA/SAS连接板、风扇控制板、风扇总成、硬盘托架、显示/按键板和PCIe转接板（硬盘和电源不做）；硬盘托架、机架结构、散热和盘位结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":112,"热度层级":"A","品类":"NAS","品牌中文名":"铁威马","品牌英文名":"TerraMaster","推荐型号或型号族":"F4-424 Pro、F6-424 Max","国内用户信号":"国内NAS用户多","海外销售类型":"海外NAS市场稳定","拆机/替换升级件":"主板、硬盘背板、SATA/SAS连接板、风扇控制板、风扇总成、硬盘托架、显示/按键板和PCIe转接板（硬盘和电源不做）；硬盘托架、机箱、机架安装、散热和盘位结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":113,"热度层级":"A","品类":"NAS","品牌中文名":"群晖","品牌英文名":"Synology","推荐型号或型号族":"DS923+、DS1522+","国内用户信号":"国内企业和家庭用户多","海外销售类型":"全球主流","拆机/替换升级件":"主板、硬盘背板、SATA/SAS连接板、风扇控制板、风扇总成、硬盘托架、显示/按键板和PCIe转接板（硬盘和电源不做）；硬盘托架、机架安装、散热、盘位结构和扩展固定件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":114,"热度层级":"A","品类":"NAS","品牌中文名":"威联通","品牌英文名":"QNAP","推荐型号或型号族":"TS-464、TS-673A、TVS-h674","国内用户信号":"国内企业和玩家多","海外销售类型":"全球主流","拆机/替换升级件":"主板、硬盘背板、SATA/SAS连接板、风扇控制板、风扇总成、硬盘托架、显示/按键板和PCIe转接板（硬盘和电源不做）；硬盘托架、机架安装、散热、盘位结构和扩展固定件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":115,"热度层级":"A","品类":"家庭服务器","品牌中文名":"ZimaBoard","品牌英文名":"ZimaBoard","推荐型号或型号族":"ZimaCube、ZimaBlade套装","国内用户信号":"国内开发者和家庭服务器用户有基础","海外销售类型":"海外开源社区可见","拆机/替换升级件":"机箱、硬盘托架、散热、壁挂和机架结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":116,"热度层级":"A","品类":"VR设备","品牌中文名":"小派","品牌英文名":"Pimax","推荐型号或型号族":"Crystal Light、Crystal Super","国内用户信号":"国内发烧玩家有用户","海外销售类型":"海外高端VR社区强","拆机/替换升级件":"头戴支架、面罩、镜片座、线缆固定、手柄保护和收纳结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":117,"热度层级":"A","品类":"AR眼镜","品牌中文名":"XREAL","品牌英文名":"XREAL","推荐型号或型号族":"Air 2 Ultra、One","国内用户信号":"国内用户和渠道明确","海外销售类型":"海外AR市场知名","拆机/替换升级件":"镜腿结构、鼻托、收纳、线缆固定和转接结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":118,"热度层级":"A","品类":"AR眼镜","品牌中文名":"若琪","品牌英文名":"Rokid","推荐型号或型号族":"Max 2、AR Lite套装","国内用户信号":"国内用户和行业客户多","海外销售类型":"海外市场可见","拆机/替换升级件":"鼻托、镜腿、收纳、线材固定和支架结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":119,"热度层级":"A","品类":"电影相机","品牌中文名":"Z CAM","品牌英文名":"Z CAM","推荐型号或型号族":"E2C、E2-M4、E2-F6","国内用户信号":"国内影视工作室和租赁用户多","海外销售类型":"海外专业市场强","拆机/替换升级件":"相机笼、快拆、底座、供电外部结构、跟焦和线缆固定","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":120,"热度层级":"A","品类":"电影相机","品牌中文名":"开尼","品牌英文名":"Kinefinity","推荐型号或型号族":"Mavo S35、Mavo LF","国内用户信号":"国内影视用户和供应链明确","海外销售类型":"海外专业市场可见","拆机/替换升级件":"相机笼、底座、快拆、跟焦、支架和运输结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":121,"热度层级":"A","品类":"稳定器","品牌中文名":"智云","品牌英文名":"Zhiyun","推荐型号或型号族":"Crane 4、Weebill 3S","国内用户信号":"国内摄影用户多","海外销售类型":"海外品牌和评测曝光高","拆机/替换升级件":"配重、快拆、手柄、支架、跟焦和底座","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":122,"热度层级":"A","品类":"稳定器","品牌中文名":"飞宇","品牌英文名":"FeiyuTech","推荐型号或型号族":"Scorp 2 Pro、AK4500","国内用户信号":"国内用户和供应链强","海外销售类型":"海外电商和摄影社区可见","拆机/替换升级件":"配重、快拆、手柄、底座和线材结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":123,"热度层级":"A","品类":"投影仪","品牌中文名":"坚果","品牌英文名":"JMGO","推荐型号或型号族":"N1 Ultra、N1S Ultra","国内用户信号":"国内影音用户和渠道多","海外销售类型":"海外投影市场可见","拆机/替换升级件":"主板/逻辑板、DMD/光机组件、激光/灯驱动板、液晶面板、风扇、镜头位移电机、遥控接收板、电源板（仅拆机件）；云台底座、吊装件、散热结构、镜头防尘和运输结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":124,"热度层级":"A","品类":"投影仪","品牌中文名":"峰米","品牌英文名":"Formovie","推荐型号或型号族":"Theater、X5","国内用户信号":"国内影音用户多","海外销售类型":"海外家庭影院市场强","拆机/替换升级件":"主板/逻辑板、DMD/光机组件、激光/灯驱动板、液晶面板、风扇、镜头位移电机、遥控接收板、电源板（仅拆机件）；吊装结构、云台底座、镜头防尘、散热和运输结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":125,"热度层级":"A","品类":"投影仪","品牌中文名":"当贝","品牌英文名":"Dangbei","推荐型号或型号族":"Mars Pro 2、D6X Pro","国内用户信号":"国内用户和渠道多","海外销售类型":"海外电商可见","拆机/替换升级件":"主板/逻辑板、DMD/光机组件、激光/灯驱动板、液晶面板、风扇、镜头位移电机、遥控接收板、电源板（仅拆机件）；支架、吊装结构、散热、镜头防尘和收纳件","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":126,"热度层级":"A","品类":"天文相机","品牌中文名":"QHYCCD","品牌英文名":"QHYCCD","推荐型号或型号族":"QHY268C、QHY600","国内用户信号":"国内科研和玩家用户多","海外销售类型":"海外天文社区可见","拆机/替换升级件":"相机支架、滤镜结构、鸠尾板、线缆固定和收纳结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":127,"热度层级":"A","品类":"天文相机","品牌中文名":"普朗天文","品牌英文名":"Player One Astronomy","推荐型号或型号族":"Poseidon、Neptune、Uranus系列","国内用户信号":"国内天文用户有认知","海外销售类型":"海外天文社区可见","拆机/替换升级件":"相机支架、滤镜结构、鸠尾板、防露和收纳","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":128,"热度层级":"A","品类":"天文望远镜","品牌中文名":"阿斯卡","品牌英文名":"Askar","推荐型号或型号族":"80PHQ、SQA系列","国内用户信号":"国内天文圈有用户","海外销售类型":"海外发烧友市场可见","拆机/替换升级件":"鸠尾板、防露罩、调平结构、镜筒支架和收纳结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":129,"热度层级":"A","品类":"智能宠物设备","品牌中文名":"小佩","品牌英文名":"PETKIT","推荐型号或型号族":"Pura Max 2、Pura Max","国内用户信号":"国内养宠用户和门店多","海外销售类型":"海外宠物电商强","拆机/替换升级件":"猫砂机结构件、垃圾袋固定、除臭模块外壳、爬坡板和底座","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":130,"热度层级":"A","品类":"智能宠物设备","品牌中文名":"猫链","品牌英文名":"CATLINK","推荐型号或型号族":"Scooper Pro、Scooper Young","国内用户信号":"国内用户和维修供应链明确","海外销售类型":"海外宠物电商可见","拆机/替换升级件":"猫砂机结构件、爬坡板、垃圾袋固定、除臭模块外壳和底座","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":131,"热度层级":"A","品类":"电动自行车","品牌中文名":"飞道","品牌英文名":"Fiido","推荐型号或型号族":"Titan、X、M1 Pro","国内用户信号":"国内用户和供应链明确","海外销售类型":"海外跨境销量和骑行社区强","拆机/替换升级件":"主控器、轮毂/中置电机、显示仪表、扭矩传感器、变速/刹车执行机构、线束总成和折叠锁止（电池和充电器不做）；货架、折叠结构、挡泥板、灯具支架、脚踏和车身结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":132,"热度层级":"A","品类":"电动自行车","品牌中文名":"英格威","品牌英文名":"ENGWE","推荐型号或型号族":"Engine Pro、EP-2 Pro、M20","国内用户信号":"国内供应链和用户明确","海外销售类型":"海外跨境销量强","拆机/替换升级件":"主控器、轮毂/中置电机、显示仪表、扭矩传感器、变速/刹车执行机构、线束总成和折叠锁止（电池和充电器不做）；货架、折叠结构、挡泥板、脚踏、灯具支架和车身结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":133,"热度层级":"A","品类":"电动自行车","品牌中文名":"Urtopia","品牌英文名":"Urtopia","推荐型号或型号族":"Carbon 1 Pro、Fusion","国内用户信号":"国内高端用户和供应链有基础","海外销售类型":"海外高端骑行市场可见","拆机/替换升级件":"主控器、轮毂/中置电机、显示仪表、扭矩传感器、变速/刹车执行机构、线束总成和折叠锁止（电池和充电器不做）；货架、车身支架、脚踏、灯具支架、收纳和结构加强件","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":134,"热度层级":"A","品类":"电动自行车","品牌中文名":"阿道","品牌英文名":"ADO","推荐型号或型号族":"Air Carbon、Air 28、Air 20 Pro","国内用户信号":"国内渠道和用户有基础","海外销售类型":"海外跨境电商可见","拆机/替换升级件":"主控器、轮毂/中置电机、显示仪表、扭矩传感器、变速/刹车执行机构、线束总成和折叠锁止（电池和充电器不做）；货架、折叠结构、挡泥板、脚踏和车身支架","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":135,"热度层级":"A","品类":"家庭健身","品牌中文名":"WalkingPad","品牌英文名":"WalkingPad","推荐型号或型号族":"R2 Pro、R1 Pro、X25","国内用户信号":"国内家庭用户和渠道多","海外销售类型":"海外折叠跑步机市场强","拆机/替换升级件":"主控板、显示屏、阻力/驱动电机、滚筒、皮带张紧总成、踏板/曲柄、传感器和屏幕臂总成；平板支架、扶手结构、滚轮、脚垫、遥控器保护和收纳结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":136,"热度层级":"A","品类":"家庭健身","品牌中文名":"野小兽","品牌英文名":"Yesoul","推荐型号或型号族":"R1、S3高配套装","国内用户信号":"国内用户和渠道多","海外销售类型":"海外电商可见","拆机/替换升级件":"主控板、显示屏、阻力/驱动电机、滚筒、皮带张紧总成、踏板/曲柄、传感器和屏幕臂总成；平板支架、脚踏、座椅结构、收纳和防震件","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":137,"热度层级":"A","品类":"家庭健身","品牌中文名":"麦瑞克","品牌英文名":"Merach","推荐型号或型号族":"划船机高配系列、椭圆机系列","国内用户信号":"国内用户和供应链明确","海外销售类型":"海外电商和内容市场可见","拆机/替换升级件":"主控板、显示屏、阻力/驱动电机、滚筒、皮带张紧总成、踏板/曲柄、传感器和屏幕臂总成；滚轮、脚踏、平板支架、收纳和防震件","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":138,"热度层级":"A","品类":"音频解码器","品牌中文名":"拓品","品牌英文名":"Topping","推荐型号或型号族":"D90 III、DX9、A90D套装","国内用户信号":"国内烧友多","海外销售类型":"海外桌面音频市场强","拆机/替换升级件":"桌面支架、机架件、旋钮、散热和脚垫","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":139,"热度层级":"A","品类":"便携音频","品牌中文名":"山灵","品牌英文名":"Shanling","推荐型号或型号族":"M9 Plus、M7、H7","国内用户信号":"国内烧友和渠道多","海外销售类型":"海外便携音频市场稳定","拆机/替换升级件":"保护结构、桌面底座、旋钮、收纳和线材结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":140,"热度层级":"A","品类":"耳放及功放","品牌中文名":"凯音","品牌英文名":"Cayin","推荐型号或型号族":"HA-3A、HA-6A、CS系列","国内用户信号":"国内发烧友多","海外销售类型":"海外高端音频市场可见","拆机/替换升级件":"机箱、旋钮、支架、散热结构、脚垫和运输保护","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":141,"热度层级":"A","品类":"乐器效果器","品牌中文名":"纽克斯","品牌英文名":"NUX","推荐型号或型号族":"MG-30、MG-300、B-3 Plus","国内用户信号":"国内乐手和渠道多","海外销售类型":"海外电商和乐手社区可见","拆机/替换升级件":"脚踏结构、旋钮、底座、踏板固定、控制器外壳和收纳","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":142,"热度层级":"A","品类":"乐器效果器","品牌中文名":"魔耳","品牌英文名":"MOOER","推荐型号或型号族":"GE300、GE250、Prime系列","国内用户信号":"国内乐手和供应链强","海外销售类型":"海外效果器市场可见","拆机/替换升级件":"脚踏、旋钮、底座、外壳、固定件和连接结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":143,"热度层级":"A","品类":"乐器效果器","品牌中文名":"火星","品牌英文名":"Hotone","推荐型号或型号族":"Ampero II Stage、Ampero II Stomp","国内用户信号":"国内乐手用户明确","海外销售类型":"海外电商和乐手社区可见","拆机/替换升级件":"脚踏、旋钮、底座、控制器结构和收纳","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":144,"热度层级":"A","品类":"开发机器人","品牌中文名":"童心制物","品牌英文名":"Makeblock","推荐型号或型号族":"XArm系列、mBot Ranger高配套装","国内用户信号":"国内教育和创客用户多","海外销售类型":"海外教育市场可见","拆机/替换升级件":"机械臂末端工具、夹爪、传感器支架、底座和线缆结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":145,"热度层级":"A","品类":"3D扫描","品牌中文名":"三维麦普","品牌英文名":"3DMakerpro","推荐型号或型号族":"Seal、Mole、Magic系列","国内用户信号":"国内用户和供应链明确","海外销售类型":"海外电商和创客市场可见","拆机/替换升级件":"扫描仪支架、转盘、校准结构、收纳和固定件","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":146,"热度层级":"A","品类":"遥控模型","品牌中文名":"Rovan","品牌英文名":"Rovan","推荐型号或型号族":"LT 1/5、Baja系列","国内用户信号":"国内模型玩家和供应链多","海外销售类型":"海外大比例模型市场强","拆机/替换升级件":"金属传动、减震、车壳、轮毂转接、电机支架和底盘结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":147,"热度层级":"A","品类":"遥控坦克","品牌中文名":"恒龙","品牌英文名":"Heng Long","推荐型号或型号族":"1/6虎式、豹式高配系列","国内用户信号":"国内模型玩家多","海外销售类型":"海外模型市场稳定","拆机/替换升级件":"履带结构、炮塔结构、金属传动、灯具和外壳","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":148,"热度层级":"A","品类":"遥控飞机","品牌中文名":"FMS","品牌英文名":"FMS","推荐型号或型号族":"1700mm及以上固定翼系列","国内用户信号":"国内模型用户和工厂多","海外销售类型":"海外固定翼市场强","拆机/替换升级件":"起落架、舵面结构、舵机固定、机身连接和运输保护","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":149,"热度层级":"A","品类":"SPA","品牌中文名":"雅客奇","品牌英文名":"Jacuzzi","推荐型号或型号族":"J-365、J-475、J-585","国内用户信号":"国内有兼容维修供应链","海外销售类型":"海外品牌知名度极高","拆机/替换升级件":"头枕、喷嘴外壳、扶手、杯架、盖布固定和结构件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":150,"热度层级":"A","品类":"自动麻将桌","品牌中文名":"雀康","品牌英文名":"Quekang","推荐型号或型号族":"136张和144张全自动麻将桌系列","国内用户信号":"国内用户和区域渠道明确","海外销售类型":"华人市场和出口渠道","拆机/替换升级件":"推牌结构、输送结构、升牌结构、桌腿、桌面结构和控制面板外壳","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":151,"热度层级":"A","品类":"自动麻将桌","品牌中文名":"雀霸","品牌英文名":"Queba","推荐型号或型号族":"136张和144张全自动麻将桌系列","国内用户信号":"国内用户和供应链明确","海外销售类型":"华人市场和出口渠道","拆机/替换升级件":"推牌结构、输送结构、升牌结构、桌面支撑和维修结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":152,"热度层级":"A","品类":"空气净化器","品牌中文名":"布鲁雅尔","品牌英文名":"Blueair","推荐型号或型号族":"Blue Pure 211i Max、DustMagnet 5440i","国内用户信号":"国内空气净化用户有基础","海外销售类型":"海外家电渠道强","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；进风导流件、落地底座、墙面支架、风道静音结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":153,"热度层级":"A","品类":"自动麻将桌","品牌中文名":"松冈","品牌英文名":"Songgang","推荐型号或型号族":"全自动麻将桌高端系列","国内用户信号":"国内高端麻将桌用户有基础","海外销售类型":"华人市场和专业渠道","拆机/替换升级件":"推牌结构、输送结构、升牌结构、桌面结构和维修支架","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":154,"热度层级":"A","品类":"空气净化器","品牌中文名":"科唯怡","品牌英文名":"Coway","推荐型号或型号族":"Airmega 400S、Airmega 250","国内用户信号":"国内高端家庭用户有认知","海外销售类型":"海外市场强","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；机身底座、墙装支架、风道结构、传感器保护和收纳件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":155,"热度层级":"A","品类":"自动麻将桌","品牌中文名":"雀王","品牌英文名":"Quewang","推荐型号或型号族":"136张和144张全自动麻将桌系列","国内用户信号":"国内区域用户和维修店有基础","海外销售类型":"华人市场和出口渠道","拆机/替换升级件":"推牌结构、输送结构、桌面支撑、桌腿和维修结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":156,"热度层级":"A","品类":"空气净化器","品牌中文名":"莱沃特","品牌英文名":"Levoit","推荐型号或型号族":"Core 600S、EverestAir","国内用户信号":"国内跨境用户和供应链明确","海外销售类型":"海外电商强","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；底座、墙装结构、进风导流、传感器保护和静音改装","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":157,"热度层级":"A","品类":"空气净化器","品牌中文名":"美的","品牌英文名":"Midea","推荐型号或型号族":"Air Purifier高端系列、MAPF-系列","国内用户信号":"国内用户和制造供应链很大","海外销售类型":"海外渠道和OEM强","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；机身结构、底座、风道、墙装件和控制面板外壳","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":158,"热度层级":"A","品类":"加湿器","品牌中文名":"莱沃特","品牌英文名":"Levoit","推荐型号或型号族":"Classic 600S、Superior 6000S","国内用户信号":"国内跨境用户多","海外销售类型":"海外电商强","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；水箱外壳、底座、雾化仓保护、墙装架和防倾倒结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":159,"热度层级":"A","品类":"加湿器","品牌中文名":"戴森","品牌英文名":"Dyson","推荐型号或型号族":"Purifier Humidify+Cool、PH系列","国内用户信号":"国内高端用户多","海外销售类型":"全球主流","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；水箱结构、底座、风道、传感器保护和收纳件","品牌来源":"海外品牌/中国兼容供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":160,"热度层级":"A","品类":"工业缝纫机","品牌中文名":"杰克","品牌英文名":"Jack","推荐型号或型号族":"A4B、A5E、A6系列","国内用户信号":"国内工厂和维修店用户多","海外销售类型":"海外工业渠道稳定","拆机/替换升级件":"主控板、伺服电机、脚踏控制器、针杆/送料机构、旋梭组件、机头齿轮、显示/按键板和台板脚架；压脚结构、线架、针板、送料结构、灯架和维护支架","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":161,"热度层级":"A","品类":"除湿机","品牌中文名":"美的","品牌英文名":"Midea","推荐型号或型号族":"Cube、SmartDry系列","国内用户信号":"国内家电供应链强","海外销售类型":"海外电商和OEM市场强","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；排水改装、脚轮底座、风道、冷凝水接口和机身支架","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":162,"热度层级":"A","品类":"工业缝纫机","品牌中文名":"标准","品牌英文名":"Typical","推荐型号或型号族":"GC6-7、GC6180系列","国内用户信号":"国内工厂用户多","海外销售类型":"海外工业市场有渠道","拆机/替换升级件":"主控板、伺服电机、脚踏控制器、针杆/送料机构、旋梭组件、机头齿轮、显示/按键板和台板脚架；压脚、线架、针板、送料结构和维护件","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":163,"热度层级":"A","品类":"除湿机","品牌中文名":"富及第","品牌英文名":"Frigidaire","推荐型号或型号族":"Gallery、50-Pint系列","国内用户信号":"国内有兼容件工厂","海外销售类型":"美国市场保有量大","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；连续排水转接、脚轮底座、风道结构、控制面板外壳","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":164,"热度层级":"A","品类":"工业缝纫机","品牌中文名":"中捷","品牌英文名":"Zoje","推荐型号或型号族":"ZJ9000系列、工业平缝系列","国内用户信号":"国内制造业用户多","海外销售类型":"海外工业渠道可见","拆机/替换升级件":"主控板、伺服电机、脚踏控制器、针杆/送料机构、旋梭组件、机头齿轮、显示/按键板和台板脚架；压脚、线架、针板结构、灯架和维护件","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":165,"热度层级":"A","品类":"除湿机","品牌中文名":"hOmeLabs","品牌英文名":"hOmeLabs","推荐型号或型号族":"4,500-平方英尺高容量系列","国内用户信号":"国内OEM和配件供应链明确","海外销售类型":"美国电商强","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；排水转接、脚轮、风道、收纳支架和防倾倒结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":166,"热度层级":"A","品类":"露营帐篷","品牌中文名":"挪客","品牌英文名":"Naturehike","推荐型号或型号族":"高端隧道帐和大型家庭帐篷系列","国内用户信号":"国内露营用户和渠道非常多","海外销售类型":"海外户外电商和社区强","拆机/替换升级件":"帐篷杆、连接结构、折叠结构、收纳和维修结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":167,"热度层级":"A","品类":"露营帐篷","品牌中文名":"黑鹿","品牌英文名":"Blackdeer","推荐型号或型号族":"大型家庭帐篷和车边帐系列","国内用户信号":"国内露营用户多","海外销售类型":"海外户外电商可见","拆机/替换升级件":"帐篷杆、连接件、折叠结构、收纳和支架","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":168,"热度层级":"A","品类":"户外炉具","品牌中文名":"火枫","品牌英文名":"Fire-Maple","推荐型号或型号族":"高端炉具和分体炉系列套装","国内用户信号":"国内露营和户外用户多","海外销售类型":"海外炉具市场稳定","拆机/替换升级件":"炉具支撑、风挡结构、锅具连接、收纳和维修结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":169,"热度层级":"A","品类":"便携空调","品牌中文名":"Whynter","品牌英文名":"Whynter","推荐型号或型号族":"ARC-14S、ARC-1230WN","国内用户信号":"国内有配件供应链","海外销售类型":"美国市场强","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；窗封、排风管转接、冷凝水结构、脚轮和隔音改装","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":170,"热度层级":"A","品类":"便携空调","品牌中文名":"德龙","品牌英文名":"DeLonghi","推荐型号或型号族":"Pinguino PAC系列","国内用户信号":"国内兼容工厂可找","海外销售类型":"欧美市场稳定","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；窗封、排风管结构、排水转接、脚轮和收纳架","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":171,"热度层级":"A","品类":"渔具","品牌中文名":"卡斯丁","品牌英文名":"KastKing","推荐型号或型号族":"Megatron高端纺车轮、Sharky高配系列","国内用户信号":"国内钓鱼用户和供应链多","海外销售类型":"海外渔具电商和社区强","拆机/替换升级件":"鱼轮摇臂、金属结构、线杯、支架和收纳","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":172,"热度层级":"A","品类":"渔具","品牌中文名":"品钓","品牌英文名":"Piscifun","推荐型号或型号族":"高端纺车轮和鼓轮系列","国内用户信号":"国内供应链和玩家明确","海外销售类型":"海外电商和钓鱼社区可见","拆机/替换升级件":"鱼轮摇臂、线杯、轴承座、支架和收纳","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":173,"热度层级":"A","品类":"制冰机","品牌中文名":"富及第","品牌英文名":"Frigidaire","推荐型号或型号族":"EFIC系列高端制冰机","国内用户信号":"国内OEM配件多","海外销售类型":"美国电商强","拆机/替换升级件":"水路、出冰口、底座、排水和外壳结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":174,"热度层级":"A","品类":"射箭设备","品牌中文名":"三利达","品牌英文名":"Sanlida","推荐型号或型号族":"Dragon X8、Dragon X9、Hero系列","国内用户信号":"国内射箭用户和俱乐部多","海外销售类型":"海外射箭电商和社区可见","拆机/替换升级件":"弓架、稳定器座、箭台、瞄具结构和收纳","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":175,"热度层级":"A","品类":"射箭设备","品牌中文名":"军星","品牌英文名":"Junxing","推荐型号或型号族":"M106、M109及复合弓系列","国内用户信号":"国内俱乐部和用户多","海外销售类型":"海外电商和射箭社区可见","拆机/替换升级件":"弓架、稳定器座、箭台、瞄具结构和收纳","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":176,"热度层级":"A","品类":"制冰机","品牌中文名":"NewAir","品牌英文名":"NewAir","推荐型号或型号族":"NIM系列、AI-215SS","国内用户信号":"国内有兼容件工厂","海外销售类型":"美国市场稳定","拆机/替换升级件":"水路结构、排水转接、底座、隔音和外壳件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":177,"热度层级":"A","品类":"面包机","品牌中文名":"松下","品牌英文名":"Panasonic","推荐型号或型号族":"SD-YR2550、SD系列高端机","国内用户信号":"国内用户和维修供应链多","海外销售类型":"海外渠道稳定","拆机/替换升级件":"面包桶结构、搅拌机构、传动座、外壳和操作面板结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":178,"热度层级":"A","品类":"面包机","品牌中文名":"象印","品牌英文名":"Zojirushi","推荐型号或型号族":"BB-PDC20、Home Bakery Supreme","国内用户信号":"国内高端用户有认知","海外销售类型":"海外高端市场强","拆机/替换升级件":"面包桶、搅拌机构、传动座、外壳和支架","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":179,"热度层级":"A","品类":"面包机","品牌中文名":"铂富","品牌英文名":"Breville","推荐型号或型号族":"Custom Loaf、Bread Maker系列","国内用户信号":"国内有进口用户和配件厂","海外销售类型":"海外渠道强","拆机/替换升级件":"面包桶结构、搅拌轴、外壳、支架和维修工具","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":180,"热度层级":"A","品类":"厨师机","品牌中文名":"凯伍德","品牌英文名":"Kenwood","推荐型号或型号族":"Titanium Chef Baker、Cooking Chef XL","国内用户信号":"国内烘焙用户和工厂有基础","海外销售类型":"欧洲和海外渠道强","拆机/替换升级件":"碗托、附件转接、齿轮箱外壳、抬头结构和底座","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":181,"热度层级":"A","品类":"空气炸锅","品牌中文名":"忍者","品牌英文名":"Ninja","推荐型号或型号族":"Foodi DualZone、Foodi Smart XL","国内用户信号":"国内用户和跨境供应链多","海外销售类型":"美国电商强","拆机/替换升级件":"双篮结构、烤架、分隔件、底座、抽屉滑轨和改装支架","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":182,"热度层级":"A","品类":"空气炸锅","品牌中文名":"科西","品牌英文名":"Cosori","推荐型号或型号族":"Dual Blaze、TurboBlaze","国内用户信号":"国内供应链明确","海外销售类型":"海外电商强","拆机/替换升级件":"内胆结构、烤架、隔层、抽屉把手和外部支架","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":183,"热度层级":"A","品类":"爆米花机","品牌中文名":"大北方","品牌英文名":"Great Northern","推荐型号或型号族":"8oz、12oz商业台式系列","国内用户信号":"国内有整机和配件工厂","海外销售类型":"美国商用和家庭市场","拆机/替换升级件":"爆米花锅结构、门板、轮脚、收纳支架和加热腔外壳","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":184,"热度层级":"A","品类":"低温烹饪设备","品牌中文名":"安诺瓦","品牌英文名":"Anova","推荐型号或型号族":"Precision Cooker Pro、Precision Oven","国内用户信号":"国内用户和供应链明确","海外销售类型":"海外厨电市场强","拆机/替换升级件":"夹具、容器架、固定座、探头支架、收纳和防水外壳","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":185,"热度层级":"A","品类":"吸尘器","品牌中文名":"鲨客","品牌英文名":"Shark","推荐型号或型号族":"Stratos、Vertex、Detect Pro","国内用户信号":"国内有兼容件供应","海外销售类型":"美国市场强","拆机/替换升级件":"墙挂底座、软管结构、工具收纳、地刷改装和尘杯外壳","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":186,"热度层级":"A","品类":"洗地机","品牌中文名":"追觅","品牌英文名":"Dreame","推荐型号或型号族":"H12 Pro、H14 Pro","国内用户信号":"国内用户和供应链强","海外销售类型":"海外渠道快速增长","拆机/替换升级件":"真空电机、刷盘电机、水泵、加热器、控制板、浮球传感器、污水箱总成、吸水扒总成、软管接口；污水箱、清洁底座、推杆、滚刷仓结构和墙挂件","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":187,"热度层级":"A","品类":"吸尘器","品牌中文名":"美诺","品牌英文名":"Miele","推荐型号或型号族":"Complete C3、Triflex HX2","国内用户信号":"国内高端家庭用户多","海外销售类型":"欧美高端市场强","拆机/替换升级件":"软管、伸缩管、墙挂件、工具架和机身底座","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":188,"热度层级":"A","品类":"地毯清洗机","品牌中文名":"必胜","品牌英文名":"Bissell","推荐型号或型号族":"Big Green、ProHeat 2X Revolution","国内用户信号":"国内有跨境用户和兼容工厂","海外销售类型":"美国市场强","拆机/替换升级件":"软管、清水箱、污水箱、喷头结构、推杆和收纳支架","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":189,"热度层级":"A","品类":"高压清洗机","品牌中文名":"力奇","品牌英文名":"Nilfisk","推荐型号或型号族":"Core 150、Premium 180","国内用户信号":"国内专业用户和供应链有基础","海外销售类型":"欧美市场稳定","拆机/替换升级件":"电机/泵总成、卸荷阀、压力开关、主控板、软管卷盘、扳机喷枪总成、热保护传感器；枪杆、软管卷盘、墙挂结构、泡沫壶、脚轮和收纳","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":190,"热度层级":"A","品类":"高压清洗机","品牌中文名":"Sun Joe","品牌英文名":"Sun Joe","推荐型号或型号族":"SPX系列高压清洗机","国内用户信号":"国内供应链明确","海外销售类型":"美国电商强","拆机/替换升级件":"电机/泵总成、卸荷阀、压力开关、主控板、软管卷盘、扳机喷枪总成、热保护传感器；软管卷盘、枪杆支架、泡沫壶、墙挂和脚轮结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":191,"热度层级":"A","品类":"电动工具系统","品牌中文名":"博世专业","品牌英文名":"Bosch Professional","推荐型号或型号族":"18V/36V高端工具、GCM系列","国内用户信号":"国内工程和装修用户多","海外销售类型":"全球主流","拆机/替换升级件":"导轨夹具、集尘结构、工具箱、墙挂和工作台安装件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":192,"热度层级":"A","品类":"专业工具","品牌中文名":"喜利得","品牌英文名":"Hilti","推荐型号或型号族":"VC 150、DCH系列、TE系列","国内用户信号":"国内工程和施工用户有基础","海外销售类型":"全球专业市场强","拆机/替换升级件":"集尘结构、工具支架、墙挂、箱体内衬和钻孔定位件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":193,"热度层级":"A","品类":"焊机","品牌中文名":"YESWELDER","品牌英文名":"YESWELDER","推荐型号或型号族":"MIG-250、TIG-250、MP系列","国内用户信号":"国内焊工和供应链明确","海外销售类型":"海外电商强","拆机/替换升级件":"主控板/逆变板、点火模块、调压器、显示控制板、发动机控制模块、启动电机、散热风扇和机架总成；焊枪支架、脚轮、气瓶固定、线缆收纳、工作台安装件","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":194,"热度层级":"A","品类":"等离子切割机","品牌中文名":"海宝","品牌英文名":"Hypertherm","推荐型号或型号族":"Powermax45、Powermax65","国内用户信号":"国内工业用户和维修供应链多","海外销售类型":"全球专业市场强","拆机/替换升级件":"割枪支架、线缆收纳、工作台定位件、脚轮和防护结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":195,"热度层级":"A","品类":"空气压缩机","品牌中文名":"加州空气工具","品牌英文名":"California Air Tools","推荐型号或型号族":"8010、10020、20020","国内用户信号":"国内工作室和工厂用户有基础","海外销售类型":"美国专业市场稳定","拆机/替换升级件":"脚轮、气管卷盘、降噪外壳、墙挂和排水结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":196,"热度层级":"A","品类":"空气压缩机","品牌中文名":"牧田","品牌英文名":"Makita","推荐型号或型号族":"MAC5200、MAC2400","国内用户信号":"国内装修和工厂用户多","海外销售类型":"全球渠道强","拆机/替换升级件":"脚轮、气管卷盘、工具支架、降噪和收纳结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":197,"热度层级":"A","品类":"工业吸尘器","品牌中文名":"费斯托","品牌英文名":"Festool","推荐型号或型号族":"CT MIDI、CT 26、CT 36","国内用户信号":"国内木工工作室多","海外销售类型":"欧美专业市场强","拆机/替换升级件":"集尘桶结构、软管卷盘、工具挂架、脚轮和支架","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":198,"热度层级":"A","品类":"工业吸尘器","品牌中文名":"力奇","品牌英文名":"Nilfisk","推荐型号或型号族":"Attix 33、Attix 44","国内用户信号":"国内工厂和清洁用户有基础","海外销售类型":"欧美专业市场稳定","拆机/替换升级件":"桶体结构、软管卷盘、工具架、脚轮和墙挂件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":199,"热度层级":"A","品类":"台锯和木工设备","品牌中文名":"SawStop","品牌英文名":"SawStop","推荐型号或型号族":"PCS、CTS、JSS系列","国内用户信号":"国内木工发烧用户和工作室有基础","海外销售类型":"美国木工市场强","拆机/替换升级件":"防护罩、集尘结构、导轨夹具、脚轮和工作台扩展件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":200,"热度层级":"A","品类":"台锯和木工设备","品牌中文名":"得伟","品牌英文名":"DeWalt","推荐型号或型号族":"DWE7491RS、DWE7485","国内用户信号":"国内木工和装修用户多","海外销售类型":"海外市场强","拆机/替换升级件":"导轨、集尘结构、支腿、脚轮、夹具和工作台扩展","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":201,"热度层级":"A","品类":"切割机","品牌中文名":"胡斯华纳","品牌英文名":"Husqvarna","推荐型号或型号族":"K4000、K970、K770","国内用户信号":"国内工程和园林用户多","海外销售类型":"全球专业市场强","拆机/替换升级件":"防护罩、导向架、手柄、脚轮和集尘结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":202,"热度层级":"A","品类":"测量设备","品牌中文名":"博世专业","品牌英文名":"Bosch Professional","推荐型号或型号族":"GLM高端系列、GLL激光水平仪系列","国内用户信号":"国内装修和工程用户多","海外销售类型":"全球渠道强","拆机/替换升级件":"支架、墙面固定、保护结构、三脚架转接和收纳","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":203,"热度层级":"A","品类":"热成像设备","品牌中文名":"海康微影","品牌英文名":"HIKMICRO","推荐型号或型号族":"M系列、M信息系列、Mini2 Plus","国内用户信号":"国内工业和维修用户多","海外销售类型":"海外专业市场可见","拆机/替换升级件":"镜头保护、磁吸底座、三脚架转接、探头收纳和保护壳","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":204,"热度层级":"A","品类":"内窥镜","品牌中文名":"泰斯朗","品牌英文名":"Teslong","推荐型号或型号族":"工业内窥镜高端系列、NTS系列","国内用户信号":"国内维修和检测用户多","海外销售类型":"海外电商强","拆机/替换升级件":"探头保护、卷盘、磁吸底座、屏幕支架和收纳结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":205,"热度层级":"A","品类":"网络设备","品牌中文名":"普联 Omada","品牌英文名":"TP-Link Omada","推荐型号或型号族":"ER8411、SG3428X、EAP690E HD","国内用户信号":"国内企业网络用户多","海外销售类型":"海外渠道强","拆机/替换升级件":"主板、交换芯片散热组件、风扇模块、背板、端口板、天线板、机架固定件和状态显示板（电源适配器不做）；机架安装、散热、壁挂、PoE线缆收纳和设备托架","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":206,"热度层级":"A","品类":"网络设备","品牌中文名":"米克罗蒂克","品牌英文名":"MikroTik","推荐型号或型号族":"CCR2004、CCR2116、RB5009高配套装","国内用户信号":"国内网络发烧用户和企业多","海外销售类型":"海外专业市场强","拆机/替换升级件":"主板、交换芯片散热组件、风扇模块、背板、端口板、天线板、机架固定件和状态显示板（电源适配器不做）；机架托盘、散热、壁挂、线缆和模块保护结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":207,"热度层级":"A","品类":"安防摄像机","品牌中文名":"睿联","品牌英文名":"Reolink","推荐型号或型号族":"RLC-823A、TrackMix、NVR高配套装","国内用户信号":"国内安防用户和供应链多","海外销售类型":"海外电商强","拆机/替换升级件":"云台防护、壁装支架、接线盒、遮阳罩、杆装结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":208,"热度层级":"A","品类":"安防摄像机","品牌中文名":"海康威视","品牌英文名":"Hikvision","推荐型号或型号族":"ColorVu、DeepinView、NVR高配套装","国内用户信号":"国内用户和工程渠道极大","海外销售类型":"全球工程和海外渠道强","拆机/替换升级件":"壁装支架、接线盒、遮阳罩、机架托盘和防护外壳","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":209,"热度层级":"A","品类":"安防摄像机","品牌中文名":"大华","品牌英文名":"Dahua","推荐型号或型号族":"WizSense、TiOC、NVR高配套装","国内用户信号":"国内用户和工程渠道多","海外销售类型":"海外工程市场强","拆机/替换升级件":"壁装、杆装、接线盒、遮阳罩、机架和防护结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":210,"热度层级":"A","品类":"智能门锁","品牌中文名":"凯迪仕","品牌英文名":"Kaadas","推荐型号或型号族":"K20、K9、X系列","国内用户信号":"国内安装和用户基础强","海外销售类型":"海外渠道和OEM强","拆机/替换升级件":"主控板、无线通信板、指纹/键盘模块、锁体电机、齿轮箱、离合器、锁舌总成和内侧旋钮组件（电池不做）；门锁面板结构、门厚转接、室外防护、安装模板和电缆保护","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":211,"热度层级":"A","品类":"智能门锁","品牌中文名":"飞利浦 DDL","品牌英文名":"Philips DDL","推荐型号或型号族":"9300、709系列","国内用户信号":"国内用户和供应链强","海外销售类型":"海外部分市场和华人渠道","拆机/替换升级件":"主控板、无线通信板、指纹/键盘模块、锁体电机、齿轮箱、离合器、锁舌总成和内侧旋钮组件（电池不做）；面板转接、门厚适配、室外防护、安装模板和锁体结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":212,"热度层级":"A","品类":"智能门锁","品牌中文名":"绿米 Aqara","品牌英文名":"Aqara","推荐型号或型号族":"D100、U100、A100 Zigbee","国内用户信号":"国内智能家居用户多","海外销售类型":"海外智能家居渠道强","拆机/替换升级件":"主控板、无线通信板、指纹/键盘模块、锁体电机、齿轮箱、离合器、锁舌总成和内侧旋钮组件（电池不做）；门厚转接、面板保护、安装模板、室外防雨和锁体结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":213,"热度层级":"A","品类":"园艺设备","品牌中文名":"格力博","品牌英文名":"Greenworks","推荐型号或型号族":"60V/80V高端割草机、骑乘式系列","国内用户信号":"国内用户和供应链明确","海外销售类型":"美国市场强","拆机/替换升级件":"集草箱、刀盘防护、车库挂架、工具收纳和机身结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":214,"热度层级":"A","品类":"园艺设备","品牌中文名":"利优比","品牌英文名":"Ryobi","推荐型号或型号族":"40V HP高端割草机、零转向系列","国内用户信号":"国内渠道和用户有基础","海外销售类型":"美国渠道强","拆机/替换升级件":"集草箱、刀盘防护、挂墙系统、工具收纳和机身结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":215,"热度层级":"A","品类":"园艺设备","品牌中文名":"科瑞斯","品牌英文名":"Kress","推荐型号或型号族":"KR系列机器人割草机、专业割草机","国内用户信号":"国内供应链和用户有基础","海外销售类型":"欧美园艺市场可见","拆机/替换升级件":"边界线收纳、车库、刀盘防护、充电站结构和防撞件","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":216,"热度层级":"A","品类":"温室种植","品牌中文名":"火星农场","品牌英文名":"Mars Hydro","推荐型号或型号族":"FC系列高功率灯、Smart Grow套装","国内用户信号":"国内种植用户和供应链多","海外销售类型":"海外种植市场强","拆机/替换升级件":"灯架、风道、吊装、温室支撑、反光结构和控制器安装件","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":217,"热度层级":"A","品类":"温室种植","品牌中文名":"蜘蛛农场","品牌英文名":"Spider Farmer","推荐型号或型号族":"SE系列、G系列高功率灯","国内用户信号":"国内供应链和种植用户多","海外销售类型":"海外市场强","拆机/替换升级件":"灯架、吊装、风道、温室支撑、反光结构和控制器支架","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":218,"热度层级":"A","品类":"泳池设备","品牌中文名":"滨特尔","品牌英文名":"Pentair","推荐型号或型号族":"IntelliFlo、EasyTouch、IC系列","国内用户信号":"国内泳池工程用户多","海外销售类型":"美国专业市场强","拆机/替换升级件":"主控板、驱动电机、泵体总成、齿轮箱、浮力/导航传感器、履带驱动轮和密封壳体（滤网耗材不做）；泵体底座、管路转接、控制箱支架、盐氯机外壳和防护结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":219,"热度层级":"A","品类":"泳池设备","品牌中文名":"Jandy","品牌英文名":"Jandy","推荐型号或型号族":"JXi、VS FloPro、AquaLink系列","国内用户信号":"国内泳池工程有用户","海外销售类型":"美国专业市场强","拆机/替换升级件":"主控板、驱动电机、泵体总成、齿轮箱、浮力/导航传感器、履带驱动轮和密封壳体（滤网耗材不做）；泵体底座、管路转接、控制箱支架、阀门和防护结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":220,"热度层级":"A","品类":"泳池设备","品牌中文名":"英特","品牌英文名":"Intex","推荐型号或型号族":"Ultra XTR、Krystal Clear高配套装","国内用户信号":"国内供应链和用户多","海外销售类型":"全球大众市场强","拆机/替换升级件":"主控板、驱动电机、泵体总成、齿轮箱、浮力/导航传感器、履带驱动轮和密封壳体（滤网耗材不做）；泵体底座、管路转接、过滤桶结构、梯架和盖布固定件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":221,"热度层级":"A","品类":"泳池设备","品牌中文名":"百适乐","品牌英文名":"Bestway","推荐型号或型号族":"Steel Pro Max高配、Hydro-Force泳池套装","国内用户信号":"国内供应链和用户多","海外销售类型":"全球渠道强","拆机/替换升级件":"主控板、驱动电机、泵体总成、齿轮箱、浮力/导航传感器、履带驱动轮和密封壳体（滤网耗材不做）；泵体底座、管路转接、梯架、盖布固定和设备支架","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":222,"热度层级":"A","品类":"水处理设备","品牌中文名":"滨特尔","品牌英文名":"Pentair","推荐型号或型号族":"Everpure高端净水、Whole House系列","国内用户信号":"国内有兼容工厂和安装用户","海外销售类型":"海外家庭水处理市场强","拆机/替换升级件":"安装支架、旁通阀结构、管路转接、压力罐底座和防护箱","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":223,"热度层级":"A","品类":"皮划艇","品牌中文名":"奥尔德汤","品牌英文名":"Old Town","推荐型号或型号族":"Sportsman、Autopilot系列","国内用户信号":"国内钓鱼和户外用户有基础","海外销售类型":"美国市场强","拆机/替换升级件":"座椅底座、脚踏驱动、舵系统、拖车架、鱼探仪支架和防水收纳","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":224,"热度层级":"A","品类":"皮划艇","品牌中文名":"先进元素","品牌英文名":"Advanced Elements","推荐型号或型号族":"AdvancedFrame、AirVolution","国内用户信号":"国内户外用户和供应链有基础","海外销售类型":"欧美户外市场可见","拆机/替换升级件":"座椅结构、脚踏、充气阀保护、拖车架、防水收纳和修复夹具","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":225,"热度层级":"A","品类":"皮划艇","品牌中文名":"派力肯","品牌英文名":"Pelican","推荐型号或型号族":"Catch系列、Kushion高配系列","国内用户信号":"国内供应链和用户明确","海外销售类型":"北美大众市场强","拆机/替换升级件":"座椅、拖车架、鱼探仪支架、脚踏和防水收纳","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":226,"热度层级":"A","品类":"桨板","品牌中文名":"iRocker","品牌英文名":"iRocker","推荐型号或型号族":"All-Around、Blackfin系列","国内用户信号":"国内户外用户和供应链有基础","海外销售类型":"海外桨板市场强","拆机/替换升级件":"座椅转接、脚踏、拖车架、鳍盒、收纳和固定件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":227,"热度层级":"A","品类":"桨板","品牌中文名":"红桨","品牌英文名":"Red Paddle Co","推荐型号或型号族":"Ride、Sport、Voyager系列","国内用户信号":"国内高端户外用户有基础","海外销售类型":"欧美高端市场强","拆机/替换升级件":"座椅转接、鳍盒、拖车架、脚踏和运输结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":228,"热度层级":"A","品类":"桨板","品牌中文名":"Aqua Marina","品牌英文名":"Aqua Marina","推荐型号或型号族":"Hyper、Race、Monster系列","国内用户信号":"国内供应链和用户多","海外销售类型":"全球户外渠道强","拆机/替换升级件":"座椅转接、鳍盒、拖车架、脚踏和收纳结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":229,"热度层级":"A","品类":"碎纸机","品牌中文名":"HSM","品牌英文名":"HSM","推荐型号或型号族":"SECURIO B系列高端型号","国内用户信号":"国内企业和办公渠道有用户","海外销售类型":"欧美办公设备市场强","拆机/替换升级件":"刀架结构、脚轮、集尘箱、降噪外壳和安全开关外部件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":230,"热度层级":"A","品类":"碎纸机","品牌中文名":"范罗士","品牌英文名":"Fellowes","推荐型号或型号族":"Powershred LX系列、485Ci","国内用户信号":"国内办公用户和供应链明确","海外销售类型":"美国办公市场强","拆机/替换升级件":"脚轮、集尘箱、进纸导流、降噪外壳和安全结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":231,"热度层级":"A","品类":"标签打印机","品牌中文名":"兄弟","品牌英文名":"Brother","推荐型号或型号族":"QL-1110NWB、TD-4550DNWB","国内用户信号":"国内办公和电商用户多","海外销售类型":"全球渠道强","拆机/替换升级件":"主板、打印控制板、走纸电机、齿轮箱、压纸滚轮总成、传感器板、切刀/剥离器总成和显示板；卷纸架、桌面支架、导纸结构、剥离器、机架和收纳","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":232,"热度层级":"A","品类":"商用扫描仪","品牌中文名":"富士通/理光","品牌英文名":"Fujitsu/Ricoh","推荐型号或型号族":"fi-8170、fi-8270","国内用户信号":"国内企业和档案用户多","海外销售类型":"全球商用市场强","拆机/替换升级件":"进纸托盘、桌面底座、线缆管理、保护结构和机架件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":233,"热度层级":"A","品类":"投影幕和显示设备","品牌中文名":"乐金","品牌英文名":"LG","推荐型号或型号族":"CineBeam高端系列、StanbyME","国内用户信号":"国内家庭影音用户多","海外销售类型":"全球渠道强","拆机/替换升级件":"移动底座、壁挂、吊装、转轴、线缆收纳和防护结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":234,"热度层级":"A","品类":"显示器","品牌中文名":"联合创新","品牌英文名":"INNOCN","推荐型号或型号族":"32M2V、49C1R、高端OLED系列","国内用户信号":"国内设计和电竞用户多","海外销售类型":"海外电商和专业用户可见","拆机/替换升级件":"显示器支架、VESA转接、桌面底座、灯光挂件和理线结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":235,"热度层级":"A","品类":"显示器","品牌中文名":"科睿","品牌英文名":"KTC","推荐型号或型号族":"M32P10、G42P5、OLED系列","国内用户信号":"国内电竞和设计用户多","海外销售类型":"海外跨境电商可见","拆机/替换升级件":"显示器支架、VESA转接、底座、理线和桌面固定结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":236,"热度层级":"A","品类":"办公升降桌","品牌中文名":"乐歌 FlexiSpot","品牌英文名":"FlexiSpot","推荐型号或型号族":"E7、E8、E7 Plus","国内用户信号":"国内办公和居家用户多","海外销售类型":"海外渠道强","拆机/替换升级件":"桌下理线、主机托架、显示器支撑、桌板结构和脚轮件","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":237,"热度层级":"A","品类":"加湿器","品牌中文名":"海尔","品牌英文名":"Haier","推荐型号或型号族":"加湿器海外系列、无雾系列","国内用户信号":"国内家电渠道和维修网络广","海外销售类型":"全球家电渠道","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；水箱、底座、排水结构、风道和控制面板外壳","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":238,"热度层级":"A","品类":"加湿器","品牌中文名":"格力","品牌英文名":"Gree","推荐型号或型号族":"加湿器及空气处理海外系列","国内用户信号":"国内空调和空气处理用户多","海外销售类型":"全球空调渠道和OEM","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；水箱、底座、风道、排水和防倾倒结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":239,"热度层级":"A","品类":"加湿器","品牌中文名":"九阳","品牌英文名":"Joyoung","推荐型号或型号族":"无雾加湿器、智能加湿器出口系列","国内用户信号":"国内小家电用户和供应链多","海外销售类型":"东南亚、中东及OEM","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；水箱、底座、浮球、雾化仓和控制面板外壳","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":240,"热度层级":"A","品类":"加湿器","品牌中文名":"奥克斯","品牌英文名":"AUX","推荐型号或型号族":"加湿器及空气处理出口系列","国内用户信号":"国内家电渠道广，工厂资源多","海外销售类型":"东南亚、中东和OEM","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；水箱、底座、排水转接、风道和防倾倒结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":241,"热度层级":"A","品类":"加湿器","品牌中文名":"东菱","品牌英文名":"Donlim","推荐型号或型号族":"小家电出口加湿器系列","国内用户信号":"国内制造和OEM供应链明确","海外销售类型":"欧美小家电OEM和跨境渠道","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；水箱、底座、浮球、旋钮和雾化仓保护","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":242,"热度层级":"A","品类":"加湿器","品牌中文名":"飞利浦","品牌英文名":"Philips","推荐型号或型号族":"HU系列、无雾加湿器海外系列","国内用户信号":"国内品牌认知和维修渠道强","海外销售类型":"全球家电渠道","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；水箱、底座、风道、传感器保护和防倾倒结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":243,"热度层级":"A","品类":"空气净化器","品牌中文名":"智米","品牌英文名":"Smartmi","推荐型号或型号族":"P1、P2、Air Purifier系列","国内用户信号":"智能家居用户和供应链明确","海外销售类型":"欧美智能家居渠道","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；底座、风道、墙装结构、传感器保护和静音改装","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":244,"热度层级":"A","品类":"空气净化器","品牌中文名":"飞利浦","品牌英文名":"Philips","推荐型号或型号族":"AC系列、4000i/5000i系列","国内用户信号":"国内家庭用户和配件市场成熟","海外销售类型":"全球家电渠道","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；底座、风道、墙装支架、传感器保护和机身结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":245,"热度层级":"A","品类":"除湿机","品牌中文名":"格力","品牌英文名":"Gree","推荐型号或型号族":"高容量除湿机海外系列","国内用户信号":"国内空调渠道和供应链强","海外销售类型":"海外家电渠道和OEM","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；连续排水、脚轮、风道、冷凝水接口和防倾倒结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":246,"热度层级":"A","品类":"除湿机","品牌中文名":"海信","品牌英文名":"Hisense","推荐型号或型号族":"除湿机海外系列、50-Pint系列","国内用户信号":"国内家电用户和制造供应链多","海外销售类型":"全球家电渠道和OEM","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；排水转接、脚轮底座、风道和控制面板外壳","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":247,"热度层级":"A","品类":"除湿机","品牌中文名":"TCL","品牌英文名":"TCL","推荐型号或型号族":"除湿机海外系列","国内用户信号":"国内渠道广、出口供应链明确","海外销售类型":"全球家电渠道和OEM","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；连续排水、脚轮底座、风道和水箱结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":248,"热度层级":"A","品类":"吸尘器","品牌中文名":"小米/米家","品牌英文名":"Xiaomi/Mijia","推荐型号或型号族":"米家无线吸尘器、手持吸尘器高配系列","国内用户信号":"国内保有量和配件市场大","海外销售类型":"海外米家和跨境电商","拆机/替换升级件":"尘杯、吸头外壳、墙挂支架、风道和收纳底座","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":249,"热度层级":"A","品类":"洗地机","品牌中文名":"石头科技","品牌英文名":"Roborock","推荐型号或型号族":"Flexi Pro、Flexi Lite、Dyad系列","国内用户信号":"国内用户和维修件供应充足","海外销售类型":"海外智能清洁市场强","拆机/替换升级件":"真空电机、刷盘电机、水泵、加热器、控制板、浮球传感器、污水箱总成、吸水扒总成、软管接口；滚刷盖、污水箱、底座、风道和停靠支架","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":250,"热度层级":"A","品类":"便携空调","品牌中文名":"海信","品牌英文名":"Hisense","推荐型号或型号族":"便携变频空调、AP系列","国内用户信号":"国内家电渠道和配件工厂多","海外销售类型":"北美、欧洲和澳洲渠道","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；窗封、排风管转接、冷凝水排放、脚轮底座和隔音结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":251,"热度层级":"A","品类":"便携空调","品牌中文名":"TCL","品牌英文名":"TCL","推荐型号或型号族":"便携空调海外系列","国内用户信号":"国内渠道和出口供应链明确","海外销售类型":"北美、欧洲和东南亚渠道","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；窗封、排风管、排水、脚轮和机身支架","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":252,"热度层级":"A","品类":"安防摄像机","品牌中文名":"乐橙","品牌英文名":"IMOU","推荐型号或型号族":"Cruiser、Ranger、NVR套装","国内用户信号":"乐橙国内安装和供应链明确","海外销售类型":"海外电商和工程渠道","拆机/替换升级件":"壁装、杆装、防水接线盒、遮阳罩和线缆固定","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":253,"热度层级":"A","品类":"安防摄像机","品牌中文名":"普联 Tapo","品牌英文名":"TP-Link Tapo","推荐型号或型号族":"C425、C520WS、H500套装","国内用户信号":"普联国内用户和配件供应链强","海外销售类型":"海外消费安防渠道","拆机/替换升级件":"壁装、吸顶、遮阳罩、防水接线盒和线缆管理","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":254,"热度层级":"A","品类":"安防摄像机","品牌中文名":"宇视","品牌英文名":"Uniview","推荐型号或型号族":"ColorHunter、NVR高配套装","国内用户信号":"宇视工程渠道和配件工厂强","海外销售类型":"海外工程和商用安防渠道","拆机/替换升级件":"壁装、立杆、遮阳罩、防水接线盒、机架和散热件","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":255,"热度层级":"A","品类":"网络设备","品牌中文名":"腾达","品牌英文名":"Tenda","推荐型号或型号族":"商用交换机、Wi-Fi 7路由和Mesh系列","国内用户信号":"国内用户多，配件制造容易","海外销售类型":"东南亚、欧洲和跨境电商","拆机/替换升级件":"主板、交换芯片散热组件、风扇模块、背板、端口板、天线板、机架固定件和状态显示板（电源适配器不做）；壁装、机架、散热、理线和防尘结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":256,"热度层级":"A","品类":"电动工具系统","品牌中文名":"威克士","品牌英文名":"WORX","推荐型号或型号族":"20V/40V PowerShare、Landroid系列","国内用户信号":"威克士国内渠道和制造供应链强","海外销售类型":"欧美园艺和工具市场强","拆机/替换升级件":"工具箱、墙挂、导轨夹具、集尘转接和机身防护结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":257,"热度层级":"A","品类":"水处理设备","品牌中文名":"安吉尔","品牌英文名":"Angel","推荐型号或型号族":"A7、J系列高端净水/商用设备","国内用户信号":"国内安装、维修和制造供应链强","海外销售类型":"东南亚、中东及工程出口","拆机/替换升级件":"安装支架、管路转接、旁通结构、压力罐底座和防护箱","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":258,"热度层级":"A","品类":"冰淇淋机","品牌中文名":"海川","品牌英文名":"Oceanpower","推荐型号或型号族":"Soft Serve、Hard Ice Cream and Batch Freezer Series","国内用户信号":"国内商用制冷和出口工厂资源明确","海外销售类型":"欧美、中东和东南亚餐饮工程","拆机/替换升级件":"料斗盖、出料门、脚轮底座、护罩、散热风道和维修面板","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":259,"热度层级":"A","品类":"冰淇淋机","品牌中文名":"泰勒","品牌英文名":"Taylor","推荐型号或型号族":"C708、C716、152 Series","国内用户信号":"国内连锁餐饮、维修和兼容件工厂有基础","海外销售类型":"北美和全球商用餐饮市场强","拆机/替换升级件":"门组件、料斗盖、脚轮、护罩、维修面板和散热结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":260,"热度层级":"A","品类":"冰淇淋机","品牌中文名":"卡比詹尼","品牌英文名":"Carpigiani","推荐型号或型号族":"LB 100、191 P、Pastomaster Series","国内用户信号":"国内高端烘焙、餐饮和维修渠道有用户","海外销售类型":"欧洲、北美和亚洲商用市场强","拆机/替换升级件":"门组件、料斗盖、脚轮底座、护罩、散热风道和机架结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":261,"热度层级":"A","品类":"造雪机","品牌中文名":"HKD 造雪机","品牌英文名":"HKD Snowmakers","推荐型号或型号族":"HKD SnowGun、HKD Fan Gun Series","国内用户信号":"国内雪场建设和钣金加工供应链可找","海外销售类型":"北美专业雪场市场强","拆机/替换升级件":"液压泵/阀块、驱动电机、控制器、喷雪/刮冰执行机构、传感器、工作灯控制板、车架总成；炮体支架、旋转底座、软管导向、防护罩、维护梯和运输结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":262,"热度层级":"A","品类":"商用制冰机","品牌中文名":"星崎","品牌英文名":"Hoshizaki","推荐型号或型号族":"KM、FM、IM Series","国内用户信号":"国内酒店、餐饮和制冷维修供应链有用户","海外销售类型":"日本、北美、欧洲和亚洲商用渠道强","拆机/替换升级件":"主控板、制冷控制板、压缩机启动模块、风机电机、冰厚探针、进水阀、排水泵、料斗门总成；储冰箱底座、排水转接、机架、散热风道、门板和防护结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":263,"热度层级":"A","品类":"舞台特效造雪机","品牌中文名":"安特利","品牌英文名":"Antari","推荐型号或型号族":"S-500、S-200、Snow Machine Series","国内用户信号":"中国制造和舞台设备供应链成熟","海外销售类型":"全球演出、主题乐园和活动租赁市场","拆机/替换升级件":"液压泵/阀块、驱动电机、控制器、喷雪/刮冰执行机构、传感器、工作灯控制板、车架总成；喷口、风扇罩、泵体支架、机箱、吊挂和运输箱结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":264,"热度层级":"A","品类":"舞台特效造雪机","品牌中文名":"Chauvet DJ","品牌英文名":"Chauvet DJ","推荐型号或型号族":"Snow Machine、Snow Machine Q6","国内用户信号":"国内演出设备渠道和兼容加工厂有基础","海外销售类型":"欧美演出和活动市场强","拆机/替换升级件":"液压泵/阀块、驱动电机、控制器、喷雪/刮冰执行机构、传感器、工作灯控制板、车架总成；喷口、风扇罩、吊挂、机箱、运输箱和控制面板外壳","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":265,"热度层级":"A","品类":"舞台特效造雪机","品牌中文名":"美国DJ灯光","品牌英文名":"ADJ","推荐型号或型号族":"Entour Snow、VF Snow Flurry Series","国内用户信号":"国内舞台灯光和特效设备供应链可找","海外销售类型":"欧美演出、酒吧和主题活动市场","拆机/替换升级件":"液压泵/阀块、驱动电机、控制器、喷雪/刮冰执行机构、传感器、工作灯控制板、车架总成；喷口、泵体支架、风扇罩、吊挂和运输结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":266,"热度层级":"A","品类":"除雪机","品牌中文名":"艾瑞恩斯","品牌英文名":"Ariens","推荐型号或型号族":"Deluxe 28、Platinum 30、Professional Series","国内用户信号":"国内园林机械和金属件供应链明确","海外销售类型":"北美冬季庭院设备市场强","拆机/替换升级件":"发动机点火模块、启动电机、传动箱、蜗轮/螺旋输送总成、导流槽齿轮机构、控制手柄总成、车架；导流槽、把手、轮架、护罩、收纳和运输结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":267,"热度层级":"A","品类":"除雪机","品牌中文名":"托罗","品牌英文名":"Toro","推荐型号或型号族":"Power Max HD、SnowMaster Series","国内用户信号":"国内园林机械供应链和兼容加工厂可找","海外销售类型":"北美和欧洲冬季设备市场强","拆机/替换升级件":"发动机点火模块、启动电机、传动箱、蜗轮/螺旋输送总成、导流槽齿轮机构、控制手柄总成、车架；导流槽、把手、轮架、护罩、运输架和收纳结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":268,"热度层级":"A","品类":"冰场刮冰车","品牌中文名":"奥林匹亚冰场车","品牌英文名":"Resurfice Olympia","推荐型号或型号族":"Olympia Millennium H、Olympia CCT","国内用户信号":"国内冰场工程和金属结构件供应链可找","海外销售类型":"北美、欧洲和亚洲冰场市场","拆机/替换升级件":"液压泵/阀块、驱动电机、控制器、喷雪/刮冰执行机构、传感器、工作灯控制板、车架总成；刮冰刀架、水箱支撑、侧板、脚轮、检修门和运输结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":269,"热度层级":"A","品类":"滑雪板维修设备","品牌中文名":"温特斯泰格","品牌英文名":"Wintersteiger","推荐型号或型号族":"Mercury、Sigma、Discovery Ski Service","国内用户信号":"国内雪场、滑雪店和维修设备渠道有基础","海外销售类型":"欧美雪场和滑雪店市场强","拆机/替换升级件":"夹具、工作台、砂轮护罩、除尘罩、机架和外壳结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":270,"热度层级":"A","品类":"滑雪板维修设备","品牌中文名":"蒙大拿滑雪设备","品牌英文名":"Montana Sport","推荐型号或型号族":"Montana Saphir、Montana Crystal、Montana Easy Go","国内用户信号":"国内滑雪店和金属加工供应链可找","海外销售类型":"欧美专业滑雪维修市场","拆机/替换升级件":"夹具、工作台、砂轮护罩、除尘结构、机架和检修门","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":271,"热度层级":"A","品类":"滑雪板维修设备","品牌中文名":"莱希曼","品牌英文名":"Reichmann","推荐型号或型号族":"Profi、Ski Service、Race Service Series","国内用户信号":"国内雪场和滑雪店维保渠道有用户","海外销售类型":"欧洲、北美专业市场","拆机/替换升级件":"夹具、砂轮护罩、除尘罩、机架、外壳和检修结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":272,"热度层级":"A","品类":"商用除雪设备","品牌中文名":"约翰迪尔","品牌英文名":"John Deere","推荐型号或型号族":"1025R、2032R、X739 Snow Attachments","国内用户信号":"国内农机、工程机械和金属件供应链明确","海外销售类型":"美国住宅、农场和市政冬季维护市场","拆机/替换升级件":"除雪铲、抛雪机连接架、护罩、轮架、驾驶室附件和运输固定件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":273,"热度层级":"A","品类":"除雪机","品牌中文名":"本田","品牌英文名":"Honda","推荐型号或型号族":"HSS1332A、HSS928A、HSS724A","国内用户信号":"国内本田动力和园林机械维修供应链成熟","海外销售类型":"北美和日本冬季庭院设备市场强","拆机/替换升级件":"发动机点火模块、启动电机、传动箱、蜗轮/螺旋输送总成、导流槽齿轮机构、控制手柄总成、车架；导流槽、把手、轮架、护罩、运输架和收纳结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":274,"热度层级":"A","品类":"雪铲与推雪附件","品牌中文名":"BOSS 扫雪","品牌英文名":"BOSS Snowplow","推荐型号或型号族":"V-XT、D XT、TripEdge Series","国内用户信号":"国内钣金、液压和挂载结构供应链明确","海外销售类型":"美国皮卡、车队和商业除雪市场强","拆机/替换升级件":"挂载架、铲体加强件、液压管护罩、灯架、收纳架和运输固定件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":275,"热度层级":"A","品类":"雪铲与推雪附件","品牌中文名":"费舍尔扫雪","品牌英文名":"Fisher","推荐型号或型号族":"XV2、XtremeV、Meyer-compatible Series","国内用户信号":"国内车辆附件、钣金和液压加工厂可找","海外销售类型":"美国商业车队和道路除雪市场强","拆机/替换升级件":"挂载架、铲体加强件、液压护罩、灯架和运输结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":276,"热度层级":"A","品类":"融雪剂撒布机","品牌中文名":"SnowEx","品牌英文名":"SnowEx","推荐型号或型号族":"V-Maxx、Tailgate Pro、Helixx Series","国内用户信号":"国内钣金、滚筒和车辆附件供应链成熟","海外销售类型":"美国商业车队和市政冬季维护市场强","拆机/替换升级件":"料斗框架、输送螺杆护罩、挂载架、挡料板、控制箱支架和运输结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":277,"热度层级":"A","品类":"融雪剂撒布机","品牌中文名":"亨德森","品牌英文名":"Henderson","推荐型号或型号族":"V-Box、FRH、Tailgate Spreader Series","国内用户信号":"国内市政车辆、料斗和金属结构供应链可找","海外销售类型":"美国市政、机场和道路维护市场强","拆机/替换升级件":"料斗框架、输送结构护罩、挂载架、挡料板、梯架和检修门","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":278,"热度层级":"A","品类":"商用融雪机","品牌中文名":"Trecan 融雪机","品牌英文名":"Trecan","推荐型号或型号族":"60-PD、120-PD、Snowmelter Series","国内用户信号":"国内市政工程、钢结构和热交换器供应链可配套","海外销售类型":"北美机场、市政和大型商业场地市场","拆机/替换升级件":"进料斗、检修门、输送结构、护栏、平台和运输固定件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":279,"热度层级":"A","品类":"滑雪索道设备","品牌中文名":"多贝玛亚","品牌英文名":"Doppelmayr","推荐型号或型号族":"D-Line、Uni-G、Chairlift Systems","国内用户信号":"国内索道工程、钢结构和机加工供应链强","海外销售类型":"美国、加拿大和欧洲雪场工程市场","拆机/替换升级件":"座椅支架、检修平台、护罩、钢索导向结构、设备机架和防护栏","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":280,"热度层级":"A","品类":"滑雪索道设备","品牌中文名":"莱特纳","品牌英文名":"Leitner","推荐型号或型号族":"LEITNER Ropeway、Premium Chairlift Systems","国内用户信号":"国内索道工程和金属结构供应链可配套","海外销售类型":"北美、欧洲和亚洲雪场工程市场","拆机/替换升级件":"座椅支架、检修平台、护罩、钢索导向、机架和防护栏","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":281,"热度层级":"A","品类":"冰场制冷设备","品牌中文名":"CIMCO 冰场制冷","品牌英文名":"CIMCO","推荐型号或型号族":"Ice Rink Refrigeration Systems、Direct Refrigeration Packaged Units","国内用户信号":"国内制冷工程、钢结构和管路供应链强","海外销售类型":"北美冰场、体育馆和娱乐综合体市场","拆机/替换升级件":"机组底座、管路护罩、检修平台、风道、泵组支架和防护栏","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":282,"热度层级":"A","品类":"标签打印机","品牌中文名":"佐藤","品牌英文名":"SATO","推荐型号或型号族":"CL4NX Plus、CT4-LX、FX3-LX","国内用户信号":"国内仓储、制造业和标签设备供应链有用户","海外销售类型":"欧美、日韩商用标签市场强","拆机/替换升级件":"主板、打印控制板、走纸电机、齿轮箱、压纸滚轮总成、传感器板、切刀/剥离器总成和显示板；卷纸架、剥离器、打印头保护罩、桌面支架、机架和理线结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":283,"热度层级":"A","品类":"标签打印机","品牌中文名":"台半","品牌英文名":"TSC","推荐型号或型号族":"MH241、MX241P、TE210高配系列","国内用户信号":"中国品牌和仓储标签设备供应链明确","海外销售类型":"欧美、东南亚和跨境电商渠道","拆机/替换升级件":"主板、打印控制板、走纸电机、齿轮箱、压纸滚轮总成、传感器板、切刀/剥离器总成和显示板；卷纸架、剥离器、桌面支架、机架、理线和防尘结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":284,"热度层级":"A","品类":"标签打印机","品牌中文名":"科诚","品牌英文名":"GoDEX","推荐型号或型号族":"RT700i、ZX1200i、HD830i","国内用户信号":"国内标签打印、仓储和制造业用户多","海外销售类型":"欧洲、东南亚和拉美商用市场","拆机/替换升级件":"主板、打印控制板、走纸电机、齿轮箱、压纸滚轮总成、传感器板、切刀/剥离器总成和显示板；卷纸架、剥离器、打印头保护、机架和线缆管理","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":285,"热度层级":"A","品类":"标签打印机","品牌中文名":"百讯","品牌英文名":"Bixolon","推荐型号或型号族":"XT5-40、SRT-Q300、XD5-40d","国内用户信号":"国内零售、物流和标签设备配件渠道可找","海外销售类型":"欧美商用市场稳定","拆机/替换升级件":"主板、打印控制板、走纸电机、齿轮箱、压纸滚轮总成、传感器板、切刀/剥离器总成和显示板；卷纸架、剥离器、机架、桌面支架和理线结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":286,"热度层级":"A","品类":"标签打印机","品牌中文名":"霍尼韦尔","品牌英文名":"Honeywell","推荐型号或型号族":"PM45、PD45、PX45","国内用户信号":"国内仓储和工业打印机工程渠道强","海外销售类型":"全球商用和工业市场","拆机/替换升级件":"主板、打印控制板、走纸电机、齿轮箱、压纸滚轮总成、传感器板、切刀/剥离器总成和显示板；卷纸架、剥离器、机架、打印头保护和理线结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":287,"热度层级":"A","品类":"投影仪","品牌中文名":"明基","品牌英文名":"BenQ","推荐型号或型号族":"HT4550i / TK860i","国内用户信号":"明基显示产品在中国有制造和维修配套","海外销售类型":"Amazon US家庭影院、游戏投影渠道","拆机/替换升级件":"主板/逻辑板、DMD/光机组件、激光/灯驱动板、液晶面板、风扇、镜头位移电机、遥控接收板、电源板（仅拆机件）；吊装/VESA转接、镜头滑盖、散热风道、机架、运输内架和线缆应力固定结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":288,"热度层级":"A","品类":"投影仪","品牌中文名":"奥图码","品牌英文名":"Optoma","推荐型号或型号族":"UHD38x / UHZ50","国内用户信号":"奥图码显示产品有中国制造和光机供应链","海外销售类型":"Amazon US游戏投影和家庭影院渠道","拆机/替换升级件":"主板/逻辑板、DMD/光机组件、激光/灯驱动板、液晶面板、风扇、镜头位移电机、遥控接收板、电源板（仅拆机件）；吊装板、镜头防尘结构、散热风道、机架、运输固定件和线缆管理结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":289,"热度层级":"A","品类":"投影仪","品牌中文名":"优派","品牌英文名":"ViewSonic","推荐型号或型号族":"PX748-4K / X2-4K","国内用户信号":"优派显示器和投影产品有中国制造配套","海外销售类型":"Amazon US游戏投影和商用显示渠道","拆机/替换升级件":"主板/逻辑板、DMD/光机组件、激光/灯驱动板、液晶面板、风扇、镜头位移电机、遥控接收板、电源板（仅拆机件）；吊装/VESA转接、镜头滑盖、散热风道、底座加强件和运输内架","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":290,"热度层级":"A","品类":"3D打印机","品牌中文名":"创想三维","品牌英文名":"Creality","推荐型号或型号族":"K1 Max / K2 Plus Combo","国内用户信号":"创想三维中国制造和配件模具供应链成熟","海外销售类型":"Amazon US创客、教育和打印农场渠道","拆机/替换升级件":"主板、运动控制板、步进电机、挤出机总成、热床控制板、屏幕、导轨/丝杆、自动调平传感器；腔体门锁、线轨防护、平台调平结构、导风罩、机架加强件和AMS安装结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":291,"热度层级":"A","品类":"3D打印机","品牌中文名":"爱乐酷","品牌英文名":"Elegoo","推荐型号或型号族":"Neptune 4 Max / Saturn 4 Ultra","国内用户信号":"爱乐酷中国出口品牌，树脂机和机械件供应链强","海外销售类型":"Amazon US创客和教育渠道活跃","拆机/替换升级件":"主板、运动控制板、步进电机、挤出机总成、热床控制板、屏幕、导轨/丝杆、自动调平传感器；平台承载结构、Z轴防护、树脂仓盖铰链、排风接口、机架和运输固定结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":292,"热度层级":"A","品类":"3D打印机","品牌中文名":"纵维立方","品牌英文名":"Anycubic","推荐型号或型号族":"Kobra 3 Combo / Photon Mono M7 Pro","国内用户信号":"纵维立方中国出口品牌，打印机配件模具齐全","海外销售类型":"Amazon US创客和教育渠道","拆机/替换升级件":"主板、运动控制板、步进电机、挤出机总成、热床控制板、屏幕、导轨/丝杆、自动调平传感器；多色料盒安装结构、平台承载件、Z轴防护、排风转接、机架和门锁结构","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":293,"热度层级":"A","品类":"运动相机","品牌中文名":"GoPro","品牌英文名":"GoPro","推荐型号或型号族":"HERO13 Black / MAX","国内用户信号":"GoPro产品在中国有制造和兼容配件供应链","海外销售类型":"Amazon US户外影像长期主流","拆机/替换升级件":"飞控板、云台控制板、相机模组、图传板、无刷电机、电调、GPS/视觉定位板、遥控器主板（电池不做）；相机笼、镜头保护框、快拆底座、头盔/车载安装结构、防水壳骨架和防震连接件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":294,"热度层级":"A","品类":"无人机","品牌中文名":"道通智能","品牌英文名":"Autel Robotics","推荐型号或型号族":"EVO Lite+ / EVO Max 4T","国内用户信号":"道通智能中国出口品牌，精密机加工和电子供应链强","海外销售类型":"Amazon US、测绘和专业航拍渠道","拆机/替换升级件":"飞控板、云台控制板、相机模组、图传板、无刷电机、电调、GPS/视觉定位板、遥控器主板（电池不做）；云台保护架、起落架、遥控器支架、运输内架、快拆载荷安装结构和防震件","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":295,"热度层级":"A","品类":"发电机","品牌中文名":"西屋","品牌英文名":"Westinghouse","推荐型号或型号族":"WGen9500DF / WGen11500TFc","国内用户信号":"西屋发电机有中国钣金、轮架和发动机配件供应链","海外销售类型":"Amazon US家用应急和房车市场","拆机/替换升级件":"主控板/逆变板、点火模块、调压器、显示控制板、发动机控制模块、启动电机、散热风扇和机架总成；轮架、折叠手柄、控制面板护罩、气瓶托架、消音器隔热和运输固定结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":296,"热度层级":"A","品类":"发电机","品牌中文名":"杜罗麦克斯","品牌英文名":"DuroMax","推荐型号或型号族":"XP13000EH / XP16000iH","国内用户信号":"杜罗麦克斯有中国机加工、钣金和结构件供应链","海外销售类型":"Amazon US高功率双燃料和房车渠道","拆机/替换升级件":"主控板/逆变板、点火模块、调压器、显示控制板、发动机控制模块、启动电机、散热风扇和机架总成；轮架、手柄、控制面板安装件、气瓶托架、消音器隔热结构和运输架","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":297,"热度层级":"A","品类":"家庭健身","品牌中文名":"诺迪克","品牌英文名":"NordicTrack","推荐型号或型号族":"Commercial 2450 / S22i","国内用户信号":"诺迪克健身设备有中国金属、滚筒和结构件供应链","海外销售类型":"Amazon US和美国健身设备渠道","拆机/替换升级件":"主控板、显示屏、阻力/驱动电机、滚筒、皮带张紧总成、踏板/曲柄、传感器和屏幕臂总成；跑带滚筒和张紧座、屏幕臂、折叠锁止、扶手平板支架和运输轮结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":298,"热度层级":"A","品类":"家庭健身","品牌中文名":"宝力豪","品牌英文名":"Bowflex","推荐型号或型号族":"Max Trainer M16 / Treadmill 22","国内用户信号":"宝力豪有中国机架、阻力结构和塑胶配套供应链","海外销售类型":"美国健身器械和家庭训练渠道","拆机/替换升级件":"主控板、显示屏、阻力/驱动电机、滚筒、皮带张紧总成、踏板/曲柄、传感器和屏幕臂总成；阻力臂连接结构、踏板承载件、屏幕臂、底座脚轮和运输固定架","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":299,"热度层级":"A","品类":"智能门锁","品牌中文名":"耶鲁","品牌英文名":"Yale","推荐型号或型号族":"Assure Lock 2 / Assure Lever","国内用户信号":"耶鲁锁具在中国有锁体、齿轮和电子结构供应链","海外销售类型":"Amazon US和住宅安防安装渠道","拆机/替换升级件":"主控板、无线通信板、指纹/键盘模块、锁体电机、齿轮箱、离合器、锁舌总成和内侧旋钮组件（电池不做）；锁体/方舌组件、内面板安装框、门厚调节结构、模块仓载架和防撬加强件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":300,"热度层级":"A","品类":"标签打印机","品牌中文名":"Rollo","品牌英文名":"Rollo","推荐型号或型号族":"Wireless Printer / X1040","国内用户信号":"Rollo标签机有中国打印机结构、滚轮和电控供应链","海外销售类型":"Amazon US电商卖家和物流标签渠道常见","拆机/替换升级件":"主板、打印控制板、走纸电机、齿轮箱、压纸滚轮总成、传感器板、切刀/剥离器总成和显示板；卷纸架、剥离器、滚轮组件、打印机机架、桌面安装座和理线结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":301,"热度层级":"A","品类":"标签打印机","品牌中文名":"MUNBYN","品牌英文名":"MUNBYN","推荐型号或型号族":"ITPP941 / P941","国内用户信号":"MUNBYN有中国打印机整机和结构件制造供应链","海外销售类型":"Amazon US电商卖家、仓储和热敏打印渠道","拆机/替换升级件":"主板、打印控制板、走纸电机、齿轮箱、压纸滚轮总成、传感器板、切刀/剥离器总成和显示板；卷纸架、剥离器、滚轮组件、桌面支架、机架和线缆固定结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":302,"热度层级":"A","品类":"NAS","品牌中文名":"华芸","品牌英文名":"Asustor","推荐型号或型号族":"Lockerstor 4 Gen2 / Flashstor 12 Pro","国内用户信号":"华芸NAS有中国机箱、背板、风道和存储配件供应链","海外销售类型":"Amazon US家庭服务器和创客渠道","拆机/替换升级件":"主板、硬盘背板、SATA/SAS连接板、风扇控制板、风扇总成、硬盘托架、显示/按键板和PCIe转接板（硬盘和电源不做）；硬盘托架、机架托盘、风扇风道、PCIe扩展固定件、背板承载结构和防震底座","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":303,"热度层级":"A","品类":"空气净化器","品牌中文名":"维尼克斯","品牌英文名":"Winix","推荐型号或型号族":"XLC / 9800","国内用户信号":"维尼克斯空气处理有中国风机、传感器和注塑供应链","海外销售类型":"Amazon US家庭空气质量渠道常见","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；风机座、上盖锁止、传感器仓、墙装结构、防倾倒底座和机身维修件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":304,"热度层级":"A","品类":"空气净化器","品牌中文名":"Medify Air","品牌英文名":"Medify Air","推荐型号或型号族":"MA-112-UV / MA-125","国内用户信号":"Medify Air有中国风机、钣金和传感器配套供应链","海外销售类型":"Amazon US大空间空气净化渠道","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；风机座、传感器仓、上盖锁止、壁装/落地底座和防倾倒结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":305,"热度层级":"A","品类":"分体空调","品牌中文名":"先锋空调","品牌英文名":"Pioneer","推荐型号或型号族":"Diamante 36K / Quantum 36K","国内用户信号":"先锋空调有中国压缩机、钣金和管路配套供应链","海外销售类型":"Amazon US DIY和小型商业空调渠道","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；室外机底座、管路固定、冷凝水排放、墙穿护套和防震结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":306,"热度层级":"A","品类":"分体空调","品牌中文名":"森威尔","品牌英文名":"Senville","推荐型号或型号族":"LETO 36K / Aura 36K","国内用户信号":"森威尔有中国空调整机和安装件供应链","海外销售类型":"Amazon US DIY分体空调渠道","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；室外机底座、管线固定、排水支架、墙穿护套和防震安装件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":307,"热度层级":"A","品类":"颗粒炉/壁炉","品牌中文名":"英格兰德","品牌英文名":"Englander","推荐型号或型号族":"25-PDVC / 30-NC","国内用户信号":"英格兰德壁炉有中国钣金、风道和耐热结构供应链","海外销售类型":"Amazon US和美国冬季采暖渠道","拆机/替换升级件":"主控板、鼓风机电机、点火器、温控器、螺旋送料/送料电机、排烟风机、门组件、隔热板；料斗盖、螺旋输送护罩、检修门、风道护板、底座和隔热安装件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":308,"热度层级":"A","品类":"颗粒炉/壁炉","品牌中文名":"康福特比尔特","品牌英文名":"ComfortBilt","推荐型号或型号族":"HP22N / HP61","国内用户信号":"康福特比尔特有中国钣金、风道和耐热件配套供应链","海外销售类型":"Amazon US家用颗粒炉渠道","拆机/替换升级件":"主控板、鼓风机电机、点火器、温控器、螺旋送料/送料电机、排烟风机、门组件、隔热板；料斗盖、检修门、风道护板、隔热结构、脚轮底座和控制面板安装件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":309,"热度层级":"A","品类":"除雪机","品牌中文名":"特洛伊比尔特","品牌英文名":"Troy-Bilt","推荐型号或型号族":"Storm 3090 / Storm 3024","国内用户信号":"特洛伊比尔特有中国园林机械和钣金配套供应链","海外销售类型":"Amazon US、庭院设备和冬季维护渠道","拆机/替换升级件":"发动机点火模块、启动电机、传动箱、蜗轮/螺旋输送总成、导流槽齿轮机构、控制手柄总成、车架；导流槽、把手/轮架、操控线固定、护罩、运输架和收纳结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":310,"热度层级":"A","品类":"焊机","品牌中文名":"米勒电气","品牌英文名":"Miller Electric","推荐型号或型号族":"Multimatic 220 AC/DC / Trailblazer 330","国内用户信号":"米勒电气有中国机箱、推车和焊接附件供应链","海外销售类型":"Amazon US专业焊接和维修渠道","拆机/替换升级件":"主控板/逆变板、点火模块、调压器、显示控制板、发动机控制模块、启动电机、散热风扇和机架总成；焊机推车、脚踏控制器外壳、送丝机安装座、线缆应力固定、散热护罩和机架","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":311,"热度层级":"A","品类":"焊机","品牌中文名":"林肯电气","品牌英文名":"Lincoln Electric","推荐型号或型号族":"Power MIG 210 MP / Ranger 330MPX","国内用户信号":"林肯电气有中国机箱、推车和焊接附件供应链","海外销售类型":"Amazon US专业焊接、车库和工程渠道","拆机/替换升级件":"主控板/逆变板、点火模块、调压器、显示控制板、发动机控制模块、启动电机、散热风扇和机架总成；焊机推车、送丝机安装座、脚踏控制器外壳、线缆固定、散热护罩和运输架","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":312,"热度层级":"A","品类":"焊机","品牌中文名":"伊萨","品牌英文名":"ESAB","推荐型号或型号族":"Rebel EMP 215ic / Sentinel A60","国内用户信号":"伊萨有中国机箱、焊接附件和结构件供应链","海外销售类型":"Amazon US专业焊接和工业渠道","拆机/替换升级件":"主控板/逆变板、点火模块、调压器、显示控制板、发动机控制模块、启动电机、散热风扇和机架总成；焊机推车、送丝机安装座、控制面板护罩、线缆固定、散热护罩和运输结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":313,"热度层级":"A","品类":"攀爬遥控车","品牌中文名":"阿西尔","品牌英文名":"Axial","推荐型号或型号族":"SCX10 III / UMG10 / UT4","国内用户信号":"美国攀爬RC保有量高，中国有车桥、齿轮、车架和金属改装件供应链","海外销售类型":"Amazon US、RC专业店和户外模型渠道","拆机/替换升级件":"","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":314,"热度层级":"A","品类":"高性能遥控车","品牌中文名":"洛西","品牌英文名":"Losi","推荐型号或型号族":"Super Baja Rey 2.0 / 8IGHT-XE","国内用户信号":"美国专业RC品牌，中国有金属底盘、齿轮和悬挂加工供应链","海外销售类型":"美国RC专业店、竞赛和越野渠道","拆机/替换升级件":"","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":315,"热度层级":"A","品类":"颗粒烤炉","品牌中文名":"Brisk It","品牌英文名":"Brisk It","推荐型号或型号族":"Zelos-450 / Origin-580","国内用户信号":"智能颗粒烤炉品牌，控制器、料斗和风机有中国制造基础","海外销售类型":"Amazon US、品牌独立站和户外厨房渠道","拆机/替换升级件":"点火模块/点火板、燃烧器总成、燃气阀组、温度控制器、螺旋送料电机、风机、RTD温度探针、料斗总成、接油盘总成、主控板/显示板；控制板、显示板、送料电机、风机、RTD探针、料斗结构和点火模块","品牌来源":"中国出口品牌","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":316,"热度层级":"A","品类":"除雪机","品牌中文名":"西屋","品牌英文名":"Westinghouse","推荐型号或型号族":"WSnow22 / WSnow24","国内用户信号":"中国制造的电机、导流槽、机架和控制件供应链明确","海外销售类型":"Amazon US和家用冬季维护渠道","拆机/替换升级件":"发动机点火模块、启动电机、传动箱、蜗轮/螺旋输送总成、导流槽齿轮机构、控制手柄总成、车架；电机/泵总成、控制板、导流槽、螺旋输送总成、手柄和轮架","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":317,"热度层级":"A","品类":"除雪机","品牌中文名":"宝时得 PowerSmart","品牌英文名":"PowerSmart","推荐型号或型号族":"DB7621H 24-inch / DB8617 26-inch","国内用户信号":"中国出口园林机械品牌，除雪机整机和钣金供应链强","海外销售类型":"Amazon US、庭院设备和冬季维护渠道","拆机/替换升级件":"发动机点火模块、启动电机、传动箱、蜗轮/螺旋输送总成、导流槽齿轮机构、控制手柄总成、车架；发动机控制、启动电机、传动箱、导流槽齿轮、操控手柄和轮架总成","品牌来源":"中国出口品牌","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":318,"热度层级":"A","品类":"劈木机","品牌中文名":"SuperHandy","品牌英文名":"SuperHandy","推荐型号或型号族":"20-Ton Gas Log Splitter / 25-Ton","国内用户信号":"中国制造的液压泵、阀组、油缸和拖车结构供应链强","海外销售类型":"Amazon US、庭院和专业木材处理渠道","拆机/替换升级件":"液压泵、液压阀块、液压油缸、发动机控制模块、启动电机、楔块总成、横梁/车架总成","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":319,"热度层级":"A","品类":"空压机","品牌中文名":"克拉奇","品牌英文名":"Klutch","推荐型号或型号族":"20-Gallon Vertical / 30-Gallon","国内用户信号":"中国制造的电机、泵头、压力控制和罐体配套成熟","海外销售类型":"Amazon US、车库和专业工具渠道","拆机/替换升级件":"压缩机电机、泵头总成、压力开关、主控板、启动电容、止回阀、调压阀组、压力传感器、冷却风扇；泵头、电机、压力开关、启动电容、止回阀、调压阀组、压力传感器和机架","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":320,"热度层级":"A","品类":"冬季采暖炉","品牌中文名":"康福特比尔特","品牌英文名":"ComfortBilt","推荐型号或型号族":"HP22N / HP61","国内用户信号":"中国钣金、风道、送料和耐热件供应链明确","海外销售类型":"Amazon US家用颗粒炉渠道","拆机/替换升级件":"主控板、鼓风机电机、点火器、温控器、螺旋送料/送料电机、排烟风机、门组件、隔热板；主控板、鼓风机电机、点火器、温控器、螺旋送料电机、排烟风机、门组件和隔热板","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":321,"热度层级":"A","品类":"地毯抽洗机","品牌中文名":"迈泰","品牌英文名":"Mytee","推荐型号或型号族":"Contractor's Special / Speedster Deluxe","国内用户信号":"中国真空电机、泵、加热器、软管接口和机壳供应链可配套","海外销售类型":"Amazon US、地毯清洁承包商和酒店渠道","拆机/替换升级件":"真空电机、刷盘电机、水泵、加热器、控制板、浮球传感器、污水箱总成、吸水扒总成、软管接口；真空电机、泵、加热器、主控板、浮球传感器、回收箱和吸水扒总成","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":322,"热度层级":"A","品类":"商用制冰机","品牌中文名":"Mojgar","品牌英文名":"Mojgar","推荐型号或型号族":"760 lb Commercial Ice Maker","国内用户信号":"中国出口/OEM商用制冰设备，钣金、阀体、控制板和料斗供应链明确","海外销售类型":"Amazon US、餐饮工程和酒店渠道","拆机/替换升级件":"主控板、制冷控制板、压缩机启动模块、风机电机、冰厚探针、进水阀、排水泵、料斗门总成","品牌来源":"中国出口/OEM品牌","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":323,"热度层级":"A","品类":"冬季采暖炉","品牌中文名":"克利夫兰铸铁厂","品牌英文名":"Cleveland Iron Works","推荐型号或型号族":"Large Pellet Stove / Single Burn Rate Wood Stove","国内用户信号":"中国耐热钣金、风机、控制板、送料和门组件供应链可配套","海外销售类型":"Amazon US、壁炉和寒冷地区家用采暖渠道","拆机/替换升级件":"主控板、鼓风机电机、点火器、温控器、螺旋送料/送料电机、排烟风机、门组件、隔热板","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P1"},{"热度排序":324,"热度层级":"S","品类":"雪地摩托","品牌中文名":"Ski-Doo 庞巴迪","品牌英文名":"Ski-Doo","推荐型号或型号族":"Summit、Backcountry、Renegade系列","国内用户信号":"国内玩家少但有高端进口用户和维修供应链","海外销售类型":"北美冬季市场强","拆机/替换升级件":"风挡、脚踏、雪地护板、行李架、手把加热外部结构和防护件","品牌来源":"海外品牌/中国兼容供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":325,"热度层级":"S","品类":"雪道压雪机","品牌中文名":"普林诺特","品牌英文名":"Prinoth","推荐型号或型号族":"Bison、Leitwolf、Husky Snow Groomer Series","国内用户信号":"国内滑雪场工程商和钣金、液压结构供应链可配套","海外销售类型":"美国、加拿大和欧洲雪场市场强","拆机/替换升级件":"液压泵/阀块、驱动电机、控制器、喷雪/刮冰执行机构、传感器、工作灯控制板、车架总成；雪道铲架、铣雪器护罩、履带护板、检修平台、灯具支架和运输固定件","品牌来源":"海外品牌/中国兼容供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":326,"热度层级":"S","品类":"雪道压雪机","品牌中文名":"皮斯滕布利","品牌英文名":"PistenBully","推荐型号或型号族":"PistenBully 600、PistenBully 400、PistenBully 100","国内用户信号":"国内雪场设备和工程维保渠道有基础","海外销售类型":"美国、加拿大和欧洲雪场市场强","拆机/替换升级件":"液压泵/阀块、驱动电机、控制器、喷雪/刮冰执行机构、传感器、工作灯控制板、车架总成；铲架、铣雪器护罩、履带护板、驾驶室附件、检修平台和运输架","品牌来源":"海外品牌/中国兼容供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":327,"热度层级":"S","品类":"泳池设备","品牌中文名":"美卓特","品牌英文名":"Maytronics","推荐型号或型号族":"Dolphin Nautilus CC Supreme / M600","国内用户信号":"美卓特泳池机器人有中国电机、驱动和注塑配套供应链","海外销售类型":"Amazon US泳池机器人和专业泳池渠道","拆机/替换升级件":"主控板、驱动电机、泵体总成、齿轮箱、浮力/导航传感器、履带驱动轮和密封壳体（滤网耗材不做）；驱动轮/履带结构、浮线收纳架、过滤仓结构、上盖锁止、运输底座和电机防护件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":328,"热度层级":"S","品类":"纹身机","品牌中文名":"夏延","品牌英文名":"Cheyenne","推荐型号或型号族":"Hawk Pen Unio / Sol Nova Unlimited","国内用户信号":"美国纹身工作室常见，中国有精密铝件、握柄和支架供应链","海外销售类型":"美国专业纹身渠道和工作室市场","拆机/替换升级件":"主控/驱动板、无刷电机、偏心轮/连杆、调压模块、握柄锁止总成、无线通信板（电池不做）；可调握柄、消毒托架、工作台固定座、针仓防护结构和运输盒内架","品牌来源":"海外品牌/中国兼容供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":329,"热度层级":"S","品类":"纹身机","品牌中文名":"FK艾恩斯","品牌英文名":"FK Irons","推荐型号或型号族":"Flux Max / EXO","国内用户信号":"美国纹身工作室常见，中国有CNC握柄、支架和包装结构供应链","海外销售类型":"美国专业纹身渠道和工作室","拆机/替换升级件":"主控/驱动板、无刷电机、偏心轮/连杆、调压模块、握柄锁止总成、无线通信板（电池不做）；模块化握柄、工作台定位座、机器收纳架、消毒托盘和防跌落保护架","品牌来源":"海外品牌/中国兼容供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":330,"热度层级":"S","品类":"老年代步车","品牌中文名":"普莱德移动","品牌英文名":"Pride Mobility","推荐型号或型号族":"Go-Go Elite Traveller / Victory 10 LX","国内用户信号":"美国保有量大，中国有车架、座椅、护罩和轮毂兼容供应链","海外销售类型":"美国医疗器械、经销商和家庭护理渠道","拆机/替换升级件":"主控器、无刷电机/电机总成、转向/驱动桥、操纵杆控制器、显示板、座椅升降/滑轨、刹车电磁组件、车架折叠锁止；座椅滑轨、扶手支架、拆装结构、后视镜支架、车篮承载架和防倾倒轮架","品牌来源":"海外品牌/中国兼容供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":331,"热度层级":"S","品类":"热泵/分体空调","品牌中文名":"三菱电机","品牌英文名":"Mitsubishi Electric","推荐型号或型号族":"Hyper-Heat MXZ / MSZ-FS","国内用户信号":"美国寒冷地区安装量大，中国有支架、风道和排水结构供应链","海外销售类型":"美国承包商和DIY空调渠道","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":332,"热度层级":"S","品类":"商用制冰机","品牌中文名":"斯科茨曼","品牌英文名":"Scotsman","推荐型号或型号族":"CU50 / Prodigy C0830","国内用户信号":"餐饮和酒吧渠道保有量高，中国有钣金、料斗和风道供应链","海外销售类型":"美国餐饮设备和酒店渠道","拆机/替换升级件":"主控板、制冷控制板、压缩机启动模块、风机电机、冰厚探针、进水阀、排水泵、料斗门总成","品牌来源":"海外品牌/中国兼容供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":333,"热度层级":"S","品类":"商用制冰机","品牌中文名":"万利多","品牌英文名":"Manitowoc Ice","推荐型号或型号族":"UDF0140 / Indigo NXT","国内用户信号":"美国餐饮连锁常见，中国有机架、门组件和风道配套","海外销售类型":"美国餐饮、酒店和便利店设备渠道","拆机/替换升级件":"主控板、制冷控制板、压缩机启动模块、风机电机、冰厚探针、进水阀、排水泵、料斗门总成","品牌来源":"海外品牌/中国兼容供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":334,"热度层级":"A","品类":"SPA","品牌中文名":"玛奎斯","品牌英文名":"Marquis","推荐型号或型号族":"Twilight系列、V98系列","国内用户信号":"国内有兼容件工厂和维修供应链","海外销售类型":"海外高端SPA市场稳定","拆机/替换升级件":"头枕、喷嘴外壳、扶手、杯架、盖布固定和支撑结构","品牌来源":"海外品牌/中国兼容供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":335,"热度层级":"A","品类":"SPA","品牌中文名":"牛蛙水疗","品牌英文名":"Bullfrog Spa","推荐型号或型号族":"A7、A8、X系列","国内用户信号":"国内有兼容件工厂","海外销售类型":"海外高端SPA用户明确","拆机/替换升级件":"头枕、喷嘴外壳、扶手、杯架和支撑结构","品牌来源":"海外品牌/中国兼容供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":336,"热度层级":"A","品类":"SPA","品牌中文名":"桑丹斯","品牌英文名":"Sundance","推荐型号或型号族":"780、880系列","国内用户信号":"国内有兼容件供应","海外销售类型":"海外高端SPA市场稳定","拆机/替换升级件":"头枕、喷嘴外壳、扶手、杯架和盖布结构","品牌来源":"海外品牌/中国兼容供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":337,"热度层级":"A","品类":"台球桌","品牌中文名":"布伦瑞克","品牌英文名":"Brunswick","推荐型号或型号族":"Gold Crown VI、Black Wolf","国内用户信号":"国内高端台球用户有基础","海外销售类型":"全球品牌和保有量高","拆机/替换升级件":"袋口结构、回球轨道、调平件、球杆架和灯具件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":338,"热度层级":"A","品类":"加湿器","品牌中文名":"文塔","品牌英文名":"Venta","推荐型号或型号族":"LW45、LW62","国内用户信号":"国内高端家庭用户有基础","海外销售类型":"海外专业渠道稳定","拆机/替换升级件":"主控板、显示板、风机电机、风轮、传感器板、压缩机驱动/启动模块、排水泵、风道总成；水箱结构、底座、静音风道、浮球和外壳升级件","品牌来源":"海外品牌/中国兼容供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":339,"热度层级":"A","品类":"台球桌","品牌中文名":"Valley","品牌英文名":"Valley","推荐型号或型号族":"面向酒吧和球房的投币台球桌系列","国内用户信号":"国内酒吧和台球馆有用户","海外销售类型":"海外投币台球市场强","拆机/替换升级件":"袋口结构、回球轨道、投币结构、调平件和球杆架","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":340,"热度层级":"A","品类":"厨师机","品牌中文名":"安卡苏姆","品牌英文名":"Ankarsrum","推荐型号或型号族":"Assistant Original","国内用户信号":"国内烘焙发烧用户有基础","海外销售类型":"海外高端市场强","拆机/替换升级件":"滚筒和附件转接、碗托、机身底座、搅拌结构和收纳","品牌来源":"海外品牌/中国兼容供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":341,"热度层级":"A","品类":"厨房秤和小型设备","品牌中文名":"阿凯亚","品牌英文名":"Acaia","推荐型号或型号族":"Pearl S、Lunar、Orbit","国内用户信号":"国内咖啡和厨房用户多","海外销售类型":"海外专业市场强","拆机/替换升级件":"底座、称盘、保护外壳、壁挂结构和收纳件","品牌来源":"海外品牌/中国供应链","中国替换件可得性":"高","选品优先级":"P2"},{"热度排序":342,"热度层级":"A","品类":"测量设备","品牌中文名":"徕卡测量","品牌英文名":"Leica Geosystems","推荐型号或型号族":"BLK360、DISTO X6、RTC360","国内用户信号":"国内工程测量用户多","海外销售类型":"全球专业市场强","拆机/替换升级件":"三脚架转接、保护结构、收纳箱内衬、定位支架和数据采集配件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":343,"热度层级":"A","品类":"热成像设备","品牌中文名":"菲力尔","品牌英文名":"FLIR","推荐型号或型号族":"ONE Pro、E8、C5","国内用户信号":"国内工业检测用户有基础","海外销售类型":"全球专业市场强","拆机/替换升级件":"镜头保护、手机支架、三脚架转接、收纳和保护结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":344,"热度层级":"A","品类":"水处理设备","品牌中文名":"3M","品牌英文名":"3M","推荐型号或型号族":"AP系列、Whole House高配系统","国内用户信号":"国内供应链和安装用户多","海外销售类型":"全球渠道强","拆机/替换升级件":"安装支架、管路转接、旁通结构、压力罐底座和防护箱","品牌来源":"海外品牌/中国供应链","中国替换件可得性":"高","选品优先级":"P2"},{"热度排序":345,"热度层级":"A","品类":"雪地摩托","品牌中文名":"北极猫","品牌英文名":"Arctic Cat","推荐型号或型号族":"M系列、ZR系列、Catalyst平台","国内用户信号":"国内少量高端玩家和维修渠道","海外销售类型":"北美冬季市场稳定","拆机/替换升级件":"风挡、脚踏、雪地护板、行李架、手把护罩和防护件","品牌来源":"海外品牌/中国兼容供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":346,"热度层级":"A","品类":"办公椅","品牌中文名":"赫曼米勒","品牌英文名":"Herman Miller","推荐型号或型号族":"Aeron、Embody","国内用户信号":"国内高端办公用户多","海外销售类型":"全球高端办公市场强","拆机/替换升级件":"扶手结构、腰托、头枕、脚轮和底座升级件","品牌来源":"海外品牌/中国兼容供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":347,"热度层级":"A","品类":"办公椅","品牌中文名":"世楷","品牌英文名":"Steelcase","推荐型号或型号族":"Leap、Gesture、Amia","国内用户信号":"国内企业和高端用户有基础","海外销售类型":"全球办公市场强","拆机/替换升级件":"头枕、扶手、腰托、脚轮、底座和挂件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":348,"热度层级":"A","品类":"造雪机","品牌中文名":"泰克诺阿尔卑","品牌英文名":"TechnoAlpin","推荐型号或型号族":"TF Series、M Series、Snow Gun Platforms","国内用户信号":"国内滑雪场工程商和兼容加工厂有基础","海外销售类型":"欧洲、北美和亚洲雪场工程强","拆机/替换升级件":"液压泵/阀块、驱动电机、控制器、喷雪/刮冰执行机构、传感器、工作灯控制板、车架总成；底座、炮体支撑、管线护罩、维护平台、运输架和防冻结构","品牌来源":"海外品牌/中国兼容供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":349,"热度层级":"A","品类":"造雪机","品牌中文名":"德马克连科","品牌英文名":"Demaclenko","推荐型号或型号族":"EOS、Titan、Fan Gun Series","国内用户信号":"国内雪场工程和金属结构件供应链可配套","海外销售类型":"欧洲和国际雪场工程市场强","拆机/替换升级件":"液压泵/阀块、驱动电机、控制器、喷雪/刮冰执行机构、传感器、工作灯控制板、车架总成；炮体支架、旋转底座、软管导向、护罩、维护平台和运输架","品牌来源":"海外品牌/中国兼容供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":350,"热度层级":"A","品类":"商用制冰机","品牌中文名":"斯科茨曼","品牌英文名":"Scotsman","推荐型号或型号族":"Prodigy、C0322、Hoshizaki-compatible Series","国内用户信号":"国内酒店、餐饮和维修供应链有用户","海外销售类型":"全球商用餐饮和酒店渠道强","拆机/替换升级件":"主控板、制冷控制板、压缩机启动模块、风机电机、冰厚探针、进水阀、排水泵、料斗门总成；储冰箱底座、排水转接、机架、散热风道、门板和防护结构","品牌来源":"海外品牌/中国兼容供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":351,"热度层级":"A","品类":"商用制冰机","品牌中文名":"万利多","品牌英文名":"Manitowoc Ice","推荐型号或型号族":"Indigo NXT、Sotto、Neo Series","国内用户信号":"国内酒店工程和兼容件工厂有基础","海外销售类型":"北美、欧洲和亚洲商用渠道强","拆机/替换升级件":"主控板、制冷控制板、压缩机启动模块、风机电机、冰厚探针、进水阀、排水泵、料斗门总成；储冰箱底座、排水系统、机架、散热和维护面板","品牌来源":"海外品牌/中国兼容供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":352,"热度层级":"A","品类":"雪道压雪机","品牌中文名":"塔克雪地车","品牌英文名":"Tucker Sno-Cat","推荐型号或型号族":"Tucker Sno-Cat 2000、1600、1000","国内用户信号":"国内极地、雪场和特种车辆结构件供应链可找","海外销售类型":"北美雪场、极地和特种作业市场","拆机/替换升级件":"液压泵/阀块、驱动电机、控制器、喷雪/刮冰执行机构、传感器、工作灯控制板、车架总成；履带护板、铲架、车厢结构、检修踏板、灯具支架和运输固定件","品牌来源":"海外品牌/中国兼容供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":353,"热度层级":"A","品类":"3D打印机","品牌中文名":"普鲁沙","品牌英文名":"Prusa Research","推荐型号或型号族":"MK4S / XL","国内用户信号":"普鲁沙在中国有兼容加工和精密件供应链","海外销售类型":"Amazon US专业创客、教育和打印农场","拆机/替换升级件":"主板、运动控制板、步进电机、挤出机总成、热床控制板、屏幕、导轨/丝杆、自动调平传感器；多工具头承载结构、机架加强、线缆拖链、腔体门锁、散热和运输固定件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":354,"热度层级":"A","品类":"电动自行车","品牌中文名":"Rad Power Bikes","品牌英文名":"Rad Power Bikes","推荐型号或型号族":"RadRover 6 Plus / RadCity 5 Plus","国内用户信号":"Rad车型在中国有车架、货架和结构件兼容供应链","海外销售类型":"美国电动自行车直营和维修渠道","拆机/替换升级件":"主控器、轮毂/中置电机、显示仪表、扭矩传感器、变速/刹车执行机构、线束总成和折叠锁止（电池和充电器不做）；货架承载件、车把/显示器安装座、脚撑加强件、泥瓦支架、折叠运输架和车架连接件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":355,"热度层级":"A","品类":"电动自行车","品牌中文名":"莱特里克","品牌英文名":"Lectric","推荐型号或型号族":"XP 3.0 / XPremium","国内用户信号":"莱特里克车型有中国车架、货架和折叠结构供应链","海外销售类型":"美国直销和电助力车渠道","拆机/替换升级件":"主控器、轮毂/中置电机、显示仪表、扭矩传感器、变速/刹车执行机构、线束总成和折叠锁止（电池和充电器不做）；折叠锁止结构、货架、车把安装座、脚撑加强件、泥瓦支架和运输固定件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":356,"热度层级":"A","品类":"电动自行车","品牌中文名":"Aventon","品牌英文名":"Aventon","推荐型号或型号族":"Level.2 / Aventure.2","国内用户信号":"Aventon有中国车架、货架和机械件兼容供应链","海外销售类型":"美国电助力车直营和经销渠道","拆机/替换升级件":"主控器、轮毂/中置电机、显示仪表、扭矩传感器、变速/刹车执行机构、线束总成和折叠锁止（电池和充电器不做）；货架承载件、车把/显示器支架、脚撑加强、泥瓦结构、车架保护和运输固定件","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":357,"热度层级":"A","品类":"颗粒炉/壁炉","品牌中文名":"哈曼壁炉","品牌英文名":"Harman","推荐型号或型号族":"Absolute43 / P43","国内用户信号":"哈曼壁炉有中国钣金、风道和控制结构兼容供应链","海外销售类型":"美国东北部和寒冷地区壁炉渠道","拆机/替换升级件":"主控板、鼓风机电机、点火器、温控器、螺旋送料/送料电机、排烟风机、门组件、隔热板；料斗盖、螺旋输送护罩、检修门、风道护板、脚轮底座和隔热结构","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":358,"热度层级":"A","品类":"纹身机","品牌中文名":"Bishop","品牌英文名":"Bishop","推荐型号或型号族":"Power Wand / Wand Packer","国内用户信号":"美国纹身师常用品牌，中国有金属握柄和机加工兼容供应链","海外销售类型":"美国专业纹身器材渠道","拆机/替换升级件":"主控/驱动板、无刷电机、偏心轮/连杆、调压模块、握柄锁止总成、无线通信板（电池不做）；握柄调节环、机器支架、消毒托盘、工作台夹具和运输内架","品牌来源":"海外品牌/中国兼容供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":359,"热度层级":"A","品类":"老年代步车","品牌中文名":"金色科技","品牌英文名":"Golden Technologies","推荐型号或型号族":"Buzzaround XL / LiteRider Envy","国内用户信号":"美国老年护理渠道常见，中国有车架、座椅和护罩兼容加工","海外销售类型":"美国医疗经销商和家庭护理市场","拆机/替换升级件":"主控器、无刷电机/电机总成、转向/驱动桥、操纵杆控制器、显示板、座椅升降/滑轨、刹车电磁组件、车架折叠锁止；座椅滑轨、扶手、车篮支架、拆装快锁、后视镜和运输固定件","品牌来源":"海外品牌/中国兼容供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":360,"热度层级":"A","品类":"电动轮椅","品牌中文名":"舒普莱德","品牌英文名":"Shoprider","推荐型号或型号族":"Streamer Sport / Sprinter DLX","国内用户信号":"美国康复设备渠道常见，中国有铝合金车架、扶手和脚踏兼容供应链","海外销售类型":"美国医疗器械和康复渠道","拆机/替换升级件":"主控器、无刷电机/电机总成、转向/驱动桥、操纵杆控制器、显示板、座椅升降/滑轨、刹车电磁组件、车架折叠锁止","品牌来源":"海外品牌/中国兼容供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":361,"热度层级":"A","品类":"老年代步车","品牌中文名":"EV Rider","品牌英文名":"EV Rider","推荐型号或型号族":"Transport AF+ / CityRider","国内用户信号":"美国折叠代步车渠道常见，中国有折叠车架和座椅结构供应链","海外销售类型":"美国旅行、房车和家庭护理渠道","拆机/替换升级件":"主控器、无刷电机/电机总成、转向/驱动桥、操纵杆控制器、显示板、座椅升降/滑轨、刹车电磁组件、车架折叠锁止","品牌来源":"海外品牌/中国兼容供应链","中国替换件可得性":"中","选品优先级":"P2"},{"热度排序":362,"热度层级":"A","品类":"无人机","品牌中文名":"Antigravity（影石创新）","品牌英文名":"Antigravity","推荐型号或型号族":"A1 / A1 Fly More Combo","国内用户信号":"影石创新旗下中国出口品牌，国内航拍与全景影像供应链强","海外销售类型":"Amazon US、Insta360渠道和沉浸式影像市场","拆机/替换升级件":"飞控板、云台控制板、相机模组、图传板、无刷电机、电调、GPS/视觉定位板、遥控器主板（电池不做）","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P2"},{"热度排序":363,"热度层级":"A","品类":"无人机","品牌中文名":"Antigravity（影石创新）","品牌英文名":"Antigravity","推荐型号或型号族":"A1 Pro / 全景航拍系列","国内用户信号":"中国影像品牌新无人机方向，结构和电子供应链可配套","海外销售类型":"Insta360生态、专业影像和户外航拍渠道","拆机/替换升级件":"飞控板、云台控制板、相机模组、图传板、无刷电机、电调、GPS/视觉定位板、遥控器主板（电池不做）","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P2"},{"热度排序":364,"热度层级":"A","品类":"高性能遥控车","品牌中文名":"红猫","品牌英文名":"Redcat Racing","推荐型号或型号族":"Gen 8 V2 / Kaiju EXT","国内用户信号":"美国RC玩家保有量和改装市场稳定，中国有车架、齿轮和悬挂兼容件供应链","海外销售类型":"Amazon US、RC零售和改装渠道","拆机/替换升级件":"","品牌来源":"海外品牌/中国制造供应链","中国替换件可得性":"高","选品优先级":"P2"},{"热度排序":365,"热度层级":"A","品类":"家庭健身","品牌中文名":"优瑞沃","品牌英文名":"UREVO","推荐型号或型号族":"CyberPad / 2-in-1 Folding Treadmill Series","国内用户信号":"走步机全球份额约5.8%（2023年1.2%→2025年5.8%），北美/欧洲为其高增市场，美国主体+中国运营，CES2026 发布 CyberPad","海外销售类型":"Amazon US、品牌独立站、欧洲线上渠道","拆机/替换升级件":"主控板、显示屏、阻力/驱动电机、滚筒、皮带张紧总成、踏板/曲柄、传感器和屏幕臂总成；折叠机构、跑台滚筒、无刷电机、脚感/霍尔传感器、控制板和减振底座","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P2"},{"热度排序":366,"热度层级":"A","品类":"家庭健身","品牌中文名":"迈卓健身","品牌英文名":"MAJOR FITNESS","推荐型号或型号族":"B17 Smith Machine / Power Cage Series","国内用户信号":"美式车库力量器械（Smith 机/深蹲架，B17 被行业评测列为安全优选），高客单大件，美国车库健身文化主力客群","海外销售类型":"Amazon US、品牌独立站","拆机/替换升级件":"主控板、显示屏、阻力/驱动电机、滚筒、皮带张紧总成、踏板/曲柄、传感器和屏幕臂总成；Smith 机滑轨/滑块总成、深蹲架立柱连接件、钢丝绳/滑轮组、J-Hook 保护架和调节销锁","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P2"},{"热度排序":367,"热度层级":"B","品类":"便携储能电源","品牌中文名":"正浩","品牌英文名":"EcoFlow","推荐型号或型号族":"DELTA 2 Max / DELTA 2 Max Plus","国内用户信号":"【候选类目】第二轮评审引入：美国野火/飓风断电与露营备电双场景刚性，便携储能美国站增速约15%，中国逆变器与BMS供应链全球领先","海外销售类型":"Amazon US、户外储能与露营渠道","拆机/替换升级件":"逆变器板、BMS 控制板、AC/DC 转换模块、散热风扇与风道、显示面板总成、机架和提手结构（电芯不做）","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P3"},{"热度排序":368,"热度层级":"B","品类":"便携储能电源","品牌中文名":"德兰明海","品牌英文名":"BLUETTI","推荐型号或型号族":"AC180 / AC200L","国内用户信号":"【候选类目】第二轮评审引入：BLUETTI 从 ODM 转型全球第四的标杆路径可复制；美国房车与家庭备电高客单场景明确","海外销售类型":"Amazon US、品牌独立站和房车渠道","拆机/替换升级件":"逆变器板、BMS 控制板、散热风道、AC 面板总成、机架和轮拉杆结构（电芯不做）","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P3"},{"热度排序":369,"热度层级":"B","品类":"割草机器人","品牌中文名":"库犸","品牌英文名":"Mammotion","推荐型号或型号族":"LUBA mini AWD 1000 / YUKA mini","国内用户信号":"【候选类目】第二轮评审引入：户外品类增速12-15%，智能割草机为美国庭院新兴增量；中国供应链集中","海外销售类型":"Amazon US、庭院设备与园艺渠道","拆机/替换升级件":"主控板、轮组驱动电机、切割盘电机、RTK/GPS 定位模块、超声/视觉传感器、提升机构和底盘结构件（刀片耗材不做）","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P3"},{"热度排序":370,"热度层级":"B","品类":"电动自行车","品牌中文名":"星途创新","品牌英文名":"Heybike","推荐型号或型号族":"Ranger S / Explore S","国内用户信号":"【候选类目】第二轮评审引入：美国 E-bike 中端价位（约1000美元）缺口由 Heybike 类中国品牌填补，北美销量前三梯队","海外销售类型":"Amazon US、品牌独立站和线下车行","拆机/替换升级件":"主控器、轮毂/中置电机、显示仪表、扭矩传感器、变速/刹车执行机构、线束总成和折叠锁止（电池和充电器不做）；扭矩传感器、彩色显示仪表、变速/刹车执行机构、货架和挡泥板结构件（电池和充电器不做）","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P3"},{"热度排序":371,"热度层级":"B","品类":"智能宠物设备","品牌中文名":"PETLIBRO","品牌英文名":"PETLIBRO","推荐型号或型号族":"Granary Wi-Fi Feeder / One RFID Smart Feeder","国内用户信号":"【候选类目】第二轮评审引入：宠物用品美国站增速10-14%，高客单智能宠物产品拉动增长；PETLIBRO 为 Amazon US 热门中国品牌","海外销售类型":"Amazon US、宠物专营渠道","拆机/替换升级件":"主控板、称重传感器、出料电机/齿轮箱、仓体总成、RFID 识别模块和防夹结构（干燥剂耗材不做）","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P3"},{"热度排序":372,"热度层级":"B","品类":"美容仪器","品牌中文名":"觅光","品牌英文名":"AMIRO","推荐型号或型号族":"R1 PRO / S1 Pro","国内用户信号":"【候选类目】第二轮评审引入：美国美妆个护增速18%以上，美容仪器客单高利润好；FDA 合规是前置门槛","海外销售类型":"Amazon US、美妆科技和直播渠道","拆机/替换升级件":"主控板、射频/LED 输出模组、温度传感器、探头支架、磁吸充电底座和外壳总成","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P3"},{"热度排序":373,"热度层级":"B","品类":"行车记录仪","品牌中文名":"70迈","品牌英文名":"70mai","推荐型号或型号族":"A810 / A800SE","国内用户信号":"【候选类目】第二轮评审引入：美国汽配增速超20%、中国供给优势突出；行车记录仪前后双录套装客单稳定","海外销售类型":"Amazon US、汽配与电子渠道","拆机/替换升级件":"主控板、图像传感器模组、GPS 模块、镜头座、散热结构和吸盘/静电贴支架总成（存储卡不做）","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P3"},{"热度排序":374,"热度层级":"B","品类":"安防摄像头","品牌中文名":"安克Eufy","品牌英文名":"Eufy","推荐型号或型号族":"eufyCam 3 S330 / HomeBase S380","国内用户信号":"【候选类目】第二轮评审引入：美国智能家居安防渗透率提升，无线+太阳能充电套装客单高；安克创新供应链成熟","海外销售类型":"Amazon US、智能家居渠道","拆机/替换升级件":"镜头/IR 补光模组、云台电机、防水壳体、壁装支架和 HomeBase 背板（电池与电源适配器不做）","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P3"},{"热度排序":375,"热度层级":"B","品类":"电动工具","品牌中文名":"KIMO","品牌英文名":"KIMO","推荐型号或型号族":"20V Brushless Hammer Drill Kit","国内用户信号":"【候选类目】第二轮评审引入：工业五金为高利润蓝海，锂电无线化趋势明确；美国 DIY 用户对 20V 平台接受度高","海外销售类型":"Amazon US、DIY 工具渠道","拆机/替换升级件":"主控板、无刷电机、齿轮箱、钻夹头、电池接口板（电池不做）和机壳总成","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P3"},{"热度排序":376,"热度层级":"B","品类":"咖啡机","品牌中文名":"HiBREW","品牌英文名":"HiBREW","推荐型号或型号族":"H10A / H11B","国内用户信号":"【候选类目】第二轮评审引入：美国家居厨房为第一大长青类目，半自动咖啡机高客单中国出口型号占位加速","海外销售类型":"Amazon US、厨房电器渠道","拆机/替换升级件":"主控板、显示/按键板、泵、流量计、电磁阀、磨豆机电机/齿轮箱、加热块、温度传感器、滴水盘总成；主控板、泵、电磁阀、加热块、温度传感器、磨豆机齿轮箱和滴水盘总成","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P3"},{"热度排序":377,"热度层级":"B","品类":"家庭健身","品牌中文名":"优速达","品牌英文名":"YOSUDA","推荐型号或型号族":"Magnetic Spin Bike Series / 2-in-1 Walking Pad","国内用户信号":"亚马逊入门动感单车长期 bestseller（约US$130-300），已扩展走步机线；客单偏低，逐型号核验客单与评论质量","海外销售类型":"Amazon US","拆机/替换升级件":"主控板、显示屏、阻力/驱动电机、滚筒、皮带张紧总成、踏板/曲柄、传感器和屏幕臂总成；磁阻总成、飞轮轴承、皮带传动组件、座管/把手调节锁止和踏板曲柄","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P3"},{"热度排序":378,"热度层级":"B","品类":"家庭健身","品牌中文名":"普布","品牌英文名":"Pooboo","推荐型号或型号族":"D525 / D618 / Air Resistance Bike","国内用户信号":"Amazon 风阻单车销量第一，折叠单车月销1800+台（约US$130-435），中端价位带配件机会明确","海外销售类型":"Amazon US","拆机/替换升级件":"主控板、显示屏、阻力/驱动电机、滚筒、皮带张紧总成、踏板/曲柄、传感器和屏幕臂总成；风阻扇叶总成、磁阻系统、折叠铰链、皮带传动和踏板曲柄","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P3"},{"热度排序":379,"热度层级":"B","品类":"家庭健身","品牌中文名":"安骑尔","品牌英文名":"ANCHEER","推荐型号或型号族":"Folding Treadmill 3.25HP / 15% Incline Walking Pad","国内用户信号":"SGS CE/ROHS/CB/EN957/IEC 认证+美仓 365 天保；低价走量梯队，仅收大马力/高承重型号，P3 待核","海外销售类型":"Amazon US","拆机/替换升级件":"主控板、显示屏、阻力/驱动电机、滚筒、皮带张紧总成、踏板/曲柄、传感器和屏幕臂总成；无刷电机总成、控制板、跑台滚筒、减振垫结构和折叠锁止","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P3"},{"热度排序":380,"热度层级":"B","品类":"家庭健身","品牌中文名":"温诺克","品牌英文名":"WENOKER","推荐型号或型号族":"Air Resistance Bike / Magnetic Spin Bike","国内用户信号":"Amazon 风阻单车 TOP3（约US$534），中端单车支持 Zwift/Kinomap 生态","海外销售类型":"Amazon US","拆机/替换升级件":"主控板、显示屏、阻力/驱动电机、滚筒、皮带张紧总成、踏板/曲柄、传感器和屏幕臂总成；风阻扇叶、磁阻系统、传动皮带、轴承组和座管锁止","品牌来源":"中国品牌/出口","中国替换件可得性":"高","选品优先级":"P3"}];
+const PAGE_KEY='us-main-pool';
+const LEGACY=['selection-pool-status-v3-20260831','selection-pool-status-v3','selection-pool-status-v2','pool-ui-v2::us-priority-pool'];
+const store=new PoolUI.Store(PAGE_KEY,LEGACY);
+const esc=PoolUI.esc;
+const el=id=>document.getElementById(id);
+const search=el('search'),cat=el('category'),priority=el('priority'),brandSource=el('brandSource'),supply=el('supply'),level=el('level'),statusFilter=el('statusFilter');
+const tbody=document.querySelector('#grid tbody');
+function idOf(r){return [r['品类'],r['品牌英文名'],r['推荐型号或型号族']].join('|')}
+function isCn(r){return /^中国/.test(String(r['品牌来源']||''))}
+PoolUI.mountChrome({home:'index.html'});
+const categories=[...new Set(data.map(r=>r['品类']))].sort((a,b)=>a.localeCompare(b,'zh-CN'));
+cat.innerHTML+=categories.map(c=>'<option value="'+esc(c)+'">'+esc(c)+'</option>').join('');
+function shownCount(){return document.querySelectorAll('#grid tbody tr:not(.empty-row)').length}
+function render(){
+  const q=search.value.trim().toLowerCase(),c=cat.value,p=priority.value,bs=brandSource.value,sp=supply.value,l=level.value,sf=statusFilter.value;
+  const out=data.filter(r=>{
+    const st=store.status(idOf(r)),cn=isCn(r);
+    return (!q||Object.values(r).some(v=>String(v).toLowerCase().includes(q)))
+      &&(!c||r['品类']===c)&&(!p||r['选品优先级']===p)
+      &&(!bs||(bs==='中国'?cn:!cn))
+      &&(!sp||r['中国替换件可得性']===sp)
+      &&(!l||r['热度层级']===l)&&(!sf||st===sf);
+  }).sort((a,b)=>a['热度排序']-b['热度排序']);
+  tbody.innerHTML=out.length?out.map(r=>{
+    const id=idOf(r),st=store.status(id);
+    const cn=isCn(r),bc=cn?' class="brand-export"':'',badge=cn?PoolUI.cnBadge():'';
+    return '<tr class="'+PoolUI.rowClass(st)+'">'
+      +'<td>'+esc(r['热度排序'])+'</td>'
+      +'<td class="tag">'+esc(r['热度层级'])+'</td>'
+      +'<td>'+esc(r['品类'])+'</td>'
+      +'<td'+bc+'>'+esc(r['品牌中文名'])+badge+'</td>'
+      +'<td'+bc+'>'+esc(r['品牌英文名'])+'</td>'
+      +'<td class="model-cell">'+esc(r['推荐型号或型号族'])+'</td>'
+      +'<td>'+esc(r['国内用户信号'])+'</td>'
+      +'<td>'+esc(r['海外销售类型'])+'</td>'
+      +'<td class="parts-cell">'+esc(r['拆机/替换升级件'])+'</td>'
+      +'<td'+bc+'>'+esc(r['品牌来源'])+'</td>'
+      +'<td>'+esc(r['中国替换件可得性'])+'</td>'
+      +'<td class="priority-'+esc(r['选品优先级'])+'">'+esc(r['选品优先级'])+'</td>'
+      +PoolUI.statusCellHtml(id,st)
+      +PoolUI.noteCellHtml(id,store.note(id))
+      +'</tr>';
+  }).join(''):'<tr class="empty-row"><td colspan="14">没有符合当前筛选条件的记录</td></tr>';
+  PoolUI.setCount(out.length,data.length,store.marked());
+}
+function refilter(){PoolUI.withFocusKept(render)}
+PoolUI.bindTable(tbody,store,{
+  onStatus:()=>{PoolUI.setCount(shownCount(),data.length,store.marked());if(statusFilter.value)refilter()},
+  onNote:()=>PoolUI.setCount(shownCount(),data.length,store.marked())
+});
+search.addEventListener('input',refilter);
+[cat,priority,brandSource,supply,level,statusFilter].forEach(x=>x.addEventListener('change',refilter));
+el('resetStatus').addEventListener('click',()=>{if(!confirm('清空本页所有状态与备注？该操作不可撤销。'))return;store.clear(LEGACY);search.value='';cat.value='';priority.value='';brandSource.value='';supply.value='';level.value='';statusFilter.value='';render()});
+render();
+</script>
+</body></html>
+
